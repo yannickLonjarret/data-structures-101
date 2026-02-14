@@ -67,7 +67,7 @@ void DisplayMatrixAsLists(SparseMatrix* matrix){
     }
 
     for(int i = 0; i < matrix->lineCount; i++){
-        DisplayLineAsList(matrix->lines[i], matrix->columnCount);
+        DisplayLineAsList(matrix->lines[i]);
     }
 }
 
