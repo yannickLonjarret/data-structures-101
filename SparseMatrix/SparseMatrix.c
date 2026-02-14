@@ -113,6 +113,65 @@ void PutValue(SparseMatrix* matrix, int linePosition, int columnPosition, int va
     }
 
 }
+void AddMatrix(SparseMatrix* a, SparseMatrix* b){
+    if(!a || !b){
+        printf("One or more non existent matrix \n");
+        return;
+    }
+
+    if(a->columnCount != b->columnCount || a->lineCount != b->lineCount){
+        printf("Cannot add two matrix of different dimension \n");
+        return;
+    }
+
+    for(int i = 0; i < a->lineCount; i++)
+        AddMatrix(a->lines[i], b->lines[i]);
+}
+
+void AddMatrixLine(MatrixLine a, MatrixLine b){
+    if(!a){
+        MatrixElement* lineTraverse = b;
+        MatrixElement* copy;
+        while(lineTraverse){
+            copy = CreateMatrixElement(lineTraverse->value, lineTraverse->column);
+            UpdateSparseLine(a, copy);
+            lineTraverse = lineTraverse->nextElement;
+        }
+        return;
+    }
+
+    MatrixElement* traverseA = a;
+    MatrixElement* traverseB = b;
+
+    while(traverseA != NULL && traverseB != NULL){
+
+        if(traverseA->column == traverseB->column){
+            traverseA->value += traverseB->value;
+            traverseA = traverseA->nextElement;
+            traverseB = traverseB->nextElement;
+        }
+
+        if(traverseA->column < traverseB->column){
+            traverseA = traverseA->nextElement;
+        }
+
+        if(traverseA->column > traverseB->column){
+            MatrixElement* copy = CreateMatrixElement(traverseB->value, traverseB->column);
+            UpdateSparseLine(a, copy);
+            traverseB->nextElement;
+        }
+
+
+    }
+
+    while(traverseB != NULL){
+        MatrixElement* copy = CreateMatrixElement(traverseB->value, traverseB->column);
+        UpdateSparseLine(a, copy);
+        traverseB->nextElement;
+    }
+
+}
+
 
 MatrixLine* CreateMatrixLines(int size){
     MatrixLine* lines = (MatrixLine*)malloc(sizeof(MatrixLine)*size);
