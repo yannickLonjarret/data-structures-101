@@ -14,7 +14,7 @@ void FillMatrix(SparseMatrix *matrix, int lineCount, int columnCount){
 
         for(int j = 0; j < columnCount; j++){
             printf("Please type in value for element M[%d][%d]", i,j);
-            scanf("%d", currentValueToInsert);
+            scanf("%d", &currentValueToInsert);
 
             if(currentValueToInsert == 0) continue;
 
