@@ -149,7 +149,7 @@ void AddMatrix(SparseMatrix* a, SparseMatrix* b){
     }
 
     for(int i = 0; i < a->lineCount; i++)
-        AddMatrix(a->lines[i], b->lines[i]);
+        AddMatrixLine(a->lines[i], b->lines[i]);
 }
 
 void AddMatrixLine(MatrixLine a, MatrixLine b){
