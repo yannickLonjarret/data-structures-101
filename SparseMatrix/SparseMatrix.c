@@ -19,7 +19,7 @@ void FillMatrix(SparseMatrix *matrix, int lineCount, int columnCount){
             if(currentValueToInsert == 0) continue;
 
             element = CreateMatrixElement(currentValueToInsert, j);
-            UpdateSparseLine(matrix->lines[i], element);
+            UpdateSparseLine(&matrix->lines[i], element);
 
         }
     }
@@ -135,7 +135,7 @@ void PutValue(SparseMatrix* matrix, int linePosition, int columnPosition, int va
     }
     else{
         MatrixElement* newElement = CreateMatrixElement(value, columnPosition);
-        UpdateSparseLine(lineToUpdate, newElement);
+        UpdateSparseLine(&lineToUpdate, newElement);
     }
 
 }
@@ -160,7 +160,7 @@ void AddMatrixLine(MatrixLine a, MatrixLine b){
         MatrixElement* copy;
         while(lineTraverse){
             copy = CreateMatrixElement(lineTraverse->value, lineTraverse->column);
-            UpdateSparseLine(a, copy);
+            UpdateSparseLine(&a, copy);
             lineTraverse = lineTraverse->nextElement;
         }
         return;
@@ -183,7 +183,7 @@ void AddMatrixLine(MatrixLine a, MatrixLine b){
 
         if(traverseA->column > traverseB->column){
             MatrixElement* copy = CreateMatrixElement(traverseB->value, traverseB->column);
-            UpdateSparseLine(a, copy);
+            UpdateSparseLine(&a, copy);
             traverseB = traverseB->nextElement;
         }
 
@@ -192,7 +192,7 @@ void AddMatrixLine(MatrixLine a, MatrixLine b){
 
     while(traverseB != NULL){
         MatrixElement* copy = CreateMatrixElement(traverseB->value, traverseB->column);
-        UpdateSparseLine(a, copy);
+        UpdateSparseLine(&a, copy);
         traverseB = traverseB->nextElement;
     }
 
@@ -292,24 +292,23 @@ void RemoveSparseLineElement(MatrixLine line, int positionToRemove){
         
     }
 }
-void UpdateSparseLine(MatrixLine line, MatrixElement* elementToInsert){
+void UpdateSparseLine(MatrixLine* line, MatrixElement* elementToInsert){
     if(elementToInsert == NULL){
         printf("Element is NULL, exiting.");
         return;
     }
-
-    if(line == NULL){
-        line = elementToInsert;
+    if(*line == NULL){
+        *line = elementToInsert;
         return;
     }
 
-    if(elementToInsert->column < line->column){
-        elementToInsert->nextElement = line;
-        line = elementToInsert;
+    if(elementToInsert->column < (*line)->column){
+        elementToInsert->nextElement = *line;
+        *line = elementToInsert;
         return;
     }
 
-    MatrixElement* lineTraverse = line;
+    MatrixElement* lineTraverse = *line;
     int shouldContinue = 1;
     while (lineTraverse!= NULL && shouldContinue){
 

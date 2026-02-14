@@ -31,7 +31,7 @@ SparseMatrix* CreateSparseMatrix(int lineCount, int columnCount);
 MatrixElement* CreateMatrixElement(int value, int column);
 MatrixLine* CreateMatrixLines(int size);
 
-void UpdateSparseLine(MatrixLine line, MatrixElement* elementToInsert);
+void UpdateSparseLine(MatrixLine* line, MatrixElement* elementToInsert);
 void RemoveSparseLineElement(MatrixLine line, int positionToRemove);
 int SearchValueInLine(MatrixLine line, int columnPosition);
 
