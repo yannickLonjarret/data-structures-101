@@ -87,3 +87,22 @@ void UpdateSparseLine(MatrixLine line, MatrixElement* elementToInsert){
     }
 
 }
+
+void DeleteMatrixLine(MatrixLine line){
+    if(!line) DeleteMatrixLine(line->nextElement);
+    DeleteElement(line);
+}
+
+void DeleteElement(MatrixElement* element){
+    free(element);
+    element = NULL;
+    return;
+}
+
+void DeleteMatrix(SparseMatrix* matrix){
+    for(int i = 0; i < matrix->lineCount; i++)
+        DeleteMatrixLine(matrix->lines[i]);
+    free(matrix);
+    matrix = NULL;
+    return;
+}
