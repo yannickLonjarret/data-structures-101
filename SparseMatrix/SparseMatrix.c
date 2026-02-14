@@ -309,19 +309,18 @@ void UpdateSparseLine(MatrixLine* line, MatrixElement* elementToInsert){
     }
 
     MatrixElement* lineTraverse = *line;
-    int shouldContinue = 1;
-    while (lineTraverse!= NULL && shouldContinue){
+    while (lineTraverse!= NULL){
 
         if(lineTraverse->column == elementToInsert->column){
             lineTraverse->value = elementToInsert->value;
             DeleteElement(elementToInsert);
-            shouldContinue = 0;
+            return;
         }
 
         if(!lineTraverse->nextElement || lineTraverse->nextElement->column > elementToInsert->column){
             elementToInsert->nextElement = lineTraverse->nextElement;
             lineTraverse->nextElement = elementToInsert; 
-            shouldContinue = 0;
+            return;
         }
 
         lineTraverse = lineTraverse->nextElement;
