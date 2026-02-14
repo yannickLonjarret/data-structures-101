@@ -49,3 +49,41 @@ MatrixElement* CreateMatrixElement(int value, int column){
 }
 
 
+void UpdateSparseLine(MatrixLine line, MatrixElement* elementToInsert){
+    if(elementToInsert == NULL){
+        printf("Element is NULL, exiting.");
+        return;
+    }
+
+    if(line == NULL){
+        line = elementToInsert;
+        return;
+    }
+
+    if(elementToInsert->column < line->column){
+        elementToInsert->nextElement = line;
+        line = elementToInsert;
+        return;
+    }
+
+    MatrixElement* lineTraverse = line;
+    int shouldContinue = 1;
+    while (lineTraverse!= NULL && shouldContinue){
+
+        if(lineTraverse->column == elementToInsert->column){
+            lineTraverse->value = elementToInsert->value;
+            DeleteElement(elementToInsert);
+            shouldContinue = 0;
+        }
+
+        if(!lineTraverse->nextElement || lineTraverse->nextElement->column > elementToInsert->column){
+            elementToInsert->nextElement = lineTraverse->nextElement;
+            lineTraverse->nextElement = elementToInsert; 
+            shouldContinue = 0;
+        }
+
+        lineTraverse = lineTraverse->nextElement;
+        
+    }
+
+}
