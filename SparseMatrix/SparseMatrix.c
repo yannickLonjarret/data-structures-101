@@ -62,6 +62,37 @@ void DisplayLineAsList(MatrixLine line){
 }
 
 
+int GetValue(SparseMatrix* matrix, int linePosition, int columnPosition){
+    if(matrix == NULL){
+        printf("Cannot get value from a non-existent matrix \n");
+        return 0;
+    }
+
+    if(matrix->lineCount < linePosition || matrix->columnCount < columnPosition){
+        printf("Value coordinates are not correct. \n");
+        return 0;
+    }
+
+    MatrixLine line = matrix->lines[linePosition];
+    return SearchValueInLine(line, columnPosition);
+}
+
+int SearchValueInLine(MatrixLine line, int columnPosition){
+    if(line == NULL) return 0;
+
+    MatrixElement* lineTraverse = line;
+    while(lineTraverse != NULL){
+        if(lineTraverse->column > columnPosition)
+            return 0;
+        if(lineTraverse->column == columnPosition)
+            return lineTraverse->value;
+
+        lineTraverse = lineTraverse->nextElement;
+    }
+    return 0;
+}
+
+
 MatrixLine* CreateMatrixLines(int size){
     MatrixLine* lines = (MatrixLine*)malloc(sizeof(MatrixLine)*size);
 
