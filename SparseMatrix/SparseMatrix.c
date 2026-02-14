@@ -2,6 +2,30 @@
 #include <stdio.h>
 #include "SparseMatrix.h"
 
+void FillMatrix(SparseMatrix *matrix, int lineCount, int columnCount){
+    if(matrix == NULL){
+        printf("Cannot fill a non-existent matrix \n");
+        return;
+    }
+
+    int currentValueToInsert = 0;
+    MatrixElement* element;
+    for(int i = 0; i < lineCount; i++){
+
+        for(int j = 0; j < columnCount; j++){
+            printf("Please type in value for element M[%d][%d]", i,j);
+            scanf("%d", currentValueToInsert);
+
+            if(currentValueToInsert == 0) continue;
+
+            element = CreateMatrixElement(currentValueToInsert, j);
+            UpdateSparseLine(matrix->lines[i], element);
+
+        }
+    }
+    return;
+}
+
 void DisplayMatrixAsTable(SparseMatrix *matrix){
     if(matrix == NULL){
         printf("Cannot display a non-existent matrix. \n");
