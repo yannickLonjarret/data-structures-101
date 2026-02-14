@@ -237,7 +237,7 @@ MatrixLine* CreateMatrixLines(int size){
 }
 
 SparseMatrix* CreateSparseMatrix(int lineCount, int columnCount){
-    SparseMatrix* matrix = (SparseMatrix*)(sizeof(SparseMatrix));
+    SparseMatrix* matrix = (SparseMatrix*)malloc(sizeof(SparseMatrix));
     MatrixLine* lines = CreateMatrixLines(lineCount);
 
     if(matrix == NULL || lines == NULL){
