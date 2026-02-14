@@ -92,6 +92,27 @@ int SearchValueInLine(MatrixLine line, int columnPosition){
     return 0;
 }
 
+void PutValue(SparseMatrix* matrix, int linePosition, int columnPosition, int value){
+    if(matrix == NULL){
+        printf("Cannot set value in a non-existent matrix \n");
+        return;
+    }
+
+    if(matrix->lineCount < linePosition || matrix->columnCount < columnPosition){
+        printf("Value coordinates are not correct. \n");
+        return 0;
+    }
+
+    MatrixLine lineToUpdate = matrix->lines[linePosition];
+    if(value == 0){
+        RemoveSparseLineElement(lineToUpdate, columnPosition);
+    }
+    else{
+        MatrixElement* newElement = CreateMatrixElement(value, columnPosition);
+        UpdateSparseLine(lineToUpdate, newElement);
+    }
+
+}
 
 MatrixLine* CreateMatrixLines(int size){
     MatrixLine* lines = (MatrixLine*)malloc(sizeof(MatrixLine)*size);
