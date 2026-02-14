@@ -182,7 +182,7 @@ void AddMatrixLine(MatrixLine a, MatrixLine b){
         if(traverseA->column > traverseB->column){
             MatrixElement* copy = CreateMatrixElement(traverseB->value, traverseB->column);
             UpdateSparseLine(a, copy);
-            traverseB->nextElement;
+            traverseB = traverseB->nextElement;
         }
 
 
@@ -191,7 +191,7 @@ void AddMatrixLine(MatrixLine a, MatrixLine b){
     while(traverseB != NULL){
         MatrixElement* copy = CreateMatrixElement(traverseB->value, traverseB->column);
         UpdateSparseLine(a, copy);
-        traverseB->nextElement;
+        traverseB = traverseB->nextElement;
     }
 
 }
