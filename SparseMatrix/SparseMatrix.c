@@ -218,7 +218,29 @@ MatrixElement* CreateMatrixElement(int value, int column){
     return elem;
 }
 
+void RemoveSparseLineElement(MatrixLine line, int positionToRemove){
+    if(line == NULL) return;
+     MatrixElement* temp;
 
+    if(line->column == positionToRemove){
+        temp = line;
+        line = line->nextElement;
+        DeleteElement(temp);
+        return;
+    }
+
+    MatrixElement* lineTraverse = line;
+    while (lineTraverse!= NULL){
+
+        if(lineTraverse->nextElement && lineTraverse->nextElement->column == positionToRemove){
+            temp = lineTraverse->nextElement;
+            lineTraverse->nextElement = lineTraverse->nextElement->nextElement;
+            DeleteElement(temp);
+        }
+        lineTraverse = lineTraverse->nextElement;
+        
+    }
+}
 void UpdateSparseLine(MatrixLine line, MatrixElement* elementToInsert){
     if(elementToInsert == NULL){
         printf("Element is NULL, exiting.");
