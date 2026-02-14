@@ -41,6 +41,8 @@ void DisplayLineAsTable(MatrixLine line, int columnCount){
     if(line == NULL){
         for(int i = 0; i < columnCount; i++)
             printf("%9d", 0);
+        printf("\n");
+        return;
     }
     int currentPosition = 0;
     MatrixElement* lineTraverse = line;
