@@ -2,6 +2,65 @@
 #include <stdio.h>
 #include "SparseMatrix.h"
 
+void DisplayMatrixAsTable(SparseMatrix *matrix){
+    if(matrix == NULL){
+        printf("Cannot display a non-existent matrix. \n");
+        return;
+    }
+
+    for(int i = 0; i < matrix->lineCount; i++){
+        DisplayLineAsTable(matrix->lines[i], matrix->columnCount);
+    }
+}
+
+void DisplayLineAsTable(MatrixLine line, int columnCount){
+    if(line == NULL){
+        for(int i = 0; i < columnCount; i++)
+            printf("%9d", 0);
+    }
+    int currentPosition = 0;
+    MatrixElement* lineTraverse = line;
+    
+    while(lineTraverse || currentPosition < columnCount){
+        if(lineTraverse->column < currentPosition)
+            lineTraverse = lineTraverse->nextElement;
+        else if(lineTraverse->column > currentPosition){
+            printf("%9d", 0);
+            currentPosition++;
+        }
+        else{
+            printf("%9d", lineTraverse->value);
+            lineTraverse = lineTraverse->nextElement;
+        }
+    }
+    printf("\n");
+}
+
+void DisplayMatrixAsLists(SparseMatrix* matrix){
+    if(matrix == NULL){
+        printf("Cannot display a non-existent matrix. \n");
+        return;
+    }
+
+    for(int i = 0; i < matrix->lineCount; i++){
+        DisplayLineAsList(matrix->lines[i], matrix->columnCount);
+    }
+}
+
+
+void DisplayLineAsList(MatrixLine line){
+    if(line == NULL){
+            printf("Empty line\n");
+    }
+    MatrixElement* lineTraverse = line;
+    
+    while(lineTraverse){
+       printf("|col: %d, value:%d|>", lineTraverse->column, lineTraverse->value);
+       lineTraverse = lineTraverse->nextElement;
+    }
+    printf("\n");
+}
+
 
 MatrixLine* CreateMatrixLines(int size){
     MatrixLine* lines = (MatrixLine*)malloc(sizeof(MatrixLine)*size);
