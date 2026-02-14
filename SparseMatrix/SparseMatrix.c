@@ -124,7 +124,7 @@ void PutValue(SparseMatrix* matrix, int linePosition, int columnPosition, int va
 
     if(matrix->lineCount < linePosition || matrix->columnCount < columnPosition){
         printf("Value coordinates are not correct. \n");
-        return 0;
+        return;
     }
 
     MatrixLine lineToUpdate = matrix->lines[linePosition];
