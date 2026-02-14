@@ -172,6 +172,31 @@ void AddMatrixLine(MatrixLine a, MatrixLine b){
 
 }
 
+int ComputeMemoryGain(SparseMatrix* matrix){
+    if(matrix == NULL){
+        printf("Cannot compute gain on an empty matrix \n");
+        return -1;
+    }
+    int SparseMatrixSize = 2*sizeof(int) + matrix->lineCount * sizeof(int);
+    MatrixElement* lineTraverse;
+
+    for(int i = 0; i < matrix->lineCount; i++){
+        if(!matrix->lines[i]) continue;
+        else{
+            lineTraverse = matrix->lines[i];
+            while (lineTraverse)
+            {
+                SparseMatrixSize += 3* sizeof(int);
+                lineTraverse = lineTraverse->nextElement;
+            }
+            
+        }
+
+    }
+
+    int classicalMatrixSize = matrix->columnCount*matrix->lineCount*sizeof(int);
+    return classicalMatrixSize - SparseMatrixSize;
+}
 
 MatrixLine* CreateMatrixLines(int size){
     MatrixLine* lines = (MatrixLine*)malloc(sizeof(MatrixLine)*size);
