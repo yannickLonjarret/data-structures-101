@@ -178,16 +178,19 @@ void AddMatrixLine(MatrixLine* a, MatrixLine* b){
             traverseA->value += traverseB->value;
             traverseA = traverseA->nextElement;
             traverseB = traverseB->nextElement;
+            continue;
         }
 
         if(traverseA->column < traverseB->column){
             traverseA = traverseA->nextElement;
+            continue;
         }
 
         if(traverseA->column > traverseB->column){
             MatrixElement* copy = CreateMatrixElement(traverseB->value, traverseB->column);
             UpdateSparseLine(a, copy);
             traverseB = traverseB->nextElement;
+            continue;
         }
 
 
