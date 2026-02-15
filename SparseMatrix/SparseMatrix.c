@@ -48,15 +48,19 @@ void DisplayLineAsTable(MatrixLine* line, int columnCount){
     MatrixElement* lineTraverse = *line;
     
     while(lineTraverse || currentPosition < columnCount){
-        if(lineTraverse->column < currentPosition)
-            lineTraverse = lineTraverse->nextElement;
-        else if(lineTraverse->column > currentPosition){
+        if((lineTraverse == NULL && currentPosition < columnCount) || lineTraverse->column > currentPosition){
             printf("%9d", 0);
             currentPosition++;
         }
+        else if(lineTraverse->column < currentPosition){
+            lineTraverse = lineTraverse->nextElement;
+            currentPosition++;
+        }
+        
         else{
             printf("%9d", lineTraverse->value);
             lineTraverse = lineTraverse->nextElement;
+            currentPosition++;
         }
     }
     printf("\n");
