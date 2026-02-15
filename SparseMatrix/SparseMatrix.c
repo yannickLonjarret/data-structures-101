@@ -33,19 +33,19 @@ void DisplayMatrixAsTable(SparseMatrix *matrix){
     }
 
     for(int i = 0; i < matrix->lineCount; i++){
-        DisplayLineAsTable(matrix->lines[i], matrix->columnCount);
+        DisplayLineAsTable(&matrix->lines[i], matrix->columnCount);
     }
 }
 
-void DisplayLineAsTable(MatrixLine line, int columnCount){
-    if(line == NULL){
+void DisplayLineAsTable(MatrixLine* line, int columnCount){
+    if(*line == NULL){
         for(int i = 0; i < columnCount; i++)
             printf("%9d", 0);
         printf("\n");
         return;
     }
     int currentPosition = 0;
-    MatrixElement* lineTraverse = line;
+    MatrixElement* lineTraverse = *line;
     
     while(lineTraverse || currentPosition < columnCount){
         if(lineTraverse->column < currentPosition)
@@ -131,7 +131,7 @@ void PutValue(SparseMatrix* matrix, int linePosition, int columnPosition, int va
 
     MatrixLine lineToUpdate = matrix->lines[linePosition];
     if(value == 0){
-        RemoveSparseLineElement(lineToUpdate, columnPosition);
+        RemoveSparseLineElement(&lineToUpdate, columnPosition);
     }
     else{
         MatrixElement* newElement = CreateMatrixElement(value, columnPosition);
@@ -151,26 +151,25 @@ void AddMatrix(SparseMatrix* a, SparseMatrix* b){
     }
 
     for(int i = 0; i < a->lineCount; i++)
-        AddMatrixLine(a->lines[i], b->lines[i]);
+        AddMatrixLine(&a->lines[i], &b->lines[i]);
 }
 
-void AddMatrixLine(MatrixLine a, MatrixLine b){
-    if(!a){
-        MatrixElement* lineTraverse = b;
+void AddMatrixLine(MatrixLine* a, MatrixLine* b){
+    if(*a == NULL){
+        MatrixElement* lineTraverse = *b;
         MatrixElement* copy;
         while(lineTraverse){
             copy = CreateMatrixElement(lineTraverse->value, lineTraverse->column);
-            UpdateSparseLine(&a, copy);
+            UpdateSparseLine(a, copy);
             lineTraverse = lineTraverse->nextElement;
         }
         return;
     }
 
-    MatrixElement* traverseA = a;
-    MatrixElement* traverseB = b;
+    MatrixElement* traverseA = *a;
+    MatrixElement* traverseB = *b;
 
     while(traverseA != NULL && traverseB != NULL){
-
         if(traverseA->column == traverseB->column){
             traverseA->value += traverseB->value;
             traverseA = traverseA->nextElement;
@@ -183,7 +182,7 @@ void AddMatrixLine(MatrixLine a, MatrixLine b){
 
         if(traverseA->column > traverseB->column){
             MatrixElement* copy = CreateMatrixElement(traverseB->value, traverseB->column);
-            UpdateSparseLine(&a, copy);
+            UpdateSparseLine(a, copy);
             traverseB = traverseB->nextElement;
         }
 
@@ -192,7 +191,7 @@ void AddMatrixLine(MatrixLine a, MatrixLine b){
 
     while(traverseB != NULL){
         MatrixElement* copy = CreateMatrixElement(traverseB->value, traverseB->column);
-        UpdateSparseLine(&a, copy);
+        UpdateSparseLine(a, copy);
         traverseB = traverseB->nextElement;
     }
 
@@ -269,18 +268,18 @@ MatrixElement* CreateMatrixElement(int value, int column){
     return elem;
 }
 
-void RemoveSparseLineElement(MatrixLine line, int positionToRemove){
-    if(line == NULL) return;
+void RemoveSparseLineElement(MatrixLine* line, int positionToRemove){
+    if(*line == NULL) return;
      MatrixElement* temp;
 
-    if(line->column == positionToRemove){
-        temp = line;
-        line = line->nextElement;
+    if((*line)->column == positionToRemove){
+        temp = *line;
+        *line = (*line)->nextElement;
         DeleteElement(temp);
         return;
     }
 
-    MatrixElement* lineTraverse = line;
+    MatrixElement* lineTraverse = *line;
     while (lineTraverse!= NULL){
 
         if(lineTraverse->nextElement && lineTraverse->nextElement->column == positionToRemove){
@@ -329,9 +328,10 @@ void UpdateSparseLine(MatrixLine* line, MatrixElement* elementToInsert){
 
 }
 
-void DeleteMatrixLine(MatrixLine line){
-    if(!line) DeleteMatrixLine(line->nextElement);
-    DeleteElement(line);
+void DeleteMatrixLine(MatrixLine* line){
+    if(*line == NULL) return;
+    DeleteMatrixLine(&(*line)->nextElement);
+    DeleteElement(*line);
 }
 
 void DeleteElement(MatrixElement* element){
@@ -342,7 +342,7 @@ void DeleteElement(MatrixElement* element){
 
 void DeleteMatrix(SparseMatrix* matrix){
     for(int i = 0; i < matrix->lineCount; i++)
-        DeleteMatrixLine(matrix->lines[i]);
+        DeleteMatrixLine(&matrix->lines[i]);
     free(matrix);
     matrix = NULL;
     return;
