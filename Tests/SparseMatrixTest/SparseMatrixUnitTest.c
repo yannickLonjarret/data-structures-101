@@ -1,5 +1,5 @@
 #include "Tests\Unity\unity.h"
-#include "SparseMatrix\SparseMatrix.h"
+#include "SparseMatrix.h"
 
 void setUp(void)
 {
