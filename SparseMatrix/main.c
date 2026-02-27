@@ -217,7 +217,7 @@ int main(int argc, char const *argv[])
 
     for(int i = 0; i < matrixCount; i++){
         if(matrices[i] != NULL)
-            DeleteMatrix(matrices[i]);
+            DeleteMatrix(&matrices[i]);
     }
     return 0;
 }
