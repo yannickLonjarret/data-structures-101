@@ -22,7 +22,7 @@ void test_Free_Matrix_Element(void)
 {
     MatrixElement* element = CreateMatrixElement(1, 2);
     TEST_ASSERT_NOT_NULL(element);
-    DeleteElement(element);
+    DeleteElement(&element);
     TEST_ASSERT_NULL(element);
 }
 
