@@ -1,4 +1,4 @@
-#include "Tests\Unity\unity.h"
+#include "unity.h"
 #include "SparseMatrix.h"
 
 void setUp(void)
