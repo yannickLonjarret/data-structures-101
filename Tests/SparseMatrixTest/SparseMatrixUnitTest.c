@@ -18,6 +18,14 @@ void test_Create_Matrix_Element(void)
     TEST_ASSERT_EQUAL_INT(1, element->value);
 }
 
+void test_Free_Matrix_Element(void)
+{
+    MatrixElement* element = CreateMatrixElement(1, 2);
+    TEST_ASSERT_NOT_NULL(element);
+    DeleteElement(element);
+    TEST_ASSERT_NULL(element);
+}
+
 void test_Create_Matrix_Lines(void)
 {
     MatrixLine* lines = CreateMatrixLines(3);
