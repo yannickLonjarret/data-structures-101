@@ -27,3 +27,12 @@ void test_Create_Matrix_Lines(void)
         TEST_ASSERT_NULL(lines[i]);
     }
 }
+
+void test_Create_Sparse_Matrix(void)
+{
+    SparseMatrix* matrix = CreateSparseMatrix(3, 3);
+    TEST_ASSERT_NOT_NULL(matrix);
+    TEST_ASSERT_NOT_NULL(matrix->lines);
+    TEST_ASSERT_EQUAL_INT(3, matrix->lineCount);
+    TEST_ASSERT_EQUAL_INT(3, matrix->columnCount);
+}
