@@ -35,8 +35,8 @@ void UpdateSparseLine(MatrixLine* line, MatrixElement* elementToInsert);
 void RemoveSparseLineElement(MatrixLine* line, int positionToRemove);
 int SearchValueInLine(MatrixLine line, int columnPosition);
 
-void DeleteMatrix(SparseMatrix* matrix);
+void DeleteMatrix(SparseMatrix** matrix);
 void DeleteMatrixLine(MatrixLine* line);
-void DeleteElement(MatrixElement* element);
+void DeleteElement(MatrixElement** element);
 
 #endif

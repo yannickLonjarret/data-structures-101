@@ -282,7 +282,7 @@ void RemoveSparseLineElement(MatrixLine* line, int positionToRemove){
     if((*line)->column == positionToRemove){
         temp = *line;
         *line = (*line)->nextElement;
-        DeleteElement(temp);
+        DeleteElement(&temp);
         return;
     }
 
@@ -292,7 +292,7 @@ void RemoveSparseLineElement(MatrixLine* line, int positionToRemove){
         if(lineTraverse->nextElement && lineTraverse->nextElement->column == positionToRemove){
             temp = lineTraverse->nextElement;
             lineTraverse->nextElement = lineTraverse->nextElement->nextElement;
-            DeleteElement(temp);
+            DeleteElement(&temp);
         }
         lineTraverse = lineTraverse->nextElement;
         
@@ -319,7 +319,7 @@ void UpdateSparseLine(MatrixLine* line, MatrixElement* elementToInsert){
 
         if(lineTraverse->column == elementToInsert->column){
             lineTraverse->value = elementToInsert->value;
-            DeleteElement(elementToInsert);
+            DeleteElement(&elementToInsert);
             return;
         }
 
@@ -337,20 +337,25 @@ void UpdateSparseLine(MatrixLine* line, MatrixElement* elementToInsert){
 
 void DeleteMatrixLine(MatrixLine* line){
     if(*line == NULL) return;
-    DeleteMatrixLine(&(*line)->nextElement);
-    DeleteElement(*line);
+    MatrixLine lineTraverse = *line;
+    while(lineTraverse != NULL){
+        MatrixLine temp = lineTraverse;
+        lineTraverse = lineTraverse->nextElement;
+        DeleteElement(&temp);
+    }
+    *line = NULL;
 }
 
-void DeleteElement(MatrixElement* element){
-    free(element);
-    element = NULL;
+void DeleteElement(MatrixElement** element){
+    free(*element);
+    *element = NULL;
     return;
 }
 
-void DeleteMatrix(SparseMatrix* matrix){
-    for(int i = 0; i < matrix->lineCount; i++)
-        DeleteMatrixLine(&matrix->lines[i]);
-    free(matrix);
-    matrix = NULL;
+void DeleteMatrix(SparseMatrix** matrix){
+    for(int i = 0; i < (*matrix)->lineCount; i++)
+        DeleteMatrixLine(&((*matrix)->lines[i]));
+    free(*matrix);
+    *matrix = NULL;
     return;
 }
