@@ -40,6 +40,15 @@ void test_Create_Matrix_Lines(void)
         DeleteMatrixLine(&lines[i]);
     }
 }
+
+void test_Free_Matrix_Lines(void)
+{
+    MatrixLine* lines = CreateMatrixLines(1);
+    MatrixElement* element = CreateMatrixElement(1, 2);
+    UpdateSparseLine(lines, element);
+    DeleteMatrixLine(lines);
+
+    TEST_ASSERT_NULL(lines);
 }
 
 void test_Create_Sparse_Matrix(void)
