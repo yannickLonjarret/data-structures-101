@@ -11,6 +11,7 @@ extern void test_Free_Sparse_Matrix(void);
 extern void test_Insert_Element_At_Head(void);
 extern void test_Insert_Element_At_Tail(void);
 extern void test_Insert_Element_At_Middle(void);
+extern void test_Update_Element_Value(void);
 extern void test_Remove_Element_At_Head_Empty_Line(void);
 extern void test_Remove_Element_At_Head_Filled_Line(void);
 extern void test_Remove_Element_At_Tail(void);
@@ -30,6 +31,7 @@ int main(void)
     RUN_TEST(test_Insert_Element_At_Head);
     RUN_TEST(test_Insert_Element_At_Tail);
     RUN_TEST(test_Insert_Element_At_Middle);
+    RUN_TEST(test_Update_Element_Value);
 
     RUN_TEST(test_Remove_Element_At_Head_Empty_Line);
     RUN_TEST(test_Remove_Element_At_Head_Filled_Line);
