@@ -16,6 +16,7 @@ extern void test_Remove_Element_At_Head_Empty_Line(void);
 extern void test_Remove_Element_At_Head_Filled_Line(void);
 extern void test_Remove_Element_At_Tail(void);
 extern void test_Remove_Element_At_Middle(void);
+extern void test_Memory_Gain_Computation(void);
 
 
 int main(void)
@@ -37,5 +38,7 @@ int main(void)
     RUN_TEST(test_Remove_Element_At_Head_Filled_Line);
     RUN_TEST(test_Remove_Element_At_Tail);
     RUN_TEST(test_Remove_Element_At_Middle);
+
+    RUN_TEST(test_Memory_Gain_Computation);
     return UNITY_END();
 }

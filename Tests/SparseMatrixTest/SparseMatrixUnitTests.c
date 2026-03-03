@@ -222,3 +222,16 @@ void test_Remove_Element_At_Middle(void){
     
     DeleteMatrixLine(&lines[0]);
 }
+
+void test_Memory_Gain_Computation(void){
+    SparseMatrix* matrix = CreateSparseMatrix(3, 3);
+    MatrixLine* lines = &matrix->lines[0];
+
+    MatrixElement* element = CreateMatrixElement(1, 2);
+    UpdateSparseLine(lines, element);
+
+    int gain = (9 * sizeof(int)) - (2*sizeof(int) + 3*sizeof(int) + 3*sizeof(int));
+    TEST_ASSERT_EQUAL_INT(gain, ComputeMemoryGain(matrix));
+
+    DeleteMatrix(&matrix);
+}
