@@ -27,6 +27,8 @@ extern void test_Search_Value_Beyond_Line(void);
 extern void test_Add_Matrix_Empty_Lines(void);
 extern void test_Add_Matrix_Empty_First_Line(void);
 extern void test_Add_Matrix_Empty_Second_Line(void);
+extern void test_Add_Matrix_Line_Merge(void);
+extern void test_Add_Matrix_Line_Sum(void);
 
 int main(void)
 {
@@ -59,5 +61,7 @@ int main(void)
     RUN_TEST(test_Add_Matrix_Empty_Lines);
     RUN_TEST(test_Add_Matrix_Empty_First_Line);
     RUN_TEST(test_Add_Matrix_Empty_Second_Line);
+    RUN_TEST(test_Add_Matrix_Line_Merge);
+    RUN_TEST(test_Add_Matrix_Line_Sum);
     return UNITY_END();
 }
