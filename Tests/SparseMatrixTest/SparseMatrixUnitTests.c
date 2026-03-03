@@ -63,6 +63,16 @@ void test_Create_Sparse_Matrix(void)
     DeleteMatrix(&matrix);
 }
 
+void test_Free_Sparse_Matrix(void)
+{
+    SparseMatrix* matrix = CreateSparseMatrix(3, 3);
+    MatrixElement* element = CreateMatrixElement(1, 2);
+    UpdateSparseLine(&matrix->lines[0], element);
+
+    DeleteMatrix(&matrix);
+    TEST_ASSERT_NULL(matrix);
+}
+
 void test_Insert_Element_At_Head(void){
     MatrixLine* lines = CreateMatrixLines(1);
     MatrixElement* element = CreateMatrixElement(1, 2);
