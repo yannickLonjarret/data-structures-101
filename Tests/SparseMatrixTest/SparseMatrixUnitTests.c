@@ -46,9 +46,9 @@ void test_Free_Matrix_Lines(void)
     MatrixLine* lines = CreateMatrixLines(1);
     MatrixElement* element = CreateMatrixElement(1, 2);
     UpdateSparseLine(lines, element);
-    DeleteMatrixLine(lines);
+    DeleteMatrixLine(&lines[0]);
 
-    TEST_ASSERT_NULL(lines);
+    TEST_ASSERT_NULL(lines[0]);
 }
 
 void test_Create_Sparse_Matrix(void)
