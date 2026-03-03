@@ -18,6 +18,12 @@ extern void test_Remove_Element_At_Tail(void);
 extern void test_Remove_Element_At_Middle(void);
 extern void test_Memory_Gain_Computation(void);
 
+extern void test_Search_Value_In_Line(void);
+extern void test_Search_Zero_After_Value_In_Line(void);
+extern void test_Search_Zero_Before_Value_In_Line(void);
+extern void test_Search_Value_In_Empty_Line(void);
+extern void test_Search_Value_Beyond_Line(void);
+
 
 int main(void)
 {
@@ -40,5 +46,11 @@ int main(void)
     RUN_TEST(test_Remove_Element_At_Middle);
 
     RUN_TEST(test_Memory_Gain_Computation);
+
+    RUN_TEST(test_Search_Value_In_Line);
+    RUN_TEST(test_Search_Zero_After_Value_In_Line);
+    RUN_TEST(test_Search_Zero_Before_Value_In_Line);
+    RUN_TEST(test_Search_Value_In_Empty_Line);
+    RUN_TEST(test_Search_Value_Beyond_Line);
     return UNITY_END();
 }
