@@ -284,6 +284,49 @@ void test_Search_Value_Beyond_Line(void){
     DeleteMatrixLine(&lines[0]);
 }
 
+void test_Add_Matrix_Empty_Lines(void){
+    MatrixLine* linesA = CreateMatrixLines(1);
+    MatrixLine* linesB = CreateMatrixLines(1);
+
+    AddMatrixLine(&linesA[0], &linesB[0]);
+    TEST_ASSERT_NULL(linesA[0]);
+
+    DeleteMatrixLine(&linesA[0]);
+    DeleteMatrixLine(&linesB[0]);
+}
+
+void test_Add_Matrix_Empty_First_Line(void){
+    MatrixLine* linesA = CreateMatrixLines(1);
+    MatrixLine* linesB = CreateMatrixLines(1);
+
+    MatrixElement* element = CreateMatrixElement(1, 2);
+    UpdateSparseLine(&linesB[0], element);
+
+    AddMatrixLine(&linesA[0], &linesB[0]);
+    TEST_ASSERT_NOT_NULL(linesA[0]);
+    TEST_ASSERT_EQUAL_INT(2, linesA[0]->column);
+    TEST_ASSERT_EQUAL_INT(1, linesA[0]->value);
+
+    DeleteMatrixLine(&linesA[0]);
+    DeleteMatrixLine(&linesB[0]);
+}
+
+void test_Add_Matrix_Empty_Second_Line(void){
+    MatrixLine* linesA = CreateMatrixLines(1);
+    MatrixLine* linesB = CreateMatrixLines(1);
+
+    MatrixElement* element = CreateMatrixElement(1, 2);
+    UpdateSparseLine(&linesA[0], element);
+
+    AddMatrixLine(&linesA[0], &linesB[0]);
+    TEST_ASSERT_NOT_NULL(linesA[0]);
+    TEST_ASSERT_EQUAL_INT(2, linesA[0]->column);
+    TEST_ASSERT_EQUAL_INT(1, linesA[0]->value);
+
+    DeleteMatrixLine(&linesA[0]);
+    DeleteMatrixLine(&linesB[0]);
+}
+
 
 
 

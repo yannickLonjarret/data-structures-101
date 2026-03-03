@@ -24,6 +24,9 @@ extern void test_Search_Zero_Before_Value_In_Line(void);
 extern void test_Search_Value_In_Empty_Line(void);
 extern void test_Search_Value_Beyond_Line(void);
 
+extern void test_Add_Matrix_Empty_Lines(void);
+extern void test_Add_Matrix_Empty_First_Line(void);
+extern void test_Add_Matrix_Empty_Second_Line(void);
 
 int main(void)
 {
@@ -52,5 +55,9 @@ int main(void)
     RUN_TEST(test_Search_Zero_Before_Value_In_Line);
     RUN_TEST(test_Search_Value_In_Empty_Line);
     RUN_TEST(test_Search_Value_Beyond_Line);
+
+    RUN_TEST(test_Add_Matrix_Empty_Lines);
+    RUN_TEST(test_Add_Matrix_Empty_First_Line);
+    RUN_TEST(test_Add_Matrix_Empty_Second_Line);
     return UNITY_END();
 }
