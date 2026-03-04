@@ -133,16 +133,16 @@ void PutValue(SparseMatrix* matrix, int linePosition, int columnPosition, int va
         return;
     }
 
-    MatrixLine lineToUpdate = matrix->lines[linePosition];
     if(value == 0){
-        RemoveSparseLineElement(&lineToUpdate, columnPosition);
+        RemoveSparseLineElement(&matrix->lines[linePosition], columnPosition);
     }
     else{
         MatrixElement* newElement = CreateMatrixElement(value, columnPosition);
-        UpdateSparseLine(&lineToUpdate, newElement);
+        UpdateSparseLine(&matrix->lines[linePosition], newElement);
     }
 
 }
+
 void AddMatrix(SparseMatrix* a, SparseMatrix* b){
     if(!a || !b){
         printf("One or more non existent matrix \n");
@@ -298,6 +298,7 @@ void RemoveSparseLineElement(MatrixLine* line, int positionToRemove){
         
     }
 }
+
 void UpdateSparseLine(MatrixLine* line, MatrixElement* elementToInsert){
     if(elementToInsert == NULL){
         printf("Element is NULL, exiting.");
