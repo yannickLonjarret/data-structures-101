@@ -12,11 +12,21 @@ extern void test_Insert_Element_At_Head(void);
 extern void test_Insert_Element_At_Tail(void);
 extern void test_Insert_Element_At_Middle(void);
 extern void test_Update_Element_Value(void);
+
 extern void test_Remove_Element_At_Head_Empty_Line(void);
 extern void test_Remove_Element_At_Head_Filled_Line(void);
 extern void test_Remove_Element_At_Tail(void);
 extern void test_Remove_Element_At_Middle(void);
 extern void test_Memory_Gain_Computation(void);
+
+extern void test_Put_Zero_In_Line_At_Head_Empty_Line(void);
+extern void test_Put_Zero_In_Line_At_Head_Non_Empty_Line(void);
+extern void test_Put_Zero_In_Line_At_Middle(void);
+extern void test_Put_Value_In_Line_At_Head(void);
+extern void test_Put_Value_In_Line_At_Middle(void);
+extern void test_Put_Update_Value_In_Line(void);
+extern void test_Put_Value_Line_Out_Of_Bounds(void);
+extern void test_Put_Value_Column_Out_Of_Bounds(void);
 
 extern void test_Search_Value_In_Line(void);
 extern void test_Search_Zero_After_Value_In_Line(void);
@@ -63,5 +73,14 @@ int main(void)
     RUN_TEST(test_Add_Matrix_Empty_Second_Line);
     RUN_TEST(test_Add_Matrix_Line_Merge);
     RUN_TEST(test_Add_Matrix_Line_Sum);
+
+    RUN_TEST(test_Put_Zero_In_Line_At_Head_Empty_Line);
+    RUN_TEST(test_Put_Zero_In_Line_At_Head_Non_Empty_Line);
+    RUN_TEST(test_Put_Zero_In_Line_At_Middle);
+    RUN_TEST(test_Put_Value_In_Line_At_Head);
+    RUN_TEST(test_Put_Value_In_Line_At_Middle);
+    RUN_TEST(test_Put_Update_Value_In_Line);
+    RUN_TEST(test_Put_Value_Line_Out_Of_Bounds);
+    RUN_TEST(test_Put_Value_Column_Out_Of_Bounds);
     return UNITY_END();
 }
