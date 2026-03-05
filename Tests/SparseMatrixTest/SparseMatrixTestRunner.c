@@ -40,8 +40,7 @@ extern void test_Add_Matrix_Empty_Second_Line(void);
 extern void test_Add_Matrix_Line_Merge(void);
 extern void test_Add_Matrix_Line_Sum(void);
 
-int main(void)
-{
+int main(void) {
     UNITY_BEGIN();
     RUN_TEST(test_Create_Matrix_Element);
     RUN_TEST(test_Free_Matrix_Element);
