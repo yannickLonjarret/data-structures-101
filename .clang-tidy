@@ -4,6 +4,8 @@ Checks: >
   clang-analyzer-*,
   misc-*,
   performance-*,
-  portability-*
+  portability-*,
+
+  -bugprone-easily-swappable-parameters
 
 WarningsAsErrors: '*'
