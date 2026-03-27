@@ -199,7 +199,7 @@ int ComputeMemoryGain(SparseMatrix* matrix) {
         printf("Cannot compute gain on an empty matrix \n");
         return -1;
     }
-    int SparseMatrixSize = 2 * sizeof(int) + matrix->lineCount * sizeof(int);
+    int SparseMatrixSize = 2 * (int)sizeof(int) + matrix->lineCount * (int)sizeof(int);
     MatrixElement* lineTraverse = NULL;
 
     for(int i = 0; i < matrix->lineCount; i++) {
@@ -214,7 +214,7 @@ int ComputeMemoryGain(SparseMatrix* matrix) {
         }
     }
 
-    int classicalMatrixSize = matrix->columnCount * matrix->lineCount * sizeof(int);
+    int classicalMatrixSize = matrix->columnCount * matrix->lineCount * (int)sizeof(int);
     return classicalMatrixSize - SparseMatrixSize;
 }
 
