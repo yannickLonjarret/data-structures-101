@@ -3,6 +3,8 @@
 
 #include "SparseMatrix.h"
 
+enum menuOptions { CREATE = 0, FILL = 1, DISPLAY_TABLE = 2, DISPLAY_LIST = 3, PUT = 4, GET = 5, ADD = 6, COMPUTE_GAIN = 7, QUIT = 8 };
+
 int main(int argc, char const* argv[]) {
     const int matrixCount = 10;
     SparseMatrix** matrices = (SparseMatrix**)malloc(matrixCount * sizeof(SparseMatrix*));
@@ -40,7 +42,7 @@ int main(int argc, char const* argv[]) {
 
         int matrixToGetValue;
         switch(menuChoice) {
-        case 0:
+        case CREATE:
 
             printf("Please choose a matrix to create (0-9): \n");
             scanf("%d", &matrixToCreate);
@@ -71,7 +73,7 @@ int main(int argc, char const* argv[]) {
 
             matrices[matrixToCreate] = CreateSparseMatrix(lineCount, columnCount);
             break;
-        case 1:
+        case FILL:
             printf("Please choose a matrix to fill (0-9): \n");
             scanf("%d", &matrixToFill);
 
@@ -87,7 +89,7 @@ int main(int argc, char const* argv[]) {
 
             FillMatrix(matrices[matrixToFill], matrices[matrixToFill]->lineCount, matrices[matrixToFill]->columnCount);
             break;
-        case 2:
+        case DISPLAY_TABLE:
             printf("Please choose a matrix to display (0-9): \n");
             scanf("%d", &matrixToDisplayTable);
             if(matrixToDisplayTable < 0 || matrixToDisplayTable >= matrixCount) {
@@ -100,7 +102,7 @@ int main(int argc, char const* argv[]) {
             }
             DisplayMatrixAsTable(matrices[matrixToDisplayTable]);
             break;
-        case 3:
+        case DISPLAY_LIST:
             printf("Please choose a matrix to display (0-9): \n");
             scanf("%d", &matrixToDisplayList);
             if(matrixToDisplayList < 0 || matrixToDisplayList >= matrixCount) {
@@ -113,7 +115,7 @@ int main(int argc, char const* argv[]) {
             }
             DisplayMatrixAsLists(matrices[matrixToDisplayList]);
             break;
-        case 4:
+        case PUT:
             printf("Please choose a matrix to put value in (0-9): \n");
             scanf("%d", &matrixToPutValue);
             if(matrixToPutValue < 0 || matrixToPutValue >= matrixCount) {
@@ -143,7 +145,7 @@ int main(int argc, char const* argv[]) {
 
             PutValue(matrices[matrixToPutValue], linePosition, columnPosition, valueToPut);
             break;
-        case 5:
+        case GET:
             printf("Please choose a matrix to get value from (0-9): \n");
             scanf("%d", &matrixToGetValue);
             if(matrixToGetValue < 0 || matrixToGetValue >= matrixCount) {
@@ -170,7 +172,7 @@ int main(int argc, char const* argv[]) {
             int value = GetValue(matrices[matrixToGetValue], linePosition, columnPosition);
             printf("Value at position (%d, %d) is: %d\n", linePosition, columnPosition, value);
             break;
-        case 6:
+        case ADD:
             printf("Please choose first matrix to add (0-9): \n");
             scanf("%d", &firstMatrixToAdd);
             printf("Please choose second matrix to add (0-9): \n");
@@ -185,7 +187,7 @@ int main(int argc, char const* argv[]) {
             }
             AddMatrix(matrices[firstMatrixToAdd], matrices[secondMatrixToAdd]);
             break;
-        case 7:
+        case COMPUTE_GAIN:
 
             printf("Please choose a matrix to compute gain for (0-9): \n");
             scanf("%d", &matrixToComputeGain);
@@ -201,12 +203,12 @@ int main(int argc, char const* argv[]) {
             printf("Memory gain for matrix %d is: %d bytes\n", matrixToComputeGain, gain);
             break;
         default:
-            if(menuChoice != 8)
+            if(menuChoice != QUIT)
                 printf("Invalid menu choice. Please choose a number between 0 and 8. \n");
             break;
         }
 
-    } while(menuChoice != 8);
+    } while(menuChoice != QUIT);
 
     for(int i = 0; i < matrixCount; i++)
         if(matrices[i] != NULL)
