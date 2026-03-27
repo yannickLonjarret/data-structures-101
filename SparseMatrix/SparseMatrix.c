@@ -9,7 +9,7 @@ void FillMatrix(SparseMatrix* matrix, int lineCount, int columnCount) {
     }
 
     int currentValueToInsert = 0;
-    MatrixElement* element;
+    MatrixElement* element = NULL;
     for(int i = 0; i < lineCount; i++) {
 
         for(int j = 0; j < columnCount; j++) {
@@ -154,7 +154,7 @@ void AddMatrix(SparseMatrix* a, SparseMatrix* b) {
 void AddMatrixLine(MatrixLine* a, MatrixLine* b) {
     if(*a == NULL) {
         MatrixElement* lineTraverse = *b;
-        MatrixElement* copy;
+        MatrixElement* copy = NULL;
         while(lineTraverse) {
             copy = CreateMatrixElement(lineTraverse->value, lineTraverse->column);
             UpdateSparseLine(a, copy);
@@ -200,7 +200,7 @@ int ComputeMemoryGain(SparseMatrix* matrix) {
         return -1;
     }
     int SparseMatrixSize = 2 * sizeof(int) + matrix->lineCount * sizeof(int);
-    MatrixElement* lineTraverse;
+    MatrixElement* lineTraverse = NULL;
 
     for(int i = 0; i < matrix->lineCount; i++) {
         if(!matrix->lines[i])
@@ -266,7 +266,7 @@ MatrixElement* CreateMatrixElement(int value, int column) {
 void RemoveSparseLineElement(MatrixLine* line, int positionToRemove) {
     if(*line == NULL)
         return;
-    MatrixElement* temp;
+    MatrixElement* temp = NULL;
 
     if((*line)->column == positionToRemove) {
         temp = *line;
