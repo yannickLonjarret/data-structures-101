@@ -13,7 +13,7 @@ int main(void) {
 
     int menuChoice = 0;
     do {
-
+        printInitializedPointerArray((void**)matrices, matrixCount);
         printf("--------------MENU--------------\n");
         printf("What would you like to do:\n");
         printf("0. Create a new matrix\n");
