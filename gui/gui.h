@@ -3,4 +3,6 @@
 
 void clearTerminal();
 
+void printInitializedPointerArray(void** array, const int size);
+
 #endif
