@@ -2,8 +2,9 @@
 #include <stdlib.h>
 
 #include "SparseMatrix.h"
+#include "gui.h"
 
-int main(int argc, char const* argv[]) {
+int main(void) {
     const int matrixCount = 10;
     SparseMatrix** matrices = (SparseMatrix**)malloc(matrixCount * sizeof(SparseMatrix*));
 
@@ -26,7 +27,6 @@ int main(int argc, char const* argv[]) {
         printf("8. Quit\n");
 
         scanf("%d", &menuChoice);
-        system("clear");
 
         int linePosition, columnPosition, valueToPut;
         int firstMatrixToAdd, secondMatrixToAdd;
@@ -70,6 +70,7 @@ int main(int argc, char const* argv[]) {
             }
 
             matrices[matrixToCreate] = CreateSparseMatrix(lineCount, columnCount);
+            clearTerminal();
             break;
         case 1:
             printf("Please choose a matrix to fill (0-9): \n");
@@ -86,6 +87,7 @@ int main(int argc, char const* argv[]) {
             }
 
             FillMatrix(matrices[matrixToFill], matrices[matrixToFill]->lineCount, matrices[matrixToFill]->columnCount);
+            clearTerminal();
             break;
         case 2:
             printf("Please choose a matrix to display (0-9): \n");
@@ -99,6 +101,7 @@ int main(int argc, char const* argv[]) {
                 break;
             }
             DisplayMatrixAsTable(matrices[matrixToDisplayTable]);
+            clearTerminal();
             break;
         case 3:
             printf("Please choose a matrix to display (0-9): \n");
@@ -112,6 +115,7 @@ int main(int argc, char const* argv[]) {
                 break;
             }
             DisplayMatrixAsLists(matrices[matrixToDisplayList]);
+            clearTerminal();
             break;
         case 4:
             printf("Please choose a matrix to put value in (0-9): \n");
@@ -142,6 +146,7 @@ int main(int argc, char const* argv[]) {
             scanf("%d", &valueToPut);
 
             PutValue(matrices[matrixToPutValue], linePosition, columnPosition, valueToPut);
+            clearTerminal();
             break;
         case 5:
             printf("Please choose a matrix to get value from (0-9): \n");
@@ -184,6 +189,7 @@ int main(int argc, char const* argv[]) {
                 break;
             }
             AddMatrix(matrices[firstMatrixToAdd], matrices[secondMatrixToAdd]);
+            clearTerminal();
             break;
         case 7:
 
