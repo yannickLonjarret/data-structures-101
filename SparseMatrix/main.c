@@ -3,10 +3,11 @@
 
 #include "SparseMatrix.h"
 #include "utils.h"
+#include "gui.h"
 
 enum menuOptions { CREATE = 0, FILL = 1, DISPLAY_TABLE = 2, DISPLAY_LIST = 3, PUT = 4, GET = 5, ADD = 6, COMPUTE_GAIN = 7, QUIT = 8 };
 
-int main(int argc, char const* argv[]) {
+int main(void) {
     const int matrixCount = 10;
     SparseMatrix** matrices = (SparseMatrix**)malloc(matrixCount * sizeof(SparseMatrix*));
 
@@ -15,7 +16,7 @@ int main(int argc, char const* argv[]) {
 
     int menuChoice = 0;
     do {
-
+        printInitializedPointerArray((void**)matrices, matrixCount);
         printf("--------------MENU--------------\n");
         printf("What would you like to do:\n");
         printf("0. Create a new matrix\n");
@@ -32,7 +33,6 @@ int main(int argc, char const* argv[]) {
             printf("Input not parsable, skip\n");
             continue;
         }
-        system("clear");
 
         int linePosition, columnPosition, valueToPut;
         int firstMatrixToAdd, secondMatrixToAdd;
@@ -93,6 +93,7 @@ int main(int argc, char const* argv[]) {
             }
 
             matrices[matrixToCreate] = CreateSparseMatrix(lineCount, columnCount);
+            clearTerminal();
             break;
         case FILL:
             printf("Please choose a matrix to fill (0-9): \n");
@@ -112,6 +113,7 @@ int main(int argc, char const* argv[]) {
             }
 
             FillMatrix(matrices[matrixToFill], matrices[matrixToFill]->lineCount, matrices[matrixToFill]->columnCount);
+            clearTerminal();
             break;
         case DISPLAY_TABLE:
             printf("Please choose a matrix to display (0-9): \n");
@@ -131,6 +133,7 @@ int main(int argc, char const* argv[]) {
             }
 
             DisplayMatrixAsTable(matrices[matrixToDisplayTable]);
+            clearTerminal();
             break;
         case DISPLAY_LIST:
             printf("Please choose a matrix to display (0-9): \n");
@@ -150,6 +153,7 @@ int main(int argc, char const* argv[]) {
             }
 
             DisplayMatrixAsLists(matrices[matrixToDisplayList]);
+            clearTerminal();
             break;
         case PUT:
             printf("Please choose a matrix to put value in (0-9): \n");
@@ -203,6 +207,7 @@ int main(int argc, char const* argv[]) {
             }
 
             PutValue(matrices[matrixToPutValue], linePosition, columnPosition, valueToPut);
+            clearTerminal();
             break;
         case GET:
             printf("Please choose a matrix to get value from (0-9): \n");
@@ -276,6 +281,7 @@ int main(int argc, char const* argv[]) {
             }
 
             AddMatrix(matrices[firstMatrixToAdd], matrices[secondMatrixToAdd]);
+            clearTerminal();
             break;
         case COMPUTE_GAIN:
 
