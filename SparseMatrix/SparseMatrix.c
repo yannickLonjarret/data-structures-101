@@ -1,6 +1,8 @@
-#include "SparseMatrix.h"
 #include <stdio.h>
 #include <stdlib.h>
+
+#include "SparseMatrix.h"
+#include "utils.h"
 
 void FillMatrix(SparseMatrix* matrix, int lineCount, int columnCount) {
     if(matrix == NULL) {
@@ -14,7 +16,8 @@ void FillMatrix(SparseMatrix* matrix, int lineCount, int columnCount) {
 
         for(int j = 0; j < columnCount; j++) {
             printf("Please type in value for element M[%d][%d]", i, j);
-            scanf("%d", &currentValueToInsert);
+            if(readUserIntegerInput(&currentValueToInsert) != 0)
+                printf("Input not parsable, 0 assigned by default.\n");
 
             if(currentValueToInsert == 0)
                 continue;
