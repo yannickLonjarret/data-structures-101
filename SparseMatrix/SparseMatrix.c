@@ -1,6 +1,8 @@
-#include "SparseMatrix.h"
 #include <stdio.h>
 #include <stdlib.h>
+
+#include "SparseMatrix.h"
+#include "utils.h"
 
 void FillMatrix(SparseMatrix* matrix, int lineCount, int columnCount) {
     if(matrix == NULL) {
@@ -9,12 +11,13 @@ void FillMatrix(SparseMatrix* matrix, int lineCount, int columnCount) {
     }
 
     int currentValueToInsert = 0;
-    MatrixElement* element;
+    MatrixElement* element = NULL;
     for(int i = 0; i < lineCount; i++) {
 
         for(int j = 0; j < columnCount; j++) {
             printf("Please type in value for element M[%d][%d]", i, j);
-            scanf("%d", &currentValueToInsert);
+            if(readUserIntegerInput(&currentValueToInsert) != 0)
+                printf("Input not parsable, 0 assigned by default.\n");
 
             if(currentValueToInsert == 0)
                 continue;
@@ -154,7 +157,7 @@ void AddMatrix(SparseMatrix* a, SparseMatrix* b) {
 void AddMatrixLine(MatrixLine* a, MatrixLine* b) {
     if(*a == NULL) {
         MatrixElement* lineTraverse = *b;
-        MatrixElement* copy;
+        MatrixElement* copy = NULL;
         while(lineTraverse) {
             copy = CreateMatrixElement(lineTraverse->value, lineTraverse->column);
             UpdateSparseLine(a, copy);
@@ -199,8 +202,8 @@ int ComputeMemoryGain(SparseMatrix* matrix) {
         printf("Cannot compute gain on an empty matrix \n");
         return -1;
     }
-    int SparseMatrixSize = 2 * sizeof(int) + matrix->lineCount * sizeof(int);
-    MatrixElement* lineTraverse;
+    int SparseMatrixSize = 2 * (int)sizeof(int) + matrix->lineCount * (int)sizeof(int);
+    MatrixElement* lineTraverse = NULL;
 
     for(int i = 0; i < matrix->lineCount; i++) {
         if(!matrix->lines[i])
@@ -214,7 +217,7 @@ int ComputeMemoryGain(SparseMatrix* matrix) {
         }
     }
 
-    int classicalMatrixSize = matrix->columnCount * matrix->lineCount * sizeof(int);
+    int classicalMatrixSize = matrix->columnCount * matrix->lineCount * (int)sizeof(int);
     return classicalMatrixSize - SparseMatrixSize;
 }
 
@@ -266,7 +269,7 @@ MatrixElement* CreateMatrixElement(int value, int column) {
 void RemoveSparseLineElement(MatrixLine* line, int positionToRemove) {
     if(*line == NULL)
         return;
-    MatrixElement* temp;
+    MatrixElement* temp = NULL;
 
     if((*line)->column == positionToRemove) {
         temp = *line;
