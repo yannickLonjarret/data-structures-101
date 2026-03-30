@@ -2,8 +2,8 @@
 #include <stdlib.h>
 
 #include "SparseMatrix.h"
-#include "utils.h"
 #include "gui.h"
+#include "utils.h"
 
 enum menuOptions { CREATE = 0, FILL = 1, DISPLAY_TABLE = 2, DISPLAY_LIST = 3, PUT = 4, GET = 5, ADD = 6, COMPUTE_GAIN = 7, QUIT = 8 };
 
@@ -181,6 +181,7 @@ int main(void) {
             while(linePosition < 0 || linePosition >= matrices[matrixToPutValue]->lineCount) {
                 printf("Invalid line position. Please enter line position (0-%d): \n", matrices[matrixToPutValue]->lineCount - 1);
                 if(readUserIntegerInput(&linePosition) != 0) {
+                    linePosition = -1;
                     printf("Input not parsable, skip\n");
                     continue;
                 }
@@ -195,6 +196,7 @@ int main(void) {
             while(columnPosition < 0 || columnPosition >= matrices[matrixToPutValue]->columnCount) {
                 printf("Invalid column position. Please enter column position (0-%d): \n", matrices[matrixToPutValue]->columnCount - 1);
                 if(readUserIntegerInput(&columnPosition) != 0) {
+                    columnPosition = -1;
                     printf("Input not parsable, skip\n");
                     continue;
                 }
@@ -235,6 +237,7 @@ int main(void) {
             while(linePosition < 0 || linePosition >= matrices[matrixToGetValue]->lineCount) {
                 printf("Invalid line position. Please enter line position (0-%d): \n", matrices[matrixToGetValue]->lineCount - 1);
                 if(readUserIntegerInput(&linePosition) != 0) {
+                    linePosition = -1;
                     printf("Input not parsable, skip\n");
                     continue;
                 }
@@ -249,6 +252,7 @@ int main(void) {
             while(columnPosition < 0 || columnPosition >= matrices[matrixToGetValue]->columnCount) {
                 printf("Invalid column position. Please enter column position (0-%d): \n", matrices[matrixToGetValue]->columnCount - 1);
                 if(readUserIntegerInput(&columnPosition) != 0) {
+                    columnPosition = -1;
                     printf("Input not parsable, skip\n");
                     continue;
                 }
