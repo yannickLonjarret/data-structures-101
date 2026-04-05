@@ -27,6 +27,9 @@ jobs:
     needs: static-check
     runs-on: ubuntu-latest
     steps:
+      - name: Check out repository code
+        uses: actions/checkout@v5
+        
       - name: Build SparseMatrix project
         run: make sparse
     
