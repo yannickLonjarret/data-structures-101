@@ -1,5 +1,5 @@
 CC = gcc
-FLAGS = -Wall -pedantic
+CFLAGS = -Wall -pedantic
 
 BIN = bin
 
@@ -35,27 +35,27 @@ sparse-test: $(BIN)/$(SPARSE_TEST_RUNNER)
 
 # Link SparseMatrix
 $(BIN)/$(SPARSE_PROJECT): $(OBJS) $(SPARSE_OBJS)
-	$(CC) $(FLAGS) $^ -o $@
+	$(CC) $(CFLAGS) $^ -o $@
 
 # Build general use objects (gui, utils, etc.)
 $(BIN)/%.o: $(SRC_DIR)/%.c | $(BIN)
-	$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 # Build SparseMatrix objects
 $(BIN)/%.o: $(SPARSE_DIR)/%.c | $(BIN)
-	$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 # Link SparseMatrix test runner
 $(BIN)/$(SPARSE_TEST_RUNNER): $(TEST_OBJS) $(SPARSE_TEST_OBJS) $(SPARSE_OBJS) $(OBJS)
-	$(CC) $(FLAGS) $^ -o $@
+	$(CC) $(CFLAGS) $^ -o $@
 
 # Build Unity C test framework
 $(BIN)/%.o: $(TEST_DIR)/%.c | $(BIN)
-	$(CC) $(FLAGS) $(TEST_INCLUDE) -c $< -o $@
+	$(CC) $(CFLAGS) $(TEST_INCLUDE) -c $< -o $@
 
 # Build SparseMatrix test runner
 $(BIN)/%.o: $(SPARSE_TEST_DIR)/%.c | $(BIN)
-	$(CC) $(FLAGS) $(INCLUDES) $(TEST_INCLUDE) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) $(TEST_INCLUDE) -c $< -o $@
 
 $(BIN):
 	mkdir -p $(BIN)
