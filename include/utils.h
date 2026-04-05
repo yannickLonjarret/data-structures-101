@@ -4,4 +4,5 @@
 #define MAX_CHAR_SIZE 1024
 int readUserIntegerInput(int* userInput);
 
+int getValidUserIntegerInput(int* userInput, int lowRange, int highRange);
 #endif
