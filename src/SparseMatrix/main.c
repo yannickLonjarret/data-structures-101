@@ -47,7 +47,6 @@ int main(void) {
         int matrixToGetValue;
         switch(menuChoice) {
         case CREATE:
-
             printf("Please choose a matrix to create (0-%d): \n", matrixCount - 1);
             if(getValidUserIntegerInput(&matrixToCreate, 0, matrixCount - 1) != 0)
                 continue;
@@ -178,7 +177,6 @@ int main(void) {
             break;
 
         case COMPUTE_GAIN:
-
             printf("Please choose a matrix to compute gain for (0-%d): \n", matrixCount - 1);
             if(getValidUserIntegerInput(&matrixToComputeGain, 0, matrixCount - 1) != 0)
                 continue;
