@@ -52,4 +52,6 @@ jobs:
             path: bin/
 
         - name: Run test artifact
-          run: bin/SparseMatrixTest
+          run: |
+            chmod +x bin/SparseMatrixTest
+            bin/SparseMatrixTest
