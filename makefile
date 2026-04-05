@@ -20,10 +20,10 @@ SPARSE_SRC = $(shell find $(SPARSE_DIR) -type f -name "*.c")
 TEST_SRC = $(shell find $(TEST_DIR) -maxdepth 1 -type f -name "*.c")
 SPARSE_TEST_SRC = $(shell find $(SPARSE_TEST_DIR) -type f -name "*.c")
 
-OBJS = $(patsubst $(SRC_DIR)/%.c, $(BIN)/%.o, $(SRC))
-SPARSE_OBJS = $(patsubst $(SPARSE_DIR)/%.c, $(BIN)/%.o, $(SPARSE_SRC))
-TEST_OBJS = $(patsubst $(TEST_DIR)/%.c, $(BIN)/%.o, $(TEST_SRC))
-SPARSE_TEST_OBJS = $(patsubst $(SPARSE_TEST_DIR)/%.c, $(BIN)/%.o, $(SPARSE_TEST_SRC))
+OBJS = $(patsubst $(SRC_DIR)/%.c, $(BIN)/src/%.o, $(SRC))
+SPARSE_OBJS = $(patsubst $(SPARSE_DIR)/%.c, $(BIN)/sparse/%.o, $(SPARSE_SRC))
+TEST_OBJS = $(patsubst $(TEST_DIR)/%.c, $(BIN)/test/%.o, $(TEST_SRC))
+SPARSE_TEST_OBJS = $(patsubst $(SPARSE_TEST_DIR)/%.c, $(BIN)/sparsetest/%.o, $(SPARSE_TEST_SRC))
 
 .PHONY: all sparse sparse-test clean
 
@@ -38,11 +38,11 @@ $(BIN)/$(SPARSE_PROJECT): $(OBJS) $(SPARSE_OBJS)
 	$(CC) $(CFLAGS) $^ -o $@
 
 # Build general use objects (gui, utils, etc.)
-$(BIN)/%.o: $(SRC_DIR)/%.c | $(BIN)
+$(BIN)/src/%.o: $(SRC_DIR)/%.c | $(BIN)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 # Build SparseMatrix objects
-$(BIN)/%.o: $(SPARSE_DIR)/%.c | $(BIN)
+$(BIN)/sparse/%.o: $(SPARSE_DIR)/%.c | $(BIN)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 # Link SparseMatrix test runner
@@ -50,11 +50,11 @@ $(BIN)/$(SPARSE_TEST_RUNNER): $(TEST_OBJS) $(SPARSE_TEST_OBJS) $(SPARSE_OBJS) $(
 	$(CC) $(CFLAGS) $^ -o $@
 
 # Build Unity C test framework
-$(BIN)/%.o: $(TEST_DIR)/%.c | $(BIN)
+$(BIN)/test/%.o: $(TEST_DIR)/%.c | $(BIN)
 	$(CC) $(CFLAGS) $(TEST_INCLUDE) -c $< -o $@
 
 # Build SparseMatrix test runner
-$(BIN)/%.o: $(SPARSE_TEST_DIR)/%.c | $(BIN)
+$(BIN)/sparsetest/%.o: $(SPARSE_TEST_DIR)/%.c | $(BIN)
 	$(CC) $(CFLAGS) $(INCLUDES) $(TEST_INCLUDE) -c $< -o $@
 
 $(BIN):
