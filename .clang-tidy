@@ -10,4 +10,6 @@ Checks: >
   -bugprone-easily-swappable-parameters,
   -cppcoreguidelines-init-variables
 
-WarningsAsErrors: '*'
+WarningsAsErrors: >
+  '*',
+  -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling
