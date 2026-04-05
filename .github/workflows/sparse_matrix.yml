@@ -19,10 +19,10 @@ jobs:
           find ./src -name "*.c" | xargs clang-format --dry-run --Werror
           find ./include -name "*.h" | xargs clang-format --dry-run --Werror
 
-      # - name: Code lint check
-      #   run: |
-      #     clang-tidy $(find ./src -name "*.c") -- -Iinclude/ -Iinclude/SparseMatrix
-      #     clang-tidy $(find ./include -name "*.h")
+      - name: Code lint check
+        run: |
+          clang-tidy $(find ./src -name "*.c") -- -Iinclude/ -Iinclude/SparseMatrix
+          clang-tidy $(find ./include -name "*.h")
   build:
     needs: static-check
     runs-on: ubuntu-latest
