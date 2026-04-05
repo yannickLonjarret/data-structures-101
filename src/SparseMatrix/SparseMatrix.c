@@ -206,7 +206,7 @@ int ComputeMemoryGain(SparseMatrix* matrix) {
     MatrixElement* lineTraverse = NULL;
 
     for(int i = 0; i < matrix->lineCount; i++) {
-        if(matrix->lines[i] != NULL)
+        if(matrix->lines[i] == NULL)
             continue;
         else {
             lineTraverse = matrix->lines[i];
