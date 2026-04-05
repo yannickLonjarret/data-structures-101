@@ -5,10 +5,14 @@
 
 int readUserIntegerInput(int* userInput) {
     char line[MAX_CHAR_SIZE];
+    int errorCode = 0;
 
     if(fgets(line, sizeof(line), stdin) == NULL) {
-        fprintf_s(stderr, "Error when reading user input.\n");
+        errorCode = fprintf_s(stderr, "Error when reading user input.\n");
         *userInput = 0;
+        if(errorCode != 0)
+            return 2;
+
         return 1;
     }
 
@@ -19,13 +23,17 @@ int readUserIntegerInput(int* userInput) {
     *userInput = (int)strtol(line, &str_end, base_10);
 
     if(errno == ERANGE) {
-        fprintf_s(stderr, "Error when parsing user input, value out of range.\n");
+        errorCode = fprintf_s(stderr, "Error when parsing user input, value out of range.\n");
         *userInput = 0;
+        if(errorCode != 0)
+            return 2;
         return 1;
     }
 
     if(str_end == line) {
-        fprintf_s(stderr, "Error when parsing user input, invalid input.\n");
+        errorCode = fprintf_s(stderr, "Error when parsing user input, invalid input.\n");
+        if(errorCode != 0)
+            return 2;
         *userInput = 0;
         return 1;
     }
