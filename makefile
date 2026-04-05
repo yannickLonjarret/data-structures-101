@@ -58,7 +58,7 @@ $(BIN)/sparsetest/%.o: $(SPARSE_TEST_DIR)/%.c | $(BIN)
 	$(CC) $(CFLAGS) $(INCLUDES) $(TEST_INCLUDE) -c $< -o $@
 
 $(BIN):
-	mkdir -p $(BIN)
+	mkdir -p $(BIN)/src $(BIN)/sparse $(BIN)/test $(BIN)/sparsetest
 
 clean:
 	rm -rf $(BIN)
