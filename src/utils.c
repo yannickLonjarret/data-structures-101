@@ -40,3 +40,29 @@ int readUserIntegerInput(int* userInput) {
 
     return 0;
 }
+
+int getValidUserIntegerInput(int* userInput, int lowRange, int highRange) {
+    if(highRange <= lowRange)
+        return 1;
+    *userInput = 0;
+    int errorCode = 0;
+
+    errorCode = readUserIntegerInput(userInput);
+
+    if(errorCode != 0) {
+        printf("Input not parsable, skip\n");
+        return 1;
+    }
+
+    while(*userInput < lowRange || *userInput > highRange) {
+        printf("Please type in value between %d and %d: \n", lowRange, highRange);
+        errorCode = readUserIntegerInput(userInput);
+
+        if(errorCode != 0) {
+            printf("Input not parsable, skip\n");
+            return 1;
+        }
+    }
+
+    return 0;
+}
