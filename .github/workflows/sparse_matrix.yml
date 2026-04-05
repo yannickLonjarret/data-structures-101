@@ -35,26 +35,21 @@ jobs:
     
       - name: Build SparseMatrix test runner
         run: make sparse-test
-      
-      - name: Move test binary
-        run: mkdir -p test && mv bin/SparseMatrixTest test/
 
       - name: Save test artifact
         uses: actions/upload-artifact@v6
         with:
           name: SparseMatrixTestRunner
-          path: test/SparseMatrixTest
+          path: bin/SparseMatrixTest
   test:
       needs: build
       runs-on: ubuntu-latest
       steps:
-        - name: Check out repository code
-          uses: actions/checkout@v5
         - name: Get test artifact
           uses: actions/download-artifact@v4
           with:
             name: SparseMatrixTestRunner
-            path: test/SparseMatrixTest
+            path: bin/SparseMatrixTest
 
         - name: Run test artifact
-          run: test/SparseMatrixTest
+          run: bin/SparseMatrixTest
