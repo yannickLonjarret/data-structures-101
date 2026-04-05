@@ -22,6 +22,11 @@ SPARSE_TEST_SRC = $(shell find $(SPARSE_TEST_DIR) -type f -name "*.c")
 
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(BIN)/src/%.o, $(SRC))
 SPARSE_OBJS = $(patsubst $(SPARSE_DIR)/%.c, $(BIN)/sparse/%.o, $(SPARSE_SRC))
+
+# Necessary to build test runners because of multiple "main" definition
+# Dirty solution, must be cleaned 
+SPARSE_OBJ = $(BIN)/sparse/SparseMatrix.o
+
 TEST_OBJS = $(patsubst $(TEST_DIR)/%.c, $(BIN)/test/%.o, $(TEST_SRC))
 SPARSE_TEST_OBJS = $(patsubst $(SPARSE_TEST_DIR)/%.c, $(BIN)/sparsetest/%.o, $(SPARSE_TEST_SRC))
 
@@ -46,7 +51,7 @@ $(BIN)/sparse/%.o: $(SPARSE_DIR)/%.c | $(BIN)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 # Link SparseMatrix test runner
-$(BIN)/$(SPARSE_TEST_RUNNER): $(TEST_OBJS) $(SPARSE_TEST_OBJS) $(SPARSE_OBJS) $(OBJS)
+$(BIN)/$(SPARSE_TEST_RUNNER): $(TEST_OBJS) $(SPARSE_TEST_OBJS) $(SPARSE_OBJ) $(OBJS)
 	$(CC) $(CFLAGS) $^ -o $@
 
 # Build Unity C test framework
