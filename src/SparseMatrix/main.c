@@ -48,16 +48,9 @@ int main(void) {
         switch(menuChoice) {
         case CREATE:
 
-            printf("Please choose a matrix to create (0-9): \n");
-            if(readUserIntegerInput(&matrixToCreate) != 0) {
-                printf("Input not parsable, skip\n");
+            printf("Please choose a matrix to create (0-%d): \n", matrixCount - 1);
+            if(getValidUserIntegerInput(&matrixToCreate, 0, matrixCount - 1) != 0)
                 continue;
-            }
-
-            if(matrixToCreate < 0 || matrixToCreate >= matrixCount) {
-                printf("Invalid matrix number. \n");
-                break;
-            }
 
             if(matrices[matrixToCreate] != NULL) {
                 printf("Matrix already exists. \n");
@@ -65,47 +58,21 @@ int main(void) {
             }
 
             printf("Please enter line count: \n");
-            if(readUserIntegerInput(&lineCount) != 0) {
-                printf("Input not parsable, skip\n");
+            if(getValidUserIntegerInput(&lineCount, 1, INT_MAX - 1) != 0)
                 continue;
-            }
-
-            while(lineCount <= 0) {
-                printf("Line count cannot be negative or zero. Please enter line count: \n");
-                if(readUserIntegerInput(&lineCount) != 0) {
-                    printf("Input not parsable, skip\n");
-                    continue;
-                }
-            }
 
             printf("Please enter column count: \n");
-            if(readUserIntegerInput(&columnCount) != 0) {
-                printf("Input not parsable, skip\n");
+            if(getValidUserIntegerInput(&columnCount, 1, INT_MAX - 1) != 0)
                 continue;
-            }
-
-            while(columnCount <= 0) {
-                printf("Column count cannot be negative or zero. Please enter column count: \n");
-                if(readUserIntegerInput(&columnCount) != 0) {
-                    printf("Input not parsable, skip\n");
-                    continue;
-                }
-            }
 
             matrices[matrixToCreate] = CreateSparseMatrix(lineCount, columnCount);
             clearTerminal();
             break;
-        case FILL:
-            printf("Please choose a matrix to fill (0-9): \n");
-            if(readUserIntegerInput(&matrixToFill) != 0) {
-                printf("Input not parsable, skip\n");
-                continue;
-            }
 
-            if(matrixToFill < 0 || matrixToFill >= matrixCount) {
-                printf("Invalid matrix number. \n");
-                break;
-            }
+        case FILL:
+            printf("Please choose a matrix to fill (0-%d): \n", matrixCount - 1);
+            if(getValidUserIntegerInput(&matrixToFill, 0, matrixCount - 1) != 0)
+                continue;
 
             if(matrices[matrixToFill] == NULL) {
                 printf("Matrix does not exist. \n");
@@ -115,17 +82,11 @@ int main(void) {
             FillMatrix(matrices[matrixToFill], matrices[matrixToFill]->lineCount, matrices[matrixToFill]->columnCount);
             clearTerminal();
             break;
-        case DISPLAY_TABLE:
-            printf("Please choose a matrix to display (0-9): \n");
-            if(readUserIntegerInput(&matrixToDisplayTable) != 0) {
-                printf("Input not parsable, skip\n");
-                continue;
-            }
 
-            if(matrixToDisplayTable < 0 || matrixToDisplayTable >= matrixCount) {
-                printf("Invalid matrix number. \n");
-                break;
-            }
+        case DISPLAY_TABLE:
+            printf("Please choose a matrix to display (0-%d): \n", matrixCount - 1);
+            if(getValidUserIntegerInput(&matrixToDisplayTable, 0, matrixCount - 1) != 0)
+                continue;
 
             if(matrices[matrixToDisplayTable] == NULL) {
                 printf("Matrix does not exist. \n");
@@ -135,17 +96,11 @@ int main(void) {
             DisplayMatrixAsTable(matrices[matrixToDisplayTable]);
             clearTerminal();
             break;
-        case DISPLAY_LIST:
-            printf("Please choose a matrix to display (0-9): \n");
-            if(readUserIntegerInput(&matrixToDisplayList) != 0) {
-                printf("Input not parsable, skip\n");
-                continue;
-            }
 
-            if(matrixToDisplayList < 0 || matrixToDisplayList >= matrixCount) {
-                printf("Invalid matrix number. \n");
-                break;
-            }
+        case DISPLAY_LIST:
+            printf("Please choose a matrix to display (0-%d): \n", matrixCount - 1);
+            if(getValidUserIntegerInput(&matrixToDisplayList, 0, matrixCount - 1) != 0)
+                continue;
 
             if(matrices[matrixToDisplayList] == NULL) {
                 printf("Matrix does not exist. \n");
@@ -155,17 +110,11 @@ int main(void) {
             DisplayMatrixAsLists(matrices[matrixToDisplayList]);
             clearTerminal();
             break;
-        case PUT:
-            printf("Please choose a matrix to put value in (0-9): \n");
-            if(readUserIntegerInput(&matrixToPutValue) != 0) {
-                printf("Input not parsable, skip\n");
-                continue;
-            }
 
-            if(matrixToPutValue < 0 || matrixToPutValue >= matrixCount) {
-                printf("Invalid matrix number. \n");
-                break;
-            }
+        case PUT:
+            printf("Please choose a matrix to put value in (0-%d): \n", matrixCount - 1);
+            if(getValidUserIntegerInput(&matrixToPutValue, 0, matrixCount - 1) != 0)
+                continue;
 
             if(matrices[matrixToPutValue] == NULL) {
                 printf("Matrix does not exist. \n");
@@ -173,55 +122,25 @@ int main(void) {
             }
 
             printf("Please enter line position: \n");
-            if(readUserIntegerInput(&linePosition) != 0) {
-                printf("Input not parsable, skip\n");
+            if(getValidUserIntegerInput(&linePosition, 0, matrices[matrixToPutValue]->lineCount) != 0)
                 continue;
-            }
-
-            while(linePosition < 0 || linePosition >= matrices[matrixToPutValue]->lineCount) {
-                printf("Invalid line position. Please enter line position (0-%d): \n", matrices[matrixToPutValue]->lineCount - 1);
-                if(readUserIntegerInput(&linePosition) != 0) {
-                    linePosition = -1;
-                    printf("Input not parsable, skip\n");
-                    continue;
-                }
-            }
 
             printf("Please enter column position: \n");
-            if(readUserIntegerInput(&columnPosition) != 0) {
-                printf("Input not parsable, skip\n");
+            if(getValidUserIntegerInput(&linePosition, 0, matrices[matrixToPutValue]->columnCount) != 0)
                 continue;
-            }
-
-            while(columnPosition < 0 || columnPosition >= matrices[matrixToPutValue]->columnCount) {
-                printf("Invalid column position. Please enter column position (0-%d): \n", matrices[matrixToPutValue]->columnCount - 1);
-                if(readUserIntegerInput(&columnPosition) != 0) {
-                    columnPosition = -1;
-                    printf("Input not parsable, skip\n");
-                    continue;
-                }
-            }
 
             printf("Please enter value to put: \n");
-            if(readUserIntegerInput(&valueToPut) != 0) {
-                printf("Input not parsable, skip\n");
+            if(getValidUserIntegerInput(&valueToPut, INT_MIN + 1, INT_MAX - 1) != 0)
                 continue;
-            }
 
             PutValue(matrices[matrixToPutValue], linePosition, columnPosition, valueToPut);
             clearTerminal();
             break;
-        case GET:
-            printf("Please choose a matrix to get value from (0-9): \n");
-            if(readUserIntegerInput(&matrixToGetValue) != 0) {
-                printf("Input not parsable, skip\n");
-                continue;
-            }
 
-            if(matrixToGetValue < 0 || matrixToGetValue >= matrixCount) {
-                printf("Invalid matrix number. \n");
-                break;
-            }
+        case GET:
+            printf("Please choose a matrix to get value from (0-%d): \n", matrixCount - 1);
+            if(getValidUserIntegerInput(&matrixToGetValue, 0, matrixCount - 1) != 0)
+                continue;
 
             if(matrices[matrixToGetValue] == NULL) {
                 printf("Matrix does not exist. \n");
@@ -229,55 +148,25 @@ int main(void) {
             }
 
             printf("Please enter line position: \n");
-            if(readUserIntegerInput(&linePosition) != 0) {
-                printf("Input not parsable, skip\n");
+            if(getValidUserIntegerInput(&linePosition, 0, matrices[matrixToPutValue]->lineCount) != 0)
                 continue;
-            }
-
-            while(linePosition < 0 || linePosition >= matrices[matrixToGetValue]->lineCount) {
-                printf("Invalid line position. Please enter line position (0-%d): \n", matrices[matrixToGetValue]->lineCount - 1);
-                if(readUserIntegerInput(&linePosition) != 0) {
-                    linePosition = -1;
-                    printf("Input not parsable, skip\n");
-                    continue;
-                }
-            }
 
             printf("Please enter column position: \n");
-            if(readUserIntegerInput(&columnPosition) != 0) {
-                printf("Input not parsable, skip\n");
+            if(getValidUserIntegerInput(&linePosition, 0, matrices[matrixToPutValue]->columnCount) != 0)
                 continue;
-            }
-
-            while(columnPosition < 0 || columnPosition >= matrices[matrixToGetValue]->columnCount) {
-                printf("Invalid column position. Please enter column position (0-%d): \n", matrices[matrixToGetValue]->columnCount - 1);
-                if(readUserIntegerInput(&columnPosition) != 0) {
-                    columnPosition = -1;
-                    printf("Input not parsable, skip\n");
-                    continue;
-                }
-            }
 
             int value = GetValue(matrices[matrixToGetValue], linePosition, columnPosition);
             printf("Value at position (%d, %d) is: %d\n", linePosition, columnPosition, value);
             break;
+
         case ADD:
-            printf("Please choose first matrix to add (0-9): \n");
-            if(readUserIntegerInput(&firstMatrixToAdd) != 0) {
-                printf("Input not parsable, skip\n");
+            printf("Please choose first matrix to add (0-%d): \n", matrixCount - 1);
+            if(getValidUserIntegerInput(&firstMatrixToAdd, 0, matrixCount - 1) != 0)
                 continue;
-            }
 
-            printf("Please choose second matrix to add (0-9): \n");
-            if(readUserIntegerInput(&secondMatrixToAdd) != 0) {
-                printf("Input not parsable, skip\n");
+            printf("Please choose second matrix to add (0-%d): \n", matrixCount - 1);
+            if(getValidUserIntegerInput(&secondMatrixToAdd, 0, matrixCount - 1) != 0)
                 continue;
-            }
-
-            if(firstMatrixToAdd < 0 || firstMatrixToAdd >= matrixCount || secondMatrixToAdd < 0 || secondMatrixToAdd >= matrixCount) {
-                printf("Invalid matrix number. \n");
-                break;
-            }
 
             if(matrices[firstMatrixToAdd] == NULL || matrices[secondMatrixToAdd] == NULL) {
                 printf("One of the matrices does not exist. \n");
@@ -287,18 +176,12 @@ int main(void) {
             AddMatrix(matrices[firstMatrixToAdd], matrices[secondMatrixToAdd]);
             clearTerminal();
             break;
+
         case COMPUTE_GAIN:
 
-            printf("Please choose a matrix to compute gain for (0-9): \n");
-            if(readUserIntegerInput(&matrixToComputeGain) != 0) {
-                printf("Input not parsable, skip\n");
+            printf("Please choose a matrix to compute gain for (0-%d): \n", matrixCount - 1);
+            if(getValidUserIntegerInput(&matrixToComputeGain, 0, matrixCount - 1) != 0)
                 continue;
-            }
-
-            if(matrixToComputeGain < 0 || matrixToComputeGain >= matrixCount) {
-                printf("Invalid matrix number. \n");
-                break;
-            }
 
             if(matrices[matrixToComputeGain] == NULL) {
                 printf("Matrix does not exist. \n");
