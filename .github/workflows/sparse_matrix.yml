@@ -1,0 +1,57 @@
+name: Sparse Matrix Quality Check
+run-name: ${{ github.head_ref }} quality control
+on:
+  pull_request: 
+    branches:
+      - linked_list_assignment
+jobs:
+  static-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v5
+
+      - name: Setup requirements
+        run: sudo apt-get -y --no-install-recommends install clang-format clang-tidy
+      
+      - name: Code style check
+        run: |
+          find ./src -name "*.c" | xargs clang-format --dry-run --Werror
+          find ./include -name "*.h" | xargs clang-format --dry-run --Werror
+
+      - name: Code lint check
+        run: |
+          clang-tidy $(find ./src -name "*.c") -- -Iinclude/ -Iinclude/SparseMatrix
+          clang-tidy $(find ./include -name "*.h")
+  build:
+    needs: static-check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v5
+
+      - name: Build SparseMatrix project
+        run: make sparse
+    
+      - name: Build SparseMatrix test runner
+        run: make sparse-test
+
+      - name: Save test artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: SparseMatrixTestRunner
+          path: bin/SparseMatrixTest
+  test:
+      needs: build
+      runs-on: ubuntu-latest
+      steps:
+        - name: Get test artifact
+          uses: actions/download-artifact@v4
+          with:
+            name: SparseMatrixTestRunner
+            path: bin/
+
+        - name: Run test artifact
+          run: |
+            chmod +x bin/SparseMatrixTest
+            bin/SparseMatrixTest
