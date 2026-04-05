@@ -49,7 +49,7 @@ jobs:
           uses: actions/download-artifact@v4
           with:
             name: SparseMatrixTestRunner
-            path: bin/SparseMatrixTest
+            path: bin/
 
         - name: Run test artifact
           run: bin/SparseMatrixTest
