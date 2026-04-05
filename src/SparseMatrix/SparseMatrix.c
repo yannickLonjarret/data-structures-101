@@ -226,7 +226,7 @@ MatrixLine* CreateMatrixLines(int size) {
 
     if(lines == NULL) {
         printf("Malloc issue when creating the matrix lines.");
-        return NULL;
+        abort();
     }
 
     for(int i = 0; i < size; i++)
@@ -241,7 +241,7 @@ SparseMatrix* CreateSparseMatrix(int lineCount, int columnCount) {
 
     if(matrix == NULL || lines == NULL) {
         printf("Malloc issue when creating the matrix.");
-        return NULL;
+        abort();
     }
 
     matrix->lines = lines;
@@ -256,7 +256,7 @@ MatrixElement* CreateMatrixElement(int value, int column) {
 
     if(elem == NULL) {
         printf("Malloc issue when creating an element.");
-        return NULL;
+        abort();
     }
 
     elem->column = column;
