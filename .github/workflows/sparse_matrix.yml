@@ -21,7 +21,7 @@ jobs:
 
       - name: Code lint check
         run: |
-          find ./src -name "*.c" | xargs clang-tidy
+          find ./src -name "*.c" | xargs clang-tidy -- -Iinclude/ -Iinclude/SparseMatrix
           find ./include -name "*.h" | xargs clang-tidy
         
       - run: echo "Job status ${{ job.status }}."
