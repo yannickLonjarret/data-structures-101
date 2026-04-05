@@ -24,6 +24,7 @@ jobs:
           clang-tidy $(find ./src -name "*.c") -- -Iinclude/ -Iinclude/SparseMatrix
           clang-tidy $(find ./include -name "*.h")
   build:
+    needs: static-check
     runs-on: ubuntu-latest
     steps:
       - name: Build SparseMatrix project
