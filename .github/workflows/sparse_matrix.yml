@@ -1,0 +1,27 @@
+name: Sparse Matrix Quality Check
+run-name: ${{ github.head_ref }} quality control
+on:
+  pull_request: 
+    branches:
+      - linked_list_assignment
+jobs:
+  static-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v5
+
+      - name: Setup requirements
+        run: sudo apt-get -y --no-install-recommends install clang-format clang-tidy
+      
+      - name: Code style check
+        run: |
+          find ./src -name "*.c" | xargs clang-format --dry-run --Werror
+          find ./include -name "*.h" | xargs clang-format --dry-run --Werror
+
+      - name: Code lint check
+        run: |
+          find ./src -name "*.c" | xargs clang-tidy
+          find ./include -name "*.h" | xargs clang-tidy
+        
+      - run: echo "Job status ${{ job.status }}."
