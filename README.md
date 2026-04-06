@@ -68,9 +68,9 @@ Assigment branches ehave as it would be expected of a ``develop`` branch. To kee
 
 ### Static Code Analysis
 
-- **Linting**: clang-tidy performs deep static analysis to detect potential bugs, code smells, and adherence to C best practices across both implementation files and headers.
+- **Linting**: Security, deprecation and standard compliance are strictly ensured through ``clang-tidy`` and ``-Werror`` option. Warnings may only be ignored when compliance is impossible.
 
-- **Code Style Enforcement**: 
+- **Code Style Enforcement**: Homogenous code style is ensured through ``clang-format``.
 
 - **Pipeline Integration**: Each merge request on an assignment branch will trigger both linter and code style checks to ensure code quality.
 
