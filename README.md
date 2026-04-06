@@ -52,15 +52,15 @@ The following functionalities were to be implemented:
 Finally, allocated memory must be deallocated properly.
 
 ## Quality and Continuous Integration process
-
-### Branchin Strategy 
+This project aims to ensure
+### Branching Strategy 
 This repository follows a **Gitflow** branching strategy with the following structure:
 
 #### Main Branches
 - ``main``: The production branch. Code in this branch should be stable and tested.
 
 #### Assigment Branches
-Behave as it would be expected of a ``develop`` branch. To keep both assignment development isolated, each assigment has a dedicated branch:
+Assigment branches ehave as it would be expected of a ``develop`` branch. To keep both assignment development isolated, each assigment has a dedicated branch:
 
 - ``linked_list_assignment``: Development branch for the Sparse Matrix assignment implementation. Feature development and bug fixes for this assignment are integrated here before final merging to ``main``.
 
@@ -68,14 +68,42 @@ Behave as it would be expected of a ``develop`` branch. To keep both assignment 
 
 ### Static Code Analysis
 
+- **Linting**: clang-tidy performs deep static analysis to detect potential bugs, code smells, and adherence to C best practices across both implementation files and headers.
+
+- **Code Style Enforcement**: 
+
+- **Pipeline Integration**: Each merge request on an assignment branch will trigger both linter and code style checks to ensure code quality.
+
 ### Build Verification
+- **Build automation**: Both assignments, as well as test programs builds are automated by a **Makefile**
+- **Pipeline Integration**: Each merge request on an assignment branch will trigger a build test to ensure code validity.
 
 ### Automated Testing
 
-## Usage
-TODO
+- **Unit tests**: Core functionalities of both assignment are covered by associated test programs written using the **Unity C** test framework.
+- **Pipeline Integration**: Each merge request on an assignment branch will run test artifact to ensure non-regression.
 
-<br/>
+## Getting started
+### Get the code 
+Please run the following command in a terminal to get the code:
+
+```
+git clone https://github.com/yannickLonjarret/data-structures-101.git
+```
+Please go to the root folder of the cloned project to continue reading this tutorial by running the following command:
+```
+cd /path/to/cloned/project
+```
+### Build the code
+Please use the Makefile to build the code. Run the following command to familiarize yourself with available build options:
+```
+make help
+```
+### Run the code
+Once built, binaries should be found in the ``bin`` folder. Please navigate to this folder using the following command:
+```
+cd ./bin
+```
 
 ## Licence
 
