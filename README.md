@@ -28,9 +28,25 @@ The following functionalities were to be implemented:
 - Compute the memory saved by using a linked list representation instead of a standard matrix
 
 Finally, allocated memory must be deallocated properly.
-### Binary search tree
-TODO
+### Patient indexer
+The goal of this assignment is to familiarize students with **binary search trees** and their operations. 
 
+A doctor wishes to implement a system to store their patients' medical records. The records are ordered by their patient last names. It is assumed that each last name is unique.
+
+A patient record is represented by the patient's first and last name, as well as the number and list of their appointments.
+
+An appointment is represented by its date, reason, and the emergency level, stored as an integer.
+
+The following functionalities were to be implemented:
+- Create and insert a patient into the tree
+- Search for a patient
+- Display a patient's file
+- Display all patients using an inorder traversal
+- Create an appointment for a patien
+- Delete a patient
+- Manage a backup tree
+
+Finally, allocated memory must be deallocated properly.
 <br/>
 
 ## Devops process and code quality
