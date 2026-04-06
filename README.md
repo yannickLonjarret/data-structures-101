@@ -1,16 +1,19 @@
 # Algorithms and Data Structures 101
 
-<br/>
 
 This repository contains the source code of two graded assignment completed as part of an introductory course in
 **Algorithms and Data Structures** at **UTC** during the **Fall 2022** semester. 
 
 While the assignments are introductory in scope, the project is an opportunity to demonstrate how software engineering practices such as testing, version control, and automation, can be applied.
 
-<br/>
-
 ## Graded Assignments
-TODO
+
+The following sections contain the instructions for both assignments. Each set of instructions includes an API, an implied list of expected functionalities, and descriptions of the data structures to be handled.
+
+Each assignment was to be completed within a two-weeks period by groups of two. In addition to the source code, students were required to write a short report demonstrating the time complexity of each implemented function.
+
+To preserve the confidentiality of the original academic material, the following assignment instructions are descriptions based on the original, rather than exact reproductions.
+
 ### Sparse Matrix
 This assignment is based on an exam exercise proposed in 2016. Its goal is to familiarize students with **linked lists** and their operations.
 
@@ -47,11 +50,27 @@ The following functionalities were to be implemented:
 - Manage a backup tree
 
 Finally, allocated memory must be deallocated properly.
-<br/>
 
-## Devops process and code quality
+## Quality and Continuous Integration process
 
-<br/>
+### Branchin Strategy 
+This repository follows a **Gitflow** branching strategy with the following structure:
+
+#### Main Branches
+- ``main``: The production branch. Code in this branch should be stable and tested.
+
+#### Assigment Branches
+Behave as it would be expected of a ``develop`` branch. To keep both assignment development isolated, each assigment has a dedicated branch:
+
+- ``linked_list_assignment``: Development branch for the Sparse Matrix assignment implementation. Feature development and bug fixes for this assignment are integrated here before final merging to ``main``.
+
+- ``bst_assignment``: Development branch for the Patient Indexer assignment implementation. Follows the same workflow as ``linked_list_assignment``
+
+### Static Code Analysis
+
+### Build Verification
+
+### Automated Testing
 
 ## Usage
 TODO
