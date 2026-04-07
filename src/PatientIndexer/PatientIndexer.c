@@ -60,3 +60,43 @@ PatientFile* CreatePatient(char* lastName, char* firstName) {
 
     return patient;
 }
+
+Appointment* CreateAppointment(char* date, char* reason, int emergencyLevel) {
+    Appointment* appointment = (Appointment*)malloc(sizeof(Appointment));
+
+    if(appointment == NULL) {
+        fprintf(stderr, "Malloc issue when creating the appointment.");
+        abort();
+    }
+
+    appointment->date = NULL;
+    appointment->reason = NULL;
+
+    appointment->date = (char*)malloc(sizeof(char) * strlen(date) + 1);
+    appointment->reason = (char*)malloc(sizeof(char) * strlen(reason) + 1);
+
+    if(appointment->date == NULL || appointment->reason == NULL) {
+        fprintf(stderr, "Malloc issue when creating the appointment.");
+        abort();
+    }
+
+    int errorCode = 0;
+    errorCode = snprintf(appointment->date, strlen(date) + 1, "%s", date);
+    if(errorCode != 0) {
+        fprintf(stderr, "Error when copying the appointment date.");
+        // DeleteAppointment(&appointment);
+        return NULL;
+    }
+
+    errorCode = snprintf(appointment->reason, strlen(reason) + 1, "%s", reason);
+    if(errorCode != 0) {
+        fprintf(stderr, "Error when copying the appointment reason.");
+        // DeleteAppointment(&appointment);
+        return NULL;
+    }
+
+    appointment->emergencyLevel = emergencyLevel;
+    appointment->nextAppointment = NULL;
+
+    return appointment;
+}
