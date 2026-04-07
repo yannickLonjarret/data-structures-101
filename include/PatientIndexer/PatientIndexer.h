@@ -19,14 +19,29 @@ typedef struct patient {
 
 typedef PatientFile* PatientIndexer;
 
+typedef struct indexerManager {
+    PatientIndexer* indexers;
+    int indexerCount;
+} IndexerManager;
+
+// Data structure creation and deletion
+IndexerManager CreateIndexerManager(int numberOfIndexers);
 PatientFile* CreatePatient(char* lastName, char* firstName);
+Appointment* CreateAppointment(char* date, char* reason, int emergencyLevel);
+void DeletePatientIndexer(PatientIndexer* indexer);
+void DeletePatientFile(PatientFile** patient);
+void DeleteAppointment(Appointment** appointment);
+
+// Indexer management functions
 void InsertPatient(PatientIndexer* indexer, char* lastName, char* firstName);
 PatientFile* SearchPatientFile(PatientIndexer* indexer, char* lastName);
-void DisplayPatientFile(PatientIndexer* indexer, char* lastName);
-void DisplayAllPatients(PatientIndexer* indexer);
-Appointment* CreateAppointment(char* date, char* reason, int emergencyLevel);
 void InsertAppointment(PatientIndexer* indexer, char* lastName, char* date, char* reason, int emergencyLevel);
-void DeletePatientFile(PatientIndexer* indexer, char* lastName);
+void RemovePatientFile(PatientIndexer* indexer, char* lastName);
 void UpdateIndexerBackup(PatientIndexer* indexer, PatientIndexer* backup);
+
+// Display functions
+void DisplayPatientFile(PatientIndexer* indexer, char* lastName);
+void DisplayAppointment(Appointment* appointment);
+void DisplayAllPatients(PatientIndexer* indexer);
 
 #endif
