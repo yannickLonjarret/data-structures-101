@@ -100,3 +100,28 @@ Appointment* CreateAppointment(char* date, char* reason, int emergencyLevel) {
 
     return appointment;
 }
+
+void DeleteAppointment(Appointment** appointment) {
+    if(appointment == NULL || *appointment == NULL)
+        return;
+
+    free((*appointment)->date);
+    free((*appointment)->reason);
+    (*appointment)->nextAppointment = NULL;
+
+    return;
+}
+
+void DeleteAppointmentList(AppointmentList* list) {
+    if(list == NULL || *list == NULL)
+        return;
+
+    Appointment* listTraversal = *list;
+    while(listTraversal != NULL) {
+        Appointment* temp = listTraversal;
+        listTraversal = listTraversal->nextAppointment;
+        DeleteAppointment(&listTraversal);
+    }
+
+    *list = NULL;
+}
