@@ -84,14 +84,14 @@ Appointment* CreateAppointment(char* date, char* reason, int emergencyLevel) {
     errorCode = snprintf(appointment->date, strlen(date) + 1, "%s", date);
     if(errorCode != 0) {
         fprintf(stderr, "Error when copying the appointment date.");
-        // DeleteAppointment(&appointment);
+        DeleteAppointment(&appointment);
         return NULL;
     }
 
     errorCode = snprintf(appointment->reason, strlen(reason) + 1, "%s", reason);
     if(errorCode != 0) {
         fprintf(stderr, "Error when copying the appointment reason.");
-        // DeleteAppointment(&appointment);
+        DeleteAppointment(&appointment);
         return NULL;
     }
 
