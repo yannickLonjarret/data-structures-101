@@ -8,6 +8,8 @@ typedef struct appointment {
     appointment* nextAppointment;
 } Appointment;
 
+typedef Appointment* AppointmentList;
+
 typedef struct patient {
     char* firstName;
     char* lastName;
@@ -31,6 +33,7 @@ Appointment* CreateAppointment(char* date, char* reason, int emergencyLevel);
 void DeletePatientIndexer(PatientIndexer* indexer);
 void DeletePatientFile(PatientFile** patient);
 void DeleteAppointment(Appointment** appointment);
+void DeleteAppointMentList(AppointmentList* list);
 
 // Indexer management functions
 void InsertPatient(PatientIndexer* indexer, char* lastName, char* firstName);
