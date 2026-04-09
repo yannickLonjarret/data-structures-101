@@ -30,6 +30,8 @@ void test_Create_Matrix_Lines(void) {
         TEST_ASSERT_NULL(lines[i]);
         DeleteMatrixLine(&lines[i]);
     }
+
+    free(lines);
 }
 
 void test_Free_Matrix_Lines(void) {
