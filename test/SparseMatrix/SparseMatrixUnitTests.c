@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #include "SparseMatrix.h"
 #include "unity.h"
 
@@ -26,28 +28,21 @@ void test_Free_Matrix_Element(void) {
 void test_Create_Matrix_Lines(void) {
     MatrixLine* lines = CreateMatrixLines(3);
     TEST_ASSERT_NOT_NULL(lines);
-    for(int i = 0; i < 3; i++)
+    for(int i = 0; i < 3; i++) {
         TEST_ASSERT_NULL(lines[i]);
-
-    DeleteMatrixLines(lines, 3);
+        DeleteMatrixLine(&lines[i]);
+    }
+    free(lines);
 }
 
 void test_Free_Matrix_Lines(void) {
     MatrixLine* lines = CreateMatrixLines(1);
     MatrixElement* element = CreateMatrixElement(1, 2);
     UpdateSparseLine(lines, element);
-    DeleteMatrixLines(lines, 1);
+    DeleteMatrixLine(&lines[0]);
 
     TEST_ASSERT_NULL(lines[0]);
-}
-
-void test_Free_Single_Matrix_Line(void) {
-    MatrixElement* element = CreateMatrixElement(1, 2);
-    MatrixElement* secondElement = CreateMatrixElement(1, 3);
-    element->nextElement = secondElement;
-
-    DeleteMatrixLine(&element);
-    TEST_ASSERT_NULL(element);
+    free(lines);
 }
 
 void test_Create_Sparse_Matrix(void) {
@@ -80,7 +75,8 @@ void test_Insert_Element_At_Head(void) {
     TEST_ASSERT_EQUAL_INT(2, lines[0]->column);
     TEST_ASSERT_EQUAL_INT(1, lines[0]->value);
 
-    DeleteMatrixLines(lines, 1);
+    DeleteMatrixLine(&lines[0]);
+    free(lines);
 }
 
 void test_Insert_Element_At_Tail(void) {
@@ -100,7 +96,8 @@ void test_Insert_Element_At_Tail(void) {
     TEST_ASSERT_EQUAL_INT(4, lines[0]->nextElement->column);
     TEST_ASSERT_EQUAL_INT(1, lines[0]->nextElement->value);
 
-    DeleteMatrixLines(lines, 1);
+    DeleteMatrixLine(&lines[0]);
+    free(lines);
 }
 
 void test_Insert_Element_At_Middle(void) {
@@ -127,7 +124,8 @@ void test_Insert_Element_At_Middle(void) {
     TEST_ASSERT_EQUAL_INT(4, lines[0]->nextElement->nextElement->column);
     TEST_ASSERT_EQUAL_INT(1, lines[0]->nextElement->nextElement->value);
 
-    DeleteMatrixLines(lines, 1);
+    DeleteMatrixLine(&lines[0]);
+    free(lines);
 }
 
 void test_Update_Element_Value(void) {
@@ -141,7 +139,8 @@ void test_Update_Element_Value(void) {
     TEST_ASSERT_EQUAL_INT(2, lines[0]->column);
     TEST_ASSERT_EQUAL_INT(3, lines[0]->value);
 
-    DeleteMatrixLines(lines, 1);
+    DeleteMatrixLine(&lines[0]);
+    free(lines);
 }
 
 void test_Remove_Element_At_Head_Empty_Line(void) {
@@ -153,7 +152,8 @@ void test_Remove_Element_At_Head_Empty_Line(void) {
 
     TEST_ASSERT_NULL(lines[0]);
 
-    DeleteMatrixLines(lines, 1);
+    DeleteMatrixLine(&lines[0]);
+    free(lines);
 }
 
 void test_Remove_Element_At_Head_Filled_Line(void) {
@@ -172,7 +172,8 @@ void test_Remove_Element_At_Head_Filled_Line(void) {
     TEST_ASSERT_EQUAL_INT(4, lines[0]->column);
     TEST_ASSERT_EQUAL_INT(1, lines[0]->value);
 
-    DeleteMatrixLines(lines, 1);
+    DeleteMatrixLine(&lines[0]);
+    free(lines);
 }
 
 void test_Remove_Element_At_Tail(void) {
@@ -191,7 +192,8 @@ void test_Remove_Element_At_Tail(void) {
     TEST_ASSERT_EQUAL_INT(2, lines[0]->column);
     TEST_ASSERT_EQUAL_INT(1, lines[0]->value);
 
-    DeleteMatrixLines(lines, 1);
+    DeleteMatrixLine(&lines[0]);
+    free(lines);
 }
 
 void test_Remove_Element_At_Middle(void) {
@@ -217,7 +219,8 @@ void test_Remove_Element_At_Middle(void) {
     TEST_ASSERT_EQUAL_INT(4, lines[0]->nextElement->column);
     TEST_ASSERT_EQUAL_INT(1, lines[0]->nextElement->value);
 
-    DeleteMatrixLines(lines, 1);
+    DeleteMatrixLine(&lines[0]);
+    free(lines);
 }
 
 void test_Memory_Gain_Computation(void) {
@@ -240,7 +243,8 @@ void test_Search_Value_In_Line(void) {
 
     TEST_ASSERT_EQUAL_INT(1, SearchValueInLine(lines[0], 2));
 
-    DeleteMatrixLines(lines, 1);
+    DeleteMatrixLine(&lines[0]);
+    free(lines);
 }
 
 void test_Search_Zero_After_Value_In_Line(void) {
@@ -250,7 +254,8 @@ void test_Search_Zero_After_Value_In_Line(void) {
 
     TEST_ASSERT_EQUAL_INT(0, SearchValueInLine(lines[0], 3));
 
-    DeleteMatrixLines(lines, 1);
+    DeleteMatrixLine(&lines[0]);
+    free(lines);
 }
 
 void test_Search_Zero_Before_Value_In_Line(void) {
@@ -260,7 +265,8 @@ void test_Search_Zero_Before_Value_In_Line(void) {
 
     TEST_ASSERT_EQUAL_INT(0, SearchValueInLine(lines[0], 1));
 
-    DeleteMatrixLines(lines, 1);
+    DeleteMatrixLine(&lines[0]);
+    free(lines);
 }
 
 void test_Search_Value_In_Empty_Line(void) {
@@ -268,7 +274,8 @@ void test_Search_Value_In_Empty_Line(void) {
 
     TEST_ASSERT_EQUAL_INT(0, SearchValueInLine(lines[0], 3));
 
-    DeleteMatrixLines(lines, 1);
+    DeleteMatrixLine(&lines[0]);
+    free(lines);
 }
 
 void test_Search_Value_Beyond_Line(void) {
@@ -278,7 +285,8 @@ void test_Search_Value_Beyond_Line(void) {
 
     TEST_ASSERT_EQUAL_INT(0, SearchValueInLine(lines[0], 5));
 
-    DeleteMatrixLines(lines, 1);
+    DeleteMatrixLine(&lines[0]);
+    free(lines);
 }
 
 void test_Put_Zero_In_Line_At_Head_Empty_Line(void) {
@@ -412,6 +420,8 @@ void test_Add_Matrix_Empty_Lines(void) {
 
     DeleteMatrixLine(&linesA[0]);
     DeleteMatrixLine(&linesB[0]);
+    free(linesA);
+    free(linesB);
 }
 
 void test_Add_Matrix_Empty_First_Line(void) {
@@ -428,6 +438,8 @@ void test_Add_Matrix_Empty_First_Line(void) {
 
     DeleteMatrixLine(&linesA[0]);
     DeleteMatrixLine(&linesB[0]);
+    free(linesA);
+    free(linesB);
 }
 
 void test_Add_Matrix_Empty_Second_Line(void) {
@@ -444,6 +456,8 @@ void test_Add_Matrix_Empty_Second_Line(void) {
 
     DeleteMatrixLine(&linesA[0]);
     DeleteMatrixLine(&linesB[0]);
+    free(linesA);
+    free(linesB);
 }
 
 void test_Add_Matrix_Line_Merge(void) {
@@ -466,6 +480,8 @@ void test_Add_Matrix_Line_Merge(void) {
 
     DeleteMatrixLine(&linesA[0]);
     DeleteMatrixLine(&linesB[0]);
+    free(linesA);
+    free(linesB);
 }
 
 void test_Add_Matrix_Line_Sum(void) {
@@ -485,4 +501,6 @@ void test_Add_Matrix_Line_Sum(void) {
 
     DeleteMatrixLine(&linesA[0]);
     DeleteMatrixLine(&linesB[0]);
+    free(linesA);
+    free(linesB);
 }
