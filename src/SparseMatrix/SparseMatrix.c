@@ -337,6 +337,14 @@ void DeleteMatrixLine(MatrixLine* line) {
     *line = NULL;
 }
 
+void DeleteMatrixLines(MatrixLine* lines, int size) {
+    for(int i = 0; i < size; i++)
+        DeleteMatrixLine(&(*lines)[i]);
+    free(*lines);
+    *lines = NULL;
+    return;
+}
+
 void DeleteElement(MatrixElement** element) {
     free(*element);
     *element = NULL;
@@ -344,8 +352,7 @@ void DeleteElement(MatrixElement** element) {
 }
 
 void DeleteMatrix(SparseMatrix** matrix) {
-    for(int i = 0; i < (*matrix)->lineCount; i++)
-        DeleteMatrixLine(&((*matrix)->lines[i]));
+    DeleteMatrixLines((*matrix)->lines, (*matrix)->lineCount);
     free(*matrix);
     *matrix = NULL;
     return;

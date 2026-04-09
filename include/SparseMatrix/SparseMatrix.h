@@ -35,6 +35,7 @@ void RemoveSparseLineElement(MatrixLine* line, int positionToRemove);
 int SearchValueInLine(MatrixLine line, int columnPosition);
 
 void DeleteMatrix(SparseMatrix** matrix);
+void DeleteMatrixLines(MatrixLine* lines, int size);
 void DeleteMatrixLine(MatrixLine* line);
 void DeleteElement(MatrixElement** element);
 
