@@ -6,6 +6,7 @@ extern void test_Create_Matrix_Element(void);
 extern void test_Free_Matrix_Element(void);
 extern void test_Create_Matrix_Lines(void);
 extern void test_Free_Matrix_Lines(void);
+extern void test_Free_Single_Matrix_Line(void);
 extern void test_Create_Sparse_Matrix(void);
 extern void test_Free_Sparse_Matrix(void);
 extern void test_Insert_Element_At_Head(void);
@@ -46,6 +47,7 @@ int main(void) {
     RUN_TEST(test_Free_Matrix_Element);
     RUN_TEST(test_Create_Matrix_Lines);
     RUN_TEST(test_Free_Matrix_Lines);
+    RUN_TEST(test_Free_Single_Matrix_Line);
     RUN_TEST(test_Create_Sparse_Matrix);
     RUN_TEST(test_Free_Sparse_Matrix);
 

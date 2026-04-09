@@ -38,9 +38,18 @@ void test_Free_Matrix_Lines(void) {
     MatrixLine* lines = CreateMatrixLines(1);
     MatrixElement* element = CreateMatrixElement(1, 2);
     UpdateSparseLine(lines, element);
-    DeleteMatrixLine(&lines[0]);
+    DeleteMatrixLines(lines, 1);
 
     TEST_ASSERT_NULL(lines[0]);
+}
+
+void test_Free_Single_Matrix_Line(void) {
+    MatrixElement* element = CreateMatrixElement(1, 2);
+    MatrixElement* secondElement = CreateMatrixElement(1, 3);
+    element->nextElement = secondElement;
+
+    DeleteMatrixLine(&element);
+    TEST_ASSERT_NULL(element);
 }
 
 void test_Create_Sparse_Matrix(void) {
@@ -73,7 +82,7 @@ void test_Insert_Element_At_Head(void) {
     TEST_ASSERT_EQUAL_INT(2, lines[0]->column);
     TEST_ASSERT_EQUAL_INT(1, lines[0]->value);
 
-    DeleteMatrixLine(&lines[0]);
+    DeleteMatrixLines(lines, 1);
 }
 
 void test_Insert_Element_At_Tail(void) {
@@ -93,7 +102,7 @@ void test_Insert_Element_At_Tail(void) {
     TEST_ASSERT_EQUAL_INT(4, lines[0]->nextElement->column);
     TEST_ASSERT_EQUAL_INT(1, lines[0]->nextElement->value);
 
-    DeleteMatrixLine(&lines[0]);
+    DeleteMatrixLines(lines, 1);
 }
 
 void test_Insert_Element_At_Middle(void) {
@@ -120,7 +129,7 @@ void test_Insert_Element_At_Middle(void) {
     TEST_ASSERT_EQUAL_INT(4, lines[0]->nextElement->nextElement->column);
     TEST_ASSERT_EQUAL_INT(1, lines[0]->nextElement->nextElement->value);
 
-    DeleteMatrixLine(&lines[0]);
+    DeleteMatrixLines(lines, 1);
 }
 
 void test_Update_Element_Value(void) {
@@ -134,7 +143,7 @@ void test_Update_Element_Value(void) {
     TEST_ASSERT_EQUAL_INT(2, lines[0]->column);
     TEST_ASSERT_EQUAL_INT(3, lines[0]->value);
 
-    DeleteMatrixLine(&lines[0]);
+    DeleteMatrixLines(lines, 1);
 }
 
 void test_Remove_Element_At_Head_Empty_Line(void) {
@@ -146,7 +155,7 @@ void test_Remove_Element_At_Head_Empty_Line(void) {
 
     TEST_ASSERT_NULL(lines[0]);
 
-    DeleteMatrixLine(&lines[0]);
+    DeleteMatrixLines(lines, 1);
 }
 
 void test_Remove_Element_At_Head_Filled_Line(void) {
@@ -165,7 +174,7 @@ void test_Remove_Element_At_Head_Filled_Line(void) {
     TEST_ASSERT_EQUAL_INT(4, lines[0]->column);
     TEST_ASSERT_EQUAL_INT(1, lines[0]->value);
 
-    DeleteMatrixLine(&lines[0]);
+    DeleteMatrixLines(lines, 1);
 }
 
 void test_Remove_Element_At_Tail(void) {
@@ -184,7 +193,7 @@ void test_Remove_Element_At_Tail(void) {
     TEST_ASSERT_EQUAL_INT(2, lines[0]->column);
     TEST_ASSERT_EQUAL_INT(1, lines[0]->value);
 
-    DeleteMatrixLine(&lines[0]);
+    DeleteMatrixLines(lines, 1);
 }
 
 void test_Remove_Element_At_Middle(void) {
@@ -210,7 +219,7 @@ void test_Remove_Element_At_Middle(void) {
     TEST_ASSERT_EQUAL_INT(4, lines[0]->nextElement->column);
     TEST_ASSERT_EQUAL_INT(1, lines[0]->nextElement->value);
 
-    DeleteMatrixLine(&lines[0]);
+    DeleteMatrixLines(lines, 1);
 }
 
 void test_Memory_Gain_Computation(void) {
@@ -233,7 +242,7 @@ void test_Search_Value_In_Line(void) {
 
     TEST_ASSERT_EQUAL_INT(1, SearchValueInLine(lines[0], 2));
 
-    DeleteMatrixLine(&lines[0]);
+    DeleteMatrixLines(lines, 1);
 }
 
 void test_Search_Zero_After_Value_In_Line(void) {
@@ -243,7 +252,7 @@ void test_Search_Zero_After_Value_In_Line(void) {
 
     TEST_ASSERT_EQUAL_INT(0, SearchValueInLine(lines[0], 3));
 
-    DeleteMatrixLine(&lines[0]);
+    DeleteMatrixLines(lines, 1);
 }
 
 void test_Search_Zero_Before_Value_In_Line(void) {
@@ -253,7 +262,7 @@ void test_Search_Zero_Before_Value_In_Line(void) {
 
     TEST_ASSERT_EQUAL_INT(0, SearchValueInLine(lines[0], 1));
 
-    DeleteMatrixLine(&lines[0]);
+    DeleteMatrixLines(lines, 1);
 }
 
 void test_Search_Value_In_Empty_Line(void) {
@@ -261,7 +270,7 @@ void test_Search_Value_In_Empty_Line(void) {
 
     TEST_ASSERT_EQUAL_INT(0, SearchValueInLine(lines[0], 3));
 
-    DeleteMatrixLine(&lines[0]);
+    DeleteMatrixLines(lines, 1);
 }
 
 void test_Search_Value_Beyond_Line(void) {
@@ -271,7 +280,7 @@ void test_Search_Value_Beyond_Line(void) {
 
     TEST_ASSERT_EQUAL_INT(0, SearchValueInLine(lines[0], 5));
 
-    DeleteMatrixLine(&lines[0]);
+    DeleteMatrixLines(lines, 1);
 }
 
 void test_Put_Zero_In_Line_At_Head_Empty_Line(void) {
