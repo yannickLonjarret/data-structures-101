@@ -32,6 +32,9 @@ jobs:
 
       - name: Build SparseMatrix project
         run: make sparse
+
+      - name: Try Run SparseMatrix project
+        run: bin/SparseMatrix
     
       - name: Build SparseMatrix test runner
         run: make sparse-test
