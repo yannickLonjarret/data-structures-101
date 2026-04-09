@@ -26,12 +26,10 @@ void test_Free_Matrix_Element(void) {
 void test_Create_Matrix_Lines(void) {
     MatrixLine* lines = CreateMatrixLines(3);
     TEST_ASSERT_NOT_NULL(lines);
-    for(int i = 0; i < 3; i++) {
+    for(int i = 0; i < 3; i++)
         TEST_ASSERT_NULL(lines[i]);
-        DeleteMatrixLine(&lines[i]);
-    }
 
-    free(lines);
+    DeleteMatrixLines(lines, 3);
 }
 
 void test_Free_Matrix_Lines(void) {

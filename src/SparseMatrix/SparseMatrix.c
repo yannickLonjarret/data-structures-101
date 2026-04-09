@@ -339,9 +339,8 @@ void DeleteMatrixLine(MatrixLine* line) {
 
 void DeleteMatrixLines(MatrixLine* lines, int size) {
     for(int i = 0; i < size; i++)
-        DeleteMatrixLine(&(*lines)[i]);
-    free(*lines);
-    *lines = NULL;
+        DeleteMatrixLine(&lines[i]);
+    free(lines);
     return;
 }
 
