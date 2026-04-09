@@ -34,7 +34,7 @@ jobs:
         run: make sparse
 
       - name: Try Run SparseMatrix project
-        run: bin/SparseMatrix
+        run: echo 8 | bin/SparseMatrix
     
       - name: Build SparseMatrix test runner
         run: make sparse-test
