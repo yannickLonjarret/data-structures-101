@@ -120,7 +120,7 @@ void DeleteAppointmentList(AppointmentList* list) {
     while(listTraversal != NULL) {
         Appointment* temp = listTraversal;
         listTraversal = listTraversal->nextAppointment;
-        DeleteAppointment(&listTraversal);
+        DeleteAppointment(&temp);
     }
 
     *list = NULL;
