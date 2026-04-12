@@ -125,6 +125,57 @@ void DeleteAppointmentList(AppointmentList* list) {
 
     *list = NULL;
 }
+// Indexer management functions
+void InsertPatient(PatientIndexer* indexer, char* lastName, char* firstName) {
+    if(indexer == NULL) {
+        fprintf(stderr, "Patient indexer is NULL.\n");
+        return;
+    }
+
+    // TODO: Create a better way to validate strings
+    if(lastName == NULL || firstName == NULL) {
+        fprintf(stderr, "First or last name null.\n");
+        return;
+    }
+
+    if(SearchPatientFile(indexer, lastName) != NULL) {
+        printf("Patient last name already exist. \n");
+        return;
+    }
+
+    PatientFile* patientToInsert = CreatePatient(lastName, firstName);
+    if(patientToInsert == NULL) {
+        fprintf(stderr, "Failed to create patient for insertion.");
+        return;
+    }
+
+    if(*indexer == NULL) {
+        *indexer = patientToInsert;
+        return;
+    }
+
+    PatientFile* parent = NULL;
+    PatientFile* traversal = *indexer;
+    int stringCompare = 0;
+
+    while(traversal != NULL) {
+        parent = traversal;
+        stringCompare = strcmp(patientToInsert->lastName, traversal->lastName);
+        if(stringCompare < 0)
+            traversal = traversal->leftPatient;
+        else
+            traversal = traversal->rightPatient;
+    }
+
+    stringCompare = strcmp(patientToInsert->lastName, parent->lastName);
+    if(stringCompare < 0)
+        parent->leftPatient = patientToInsert;
+    else
+        parent->rightPatient = patientToInsert;
+
+    return;
+}
+
 PatientFile* SearchPatientFile(PatientIndexer* indexer, char* lastName) {
     if(indexer == NULL) {
         fprintf(stderr, "Patient indexer is NULL.\n");
