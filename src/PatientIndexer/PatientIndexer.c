@@ -206,3 +206,32 @@ PatientFile* SearchPatientFile(PatientIndexer* indexer, char* lastName) {
 
     return traversal;
 }
+
+void InsertAppointment(PatientIndexer* indexer, char* lastName, char* date, char* reason, int emergencyLevel) {
+    if(indexer == NULL) {
+        fprintf(stderr, "Patient indexer is NULL.\n");
+        return;
+    }
+
+    // TODO check names validity and date vaidity
+
+    PatientFile* patientToUpdate = SearchPatientFile(indexer, lastName);
+    if(patientToUpdate == NULL) {
+        printf("Patient does not exist. \n");
+        return;
+    }
+
+    Appointment* appointmentToInsert = CreateAppointment(date, reason, emergencyLevel);
+
+    if(appointmentToInsert == NULL) {
+        fprintf(stderr, "Error when creating the appointment. \n");
+        return;
+    }
+
+    appointmentToInsert->nextAppointment = patientToUpdate->appointments;
+    patientToUpdate->appointments = appointmentToInsert;
+
+    patientToUpdate->appointmentCount++;
+
+    return;
+}
