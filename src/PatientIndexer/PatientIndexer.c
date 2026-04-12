@@ -235,3 +235,57 @@ void InsertAppointment(PatientIndexer* indexer, char* lastName, char* date, char
 
     return;
 }
+// Display functions
+void DisplayPatientFile(PatientIndexer* indexer, char* lastName) {
+    if(indexer == NULL) {
+        fprintf(stderr, "Patient indexer is NULL.\n");
+        return;
+    }
+
+    // TODO: Create a better way to validate strings
+    if(lastName == NULL) {
+        fprintf(stderr, "First or last name null.\n");
+        return;
+    }
+
+    PatientFile* patientToDisplay = SearchPatientFile(indexer, lastName);
+    if(patientToDisplay == NULL) {
+        printf("Patient file does not exist. \n");
+        return;
+    }
+
+    printf("===== Patient %s %s =====\n", patientToDisplay->lastName, patientToDisplay->firstName);
+    printf("Appointment count: %d\n", patientToDisplay->appointmentCount);
+    DisplayAppointment(patientToDisplay->appointments);
+
+    return;
+}
+
+void DisplayAppointment(Appointment* appointment) {
+    Appointment* traversal = appointment;
+    printf("===== Appointment start =====\n");
+
+    while(traversal != NULL) {
+        printf("Date: %s\n", traversal->date);
+        printf("Emergency level: %d\n", traversal->emergencyLevel);
+        printf("Reason: %s\n", traversal->reason);
+
+        traversal = traversal->nextAppointment;
+    }
+
+    printf("===== Appointment end =====\n");
+}
+
+void DisplayAllPatients(PatientIndexer* indexer) {
+    if(indexer == NULL) {
+        fprintf(stderr, "Patient indexer is NULL.\n");
+        return;
+    }
+    PatientFile* patientToDisplay = *indexer;
+    if(patientToDisplay == NULL)
+        return;
+
+    printf("%s %s\n", patientToDisplay->lastName, patientToDisplay->firstName);
+    DisplayAllPatients(&patientToDisplay->leftPatient);
+    DisplayAllPatients(&patientToDisplay->rightPatient);
+}
