@@ -125,3 +125,33 @@ void DeleteAppointmentList(AppointmentList* list) {
 
     *list = NULL;
 }
+PatientFile* SearchPatientFile(PatientIndexer* indexer, char* lastName) {
+    if(indexer == NULL) {
+        fprintf(stderr, "Patient indexer is NULL.\n");
+        return;
+    }
+
+    // TODO: Create a better way to validate strings
+    if(lastName == NULL) {
+        fprintf(stderr, "Last name null.\n");
+        return;
+    }
+
+    if(*indexer == NULL)
+        return NULL;
+
+    PatientFile* traversal = *indexer;
+    int stringCompare = 0;
+    stringCompare = strcmp(lastName, traversal->lastName);
+
+    while(traversal != NULL && stringCompare != 0) {
+        if(stringCompare < 0)
+            traversal = traversal->leftPatient;
+        else
+            traversal = traversal->rightPatient;
+
+        stringCompare = strcmp(lastName, traversal->lastName);
+    }
+
+    return traversal;
+}
