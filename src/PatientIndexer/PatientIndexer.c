@@ -55,6 +55,7 @@ PatientFile* CreatePatient(char* lastName, char* firstName) {
     patient->appointmentCount = 0;
     patient->appointments = NULL;
 
+    patient->parentPatient = NULL;
     patient->leftPatient = NULL;
     patient->rightPatient = NULL;
 
@@ -167,6 +168,7 @@ void InsertPatient(PatientIndexer* indexer, char* lastName, char* firstName) {
             traversal = traversal->rightPatient;
     }
 
+    patientToInsert->parentPatient = parent;
     stringCompare = strcmp(patientToInsert->lastName, parent->lastName);
     if(stringCompare < 0)
         parent->leftPatient = patientToInsert;
