@@ -102,6 +102,19 @@ Appointment* CreateAppointment(char* date, char* reason, int emergencyLevel) {
     return appointment;
 }
 
+void DeletePatientIndexer(PatientIndexer* indexer);
+
+void DeletePatientFile(PatientFile** patient) {
+    if(patient == NULL)
+        return;
+    free((*patient)->lastName);
+    free((*patient)->firstName);
+    DeleteAppointmentList(&(*patient)->appointments);
+
+    free(*patient);
+    *patient = NULL;
+}
+
 void DeleteAppointment(Appointment** appointment) {
     if(appointment == NULL || *appointment == NULL)
         return;
@@ -303,6 +316,8 @@ void RemovePatientFileTwoChildren(PatientIndexer* root, PatientFile* nodeToRemov
 
     return;
 }
+
+void UpdateIndexerBackup(PatientIndexer* indexer, PatientIndexer* backup);
 
 void InsertAppointment(PatientIndexer* indexer, char* lastName, char* date, char* reason, int emergencyLevel) {
     if(indexer == NULL) {
