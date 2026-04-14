@@ -126,6 +126,7 @@ void DeleteAppointmentList(AppointmentList* list) {
 
     *list = NULL;
 }
+
 // Indexer management functions
 void InsertPatient(PatientIndexer* indexer, char* lastName, char* firstName) {
     if(indexer == NULL) {
@@ -209,6 +210,100 @@ PatientFile* SearchPatientFile(PatientIndexer* indexer, char* lastName) {
     return traversal;
 }
 
+void RemovePatientFile(PatientIndexer* indexer, char* lastName) {
+    if(indexer == NULL) {
+        fprintf(stderr, "Patient indexer is NULL.\n");
+        return;
+    }
+
+    if(lastName == NULL) {
+        fprintf(stderr, "First or last name null.\n");
+        return;
+    }
+
+    PatientFile* patient = SearchPatientFile(indexer, lastName);
+    if(patient == NULL) {
+        printf("Patient not present in indexer. \n");
+        return;
+    }
+
+    PatientFile* parent = patient->parentPatient;
+
+    if(patient->leftPatient == NULL && patient->rightPatient == NULL)
+        RemovePatientFileLeaf(indexer, patient);
+    else if(patient->leftPatient != NULL && patient->rightPatient != NULL)
+        RemovePatientFileTwoChildren(indexer, patient);
+    else
+        RemovePatientFileSingleChild(indexer, patient);
+
+    DeletePatientFile(&patient);
+    return;
+}
+
+void RemovePatientFileLeaf(PatientIndexer* root, PatientFile* nodeToRemove) {
+    if(nodeToRemove->parentPatient == NULL)
+        return;
+
+    PatientFile* parent = nodeToRemove->parentPatient;
+    if(parent->leftPatient == nodeToRemove)
+        parent->leftPatient = NULL;
+    else
+        parent->rightPatient = NULL;
+}
+
+void RemovePatientFileSingleChild(PatientIndexer* root, PatientFile* nodeToRemove) {
+    if(nodeToRemove->parentPatient == NULL) {
+        if(nodeToRemove->leftPatient != NULL) {
+            *root = nodeToRemove->leftPatient;
+            (*root)->parentPatient = NULL;
+        } else {
+            *root = nodeToRemove->rightPatient;
+            (*root)->parentPatient = NULL;
+        }
+        return;
+    }
+
+    PatientFile* parent = nodeToRemove->parentPatient;
+    if(parent->leftPatient == nodeToRemove) {
+        parent->leftPatient = (nodeToRemove->leftPatient != NULL) ? nodeToRemove->leftPatient : nodeToRemove->rightPatient;
+        parent->leftPatient->parentPatient = parent;
+    } else {
+        parent->rightPatient = (nodeToRemove->leftPatient != NULL) ? nodeToRemove->leftPatient : nodeToRemove->rightPatient;
+        parent->rightPatient->parentPatient = parent;
+    }
+    return;
+}
+
+void RemovePatientFileTwoChildren(PatientIndexer* root, PatientFile* nodeToRemove) {
+    PatientFile* successor = GetMinimum(nodeToRemove->rightPatient);
+
+    if(successor->parentPatient != nodeToRemove) {
+        successor->parentPatient->leftPatient = successor->rightPatient;
+        if(successor->rightPatient != NULL)
+            successor->rightPatient->parentPatient = successor->parentPatient;
+
+        successor->rightPatient = nodeToRemove->rightPatient;
+        successor->rightPatient->parentPatient = successor;
+    }
+
+    successor->leftPatient = nodeToRemove->leftPatient;
+    successor->leftPatient->parentPatient = successor;
+
+    successor->parentPatient = nodeToRemove->parentPatient;
+
+    PatientFile* nodeToRemoveParent = nodeToRemove->parentPatient;
+
+    if(nodeToRemoveParent != NULL)
+        if(nodeToRemoveParent->leftPatient == nodeToRemove)
+            nodeToRemoveParent->leftPatient = successor;
+        else
+            nodeToRemoveParent->rightPatient = successor;
+    else
+        *root = successor;
+
+    return;
+}
+
 void InsertAppointment(PatientIndexer* indexer, char* lastName, char* date, char* reason, int emergencyLevel) {
     if(indexer == NULL) {
         fprintf(stderr, "Patient indexer is NULL.\n");
@@ -237,6 +332,23 @@ void InsertAppointment(PatientIndexer* indexer, char* lastName, char* date, char
 
     return;
 }
+
+// Utils
+PatientFile* GetMinimum(PatientFile* patient) {
+    if(patient == NULL)
+        return NULL;
+
+    PatientFile* traversal = *patient->leftPatient;
+
+    while(traversal != NULL) {
+        if(traversal->leftPatient == NULL)
+            return traversal;
+        traversal = traversal->leftPatient;
+    }
+
+    return traversal;
+}
+
 // Display functions
 void DisplayPatientFile(PatientIndexer* indexer, char* lastName) {
     if(indexer == NULL) {

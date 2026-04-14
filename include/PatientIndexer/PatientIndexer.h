@@ -36,11 +36,17 @@ void DeletePatientFile(PatientFile** patient);
 void DeleteAppointment(Appointment** appointment);
 void DeleteAppointMentList(AppointmentList* list);
 
+// Utils
+PatientFile* GetMinimum(PatientFile* patient);
+
 // Indexer management functions
 void InsertPatient(PatientIndexer* indexer, char* lastName, char* firstName);
 PatientFile* SearchPatientFile(PatientIndexer* indexer, char* lastName);
 void InsertAppointment(PatientIndexer* indexer, char* lastName, char* date, char* reason, int emergencyLevel);
 void RemovePatientFile(PatientIndexer* indexer, char* lastName);
+void RemovePatientFileLeaf(PatientIndexer* root, PatientFile* nodeToRemove);
+void RemovePatientFileSingleChild(PatientIndexer* root, PatientFile* nodeToRemove);
+void RemovePatientFileTwoChildren(PatientIndexer* root, PatientFile* nodeToRemove);
 void UpdateIndexerBackup(PatientIndexer* indexer, PatientIndexer* backup);
 
 // Display functions
