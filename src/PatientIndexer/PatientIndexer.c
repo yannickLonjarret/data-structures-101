@@ -123,6 +123,9 @@ void DeleteAppointment(Appointment** appointment) {
     free((*appointment)->reason);
     (*appointment)->nextAppointment = NULL;
 
+    free(*appointment);
+    *appointment = NULL;
+
     return;
 }
 
