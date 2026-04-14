@@ -102,7 +102,16 @@ Appointment* CreateAppointment(char* date, char* reason, int emergencyLevel) {
     return appointment;
 }
 
-void DeletePatientIndexer(PatientIndexer* indexer);
+void DeletePatientIndexer(PatientIndexer* indexer) {
+    if(indexer == NULL || *indexer == NULL)
+        return;
+
+    DeletePatientFile(&(*indexer)->leftPatient);
+    DeletePatientFile(&(*indexer)->rightPatient);
+    DeletePatientFile(indexer);
+
+    return;
+}
 
 void DeletePatientFile(PatientFile** patient) {
     if(patient == NULL)
