@@ -252,8 +252,6 @@ void RemovePatientFile(PatientIndexer* indexer, char* lastName) {
         return;
     }
 
-    PatientFile* parent = patient->parentPatient;
-
     if(patient->leftPatient == NULL && patient->rightPatient == NULL)
         RemovePatientFileLeaf(indexer, patient);
     else if(patient->leftPatient != NULL && patient->rightPatient != NULL)
