@@ -34,7 +34,7 @@ Appointment* CreateAppointment(char* date, char* reason, int emergencyLevel);
 void DeletePatientIndexer(PatientIndexer* indexer);
 void DeletePatientFile(PatientFile** patient);
 void DeleteAppointment(Appointment** appointment);
-void DeleteAppointMentList(AppointmentList* list);
+void DeleteAppointmentList(AppointmentList* list);
 
 // Utils
 PatientFile* GetMinimum(PatientFile* patient);
