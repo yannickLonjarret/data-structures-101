@@ -251,22 +251,27 @@ void RemovePatientFile(PatientIndexer* indexer, char* lastName) {
         printf("Patient not present in indexer. \n");
         return;
     }
-
+    int errorCode = 0;
     if(patient->leftPatient == NULL && patient->rightPatient == NULL)
-        RemovePatientFileLeaf(indexer, patient);
+        errorCode = RemovePatientFileLeaf(indexer, patient);
     else if(patient->leftPatient != NULL && patient->rightPatient != NULL)
-        RemovePatientFileTwoChildren(indexer, patient);
+        errorCode = RemovePatientFileTwoChildren(indexer, patient);
     else
-        RemovePatientFileSingleChild(indexer, patient);
+        errorCode = RemovePatientFileSingleChild(indexer, patient);
 
-    DeletePatientFile(&patient);
+    if(errorCode == 0)
+        DeletePatientFile(&patient);
+
     return;
 }
 
-void RemovePatientFileLeaf(PatientIndexer* root, PatientFile* nodeToRemove) {
+int RemovePatientFileLeaf(PatientIndexer* root, PatientFile* nodeToRemove) {
+    if(nodeToRemove == NULL)
+        return 1;
+
     if(nodeToRemove->parentPatient == NULL) {
         *root = NULL;
-        return;
+        return 0;
     }
 
     PatientFile* parent = nodeToRemove->parentPatient;
@@ -274,9 +279,14 @@ void RemovePatientFileLeaf(PatientIndexer* root, PatientFile* nodeToRemove) {
         parent->leftPatient = NULL;
     else
         parent->rightPatient = NULL;
+
+    return 0;
 }
 
-void RemovePatientFileSingleChild(PatientIndexer* root, PatientFile* nodeToRemove) {
+int RemovePatientFileSingleChild(PatientIndexer* root, PatientFile* nodeToRemove) {
+    if(nodeToRemove == NULL)
+        return 1;
+
     if(nodeToRemove->parentPatient == NULL) {
         if(nodeToRemove->leftPatient != NULL) {
             *root = nodeToRemove->leftPatient;
@@ -285,7 +295,7 @@ void RemovePatientFileSingleChild(PatientIndexer* root, PatientFile* nodeToRemov
             *root = nodeToRemove->rightPatient;
             (*root)->parentPatient = NULL;
         }
-        return;
+        return 0;
     }
 
     PatientFile* parent = nodeToRemove->parentPatient;
@@ -296,11 +306,20 @@ void RemovePatientFileSingleChild(PatientIndexer* root, PatientFile* nodeToRemov
         parent->rightPatient = (nodeToRemove->leftPatient != NULL) ? nodeToRemove->leftPatient : nodeToRemove->rightPatient;
         parent->rightPatient->parentPatient = parent;
     }
-    return;
+
+    return 0;
 }
 
-void RemovePatientFileTwoChildren(PatientIndexer* root, PatientFile* nodeToRemove) {
+int RemovePatientFileTwoChildren(PatientIndexer* root, PatientFile* nodeToRemove) {
+    if(nodeToRemove == NULL)
+        return 1;
+
     PatientFile* successor = GetMinimum(nodeToRemove->rightPatient);
+
+    if(successor == NULL) {
+        fprintf(stderr, "Successor is NULL in RemovePatientFileTwoChildren.\n");
+        return 1;
+    }
 
     if(successor->parentPatient != nodeToRemove) {
         successor->parentPatient->leftPatient = successor->rightPatient;
@@ -326,7 +345,7 @@ void RemovePatientFileTwoChildren(PatientIndexer* root, PatientFile* nodeToRemov
     else
         *root = successor;
 
-    return;
+    return 0;
 }
 
 void UpdateIndexerBackup(PatientIndexer* indexer, PatientIndexer* backup);
