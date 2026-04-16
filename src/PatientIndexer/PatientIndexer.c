@@ -41,14 +41,14 @@ PatientFile* CreatePatient(char* lastName, char* firstName) {
     errorCode = snprintf(patient->lastName, strlen(lastName) + 1, "%s", lastName);
     if(errorCode != 0) {
         fprintf(stderr, "Error when copying the patient last name.");
-        // DeletePatientFile(&patient);
+        DeletePatientFile(&patient);
         return NULL;
     }
 
     errorCode = snprintf(patient->firstName, strlen(firstName) + 1, "%s", firstName);
     if(errorCode != 0) {
         fprintf(stderr, "Error when copying the patient first name.");
-        // DeletePatientFile(&patient);
+        DeletePatientFile(&patient);
         return NULL;
     }
 
