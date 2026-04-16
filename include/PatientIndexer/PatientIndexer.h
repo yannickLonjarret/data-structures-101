@@ -14,7 +14,7 @@ typedef struct patient {
     char* firstName;
     char* lastName;
     int appointmentCount;
-    Appointment* appointments;
+    AppointmentList appointments;
     patient* parentPatient;
     patient* leftPatient;
     patient* rightPatient;
