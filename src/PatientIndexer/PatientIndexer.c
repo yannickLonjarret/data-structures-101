@@ -348,6 +348,18 @@ int RemovePatientFileTwoChildren(PatientIndexer* root, PatientFile* nodeToRemove
     return 0;
 }
 
+void DeleteIndexerManager(IndexerManager* manager) {
+    if(manager == NULL)
+        return;
+
+    for(int i = 0; i < manager->indexerCount; i++)
+        DeletePatientIndexer(&manager->indexers[i]);
+
+    free(manager->indexers);
+    manager->indexers = NULL;
+
+    return;
+}
 void UpdateIndexerBackup(PatientIndexer* indexer, PatientIndexer* backup);
 
 void InsertAppointment(PatientIndexer* indexer, char* lastName, char* date, char* reason, int emergencyLevel) {

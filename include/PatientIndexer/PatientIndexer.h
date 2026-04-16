@@ -35,6 +35,7 @@ void DeletePatientIndexer(PatientIndexer* indexer);
 void DeletePatientFile(PatientFile** patient);
 void DeleteAppointment(Appointment** appointment);
 void DeleteAppointmentList(AppointmentList* list);
+void DeleteIndexerManager(IndexerManager* manager);
 
 // Utils
 PatientFile* GetMinimum(PatientFile* patient);
