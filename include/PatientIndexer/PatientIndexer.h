@@ -43,10 +43,10 @@ PatientFile* GetMinimum(PatientFile* patient);
 void InsertPatient(PatientIndexer* indexer, char* lastName, char* firstName);
 PatientFile* SearchPatientFile(PatientIndexer* indexer, char* lastName);
 void InsertAppointment(PatientIndexer* indexer, char* lastName, char* date, char* reason, int emergencyLevel);
-void RemovePatientFile(PatientIndexer* indexer, char* lastName);
 int RemovePatientFileLeaf(PatientIndexer* root, PatientFile* nodeToRemove);
 int RemovePatientFileSingleChild(PatientIndexer* root, PatientFile* nodeToRemove);
 int RemovePatientFileTwoChildren(PatientIndexer* root, PatientFile* nodeToRemove);
+void RemovePatientFile(PatientIndexer* indexer, char* lastName);
 void UpdateIndexerBackup(PatientIndexer* indexer, PatientIndexer* backup);
 
 // Display functions
