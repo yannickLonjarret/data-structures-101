@@ -39,14 +39,14 @@ PatientFile* CreatePatient(char* lastName, char* firstName) {
 
     int errorCode = 0;
     errorCode = snprintf(patient->lastName, strlen(lastName) + 1, "%s", lastName);
-    if(errorCode != 0) {
+    if(errorCode < 0) {
         fprintf(stderr, "Error when copying the patient last name.");
         DeletePatientFile(&patient);
         return NULL;
     }
 
     errorCode = snprintf(patient->firstName, strlen(firstName) + 1, "%s", firstName);
-    if(errorCode != 0) {
+    if(errorCode < 0) {
         fprintf(stderr, "Error when copying the patient first name.");
         DeletePatientFile(&patient);
         return NULL;
@@ -83,14 +83,14 @@ Appointment* CreateAppointment(char* date, char* reason, int emergencyLevel) {
 
     int errorCode = 0;
     errorCode = snprintf(appointment->date, strlen(date) + 1, "%s", date);
-    if(errorCode != 0) {
+    if(errorCode < 0) {
         fprintf(stderr, "Error when copying the appointment date.");
         DeleteAppointment(&appointment);
         return NULL;
     }
 
     errorCode = snprintf(appointment->reason, strlen(reason) + 1, "%s", reason);
-    if(errorCode != 0) {
+    if(errorCode < 0) {
         fprintf(stderr, "Error when copying the appointment reason.");
         DeleteAppointment(&appointment);
         return NULL;
