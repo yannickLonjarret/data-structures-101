@@ -396,7 +396,7 @@ PatientFile* GetMinimum(PatientFile* patient) {
     if(patient == NULL)
         return NULL;
 
-    PatientFile* traversal = *patient->leftPatient;
+    PatientFile* traversal = patient->leftPatient;
 
     while(traversal != NULL) {
         if(traversal->leftPatient == NULL)
