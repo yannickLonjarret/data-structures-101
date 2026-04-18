@@ -35,7 +35,7 @@ void TestCreatePatient(void) {
 void TestCreateAppointment(void) {
     Appointment* appointment = CreateAppointment("04_18_26", "Fever", 0);
 
-    TEST_ASSERT_EQUAL_INT(0, appointment->reason);
+    TEST_ASSERT_EQUAL_INT(0, appointment->emergencyLevel);
     TEST_ASSERT_EQUAL_STRING("04_18_26", appointment->date);
     TEST_ASSERT_EQUAL_STRING("Fever", appointment->reason);
 
@@ -55,20 +55,14 @@ void TestDeletePatientIndexer(void) {
     DeletePatientIndexer(&indexer);
 
     TEST_ASSERT_NULL(indexer);
-    TEST_ASSERT_NULL(leftNode);
-    TEST_ASSERT_NULL(rightNode);
 }
 
 void TestDeletePatientFile(void) {
     PatientFile* patient = CreatePatient("Test", "test");
-    Appointment* appointment = CreateAppointment("04_18_26", "Fever", 0);
-
-    patient->appointments = appointment;
 
     DeletePatientFile(&patient);
 
     TEST_ASSERT_NULL(patient);
-    TEST_ASSERT_NULL(appointment);
 }
 
 void TestDeleteAppointment(void) {
@@ -86,7 +80,6 @@ void TestDeleteAppointmentList(void) {
     DeleteAppointmentList(&appointment1);
 
     TEST_ASSERT_NULL(appointment1);
-    TEST_ASSERT_NULL(appointment2);
 }
 
 void TestInsertPatient_EmptyIndexer(void) {
