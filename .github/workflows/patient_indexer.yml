@@ -21,7 +21,7 @@ jobs:
 
       - name: Code lint check
         run: |
-          clang-tidy $(find ./src -name "*.c") -- -Iinclude/ -Iinclude/PatientIndexer
+          clang-tidy $(find ./src -name "*.c") -- -Iinclude/ -Iinclude/PatientIndexer -Iinclude/SparseMatrix
           clang-tidy $(find ./include -name "*.h")
   build:
     needs: static-check
