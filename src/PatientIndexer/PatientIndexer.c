@@ -29,8 +29,8 @@ PatientFile* CreatePatient(char* lastName, char* firstName) {
     patient->lastName = NULL;
     patient->firstName = NULL;
 
-    patient->lastName = (char*)malloc(sizeof(char) * strlen(lastName) + 1);
-    patient->firstName = (char*)malloc(sizeof(char) * strlen(firstName) + 1);
+    patient->lastName = (char*)malloc(sizeof(char) * (strlen(lastName) + 1));
+    patient->firstName = (char*)malloc(sizeof(char) * (strlen(firstName) + 1));
 
     if(patient->lastName == NULL || patient->firstName == NULL) {
         fprintf(stderr, "Malloc issue when creating the patient file.");
