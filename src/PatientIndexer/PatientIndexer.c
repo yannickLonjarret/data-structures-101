@@ -229,7 +229,8 @@ PatientFile* SearchPatientFile(PatientIndexer* indexer, char* lastName) {
         else
             traversal = traversal->rightPatient;
 
-        stringCompare = strcmp(lastName, traversal->lastName);
+        if(traversal != NULL)
+            stringCompare = strcmp(lastName, traversal->lastName);
     }
 
     return traversal;
