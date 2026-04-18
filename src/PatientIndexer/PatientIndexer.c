@@ -106,8 +106,8 @@ void DeletePatientIndexer(PatientIndexer* indexer) {
     if(indexer == NULL || *indexer == NULL)
         return;
 
-    DeletePatientFile(&(*indexer)->leftPatient);
-    DeletePatientFile(&(*indexer)->rightPatient);
+    DeletePatientIndexer(&(*indexer)->leftPatient);
+    DeletePatientIndexer(&(*indexer)->rightPatient);
     DeletePatientFile(indexer);
 
     return;
