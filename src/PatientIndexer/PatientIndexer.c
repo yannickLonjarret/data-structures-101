@@ -207,13 +207,13 @@ void InsertPatient(PatientIndexer* indexer, char* lastName, char* firstName) {
 PatientFile* SearchPatientFile(PatientIndexer* indexer, char* lastName) {
     if(indexer == NULL) {
         fprintf(stderr, "Patient indexer is NULL.\n");
-        return;
+        return NULL;
     }
 
     // TODO: Create a better way to validate strings
     if(lastName == NULL) {
         fprintf(stderr, "Last name null.\n");
-        return;
+        return NULL;
     }
 
     if(*indexer == NULL)
