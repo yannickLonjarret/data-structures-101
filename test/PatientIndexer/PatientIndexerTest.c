@@ -109,7 +109,7 @@ void TestInsertPatient_LeftPosition(void) {
     TEST_ASSERT_NOT_NULL(indexer->leftPatient);
     if(indexer->leftPatient != NULL) {
         TEST_ASSERT_EQUAL_STRING("A", indexer->leftPatient->lastName);
-        TEST_ASSERT_EQUAL_STRING("Left", indexer->leftPatient->rightName);
+        TEST_ASSERT_EQUAL_STRING("Left", indexer->leftPatient->firstName);
     }
     DeletePatientIndexer(&indexer);
 }
@@ -123,7 +123,7 @@ void TestInsertPatient_RightPosition(void) {
     TEST_ASSERT_NOT_NULL(indexer->rightPatient);
     if(indexer->rightPatient != NULL) {
         TEST_ASSERT_EQUAL_STRING("Z", indexer->rightPatient->lastName);
-        TEST_ASSERT_EQUAL_STRING("Right", indexer->rightPatient->rightName);
+        TEST_ASSERT_EQUAL_STRING("Right", indexer->rightPatient->firstName);
     }
     DeletePatientIndexer(&indexer);
 }
@@ -138,7 +138,7 @@ void TestInsertPatient_AlreadyExist(void) {
     TEST_ASSERT_NOT_NULL(indexer->rightPatient);
     if(indexer->rightPatient != NULL) {
         TEST_ASSERT_EQUAL_STRING("Z", indexer->rightPatient->lastName);
-        TEST_ASSERT_EQUAL_STRING("Exist", indexer->rightPatient->rightName);
+        TEST_ASSERT_EQUAL_STRING("Exist", indexer->rightPatient->firstName);
     }
     DeletePatientIndexer(&indexer);
 }
