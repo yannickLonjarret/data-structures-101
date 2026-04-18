@@ -15,7 +15,7 @@ SPARSE_DIR = $(SRC_DIR)/$(SPARSE_PROJECT)
 INDEXER_DIR = $(SRC_DIR)/$(INDEXER_PROJECT)
 TEST_DIR = test
 SPARSE_TEST_DIR = $(TEST_DIR)/$(SPARSE_PROJECT)
-INDEXER_TEST_DIR = $(TEST_DIR)/$(INDEXER_DIR)
+INDEXER_TEST_DIR = $(TEST_DIR)/$(INDEXER_PROJECT)
 
 INCLUDES = $(addprefix -I, $(shell find $(INCLUDE_DIR) -type d))
 TEST_INCLUDE = -I$(TEST_DIR)
@@ -33,7 +33,7 @@ INDEXER_OBJS = $(patsubst $(INDEXER_DIR)/%.c, $(BIN)/indexer/%.o, $(INDEXER_SRC)
 
 # Necessary to build test runners because of multiple "main" definition
 SPARSE_OBJ = $(BIN)/sparse/SparseMatrix.o
-INDEXER_OBJ = ($BIN)/indexer/PatientIndexer.o
+INDEXER_OBJ = $(BIN)/indexer/PatientIndexer.o
 
 TEST_OBJS = $(patsubst $(TEST_DIR)/%.c, $(BIN)/test/%.o, $(TEST_SRC))
 SPARSE_TEST_OBJS = $(patsubst $(SPARSE_TEST_DIR)/%.c, $(BIN)/sparsetest/%.o, $(SPARSE_TEST_SRC))
