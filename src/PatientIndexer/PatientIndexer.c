@@ -370,6 +370,7 @@ void DeleteIndexerManager(IndexerManager* manager) {
 
     return;
 }
+
 void UpdateIndexerBackup(PatientIndexer* indexer, PatientIndexer* backup);
 
 void InsertAppointment(PatientIndexer* indexer, char* lastName, char* date, char* reason, int emergencyLevel) {
@@ -406,7 +407,7 @@ PatientFile* GetMinimum(PatientFile* patient) {
     if(patient == NULL)
         return NULL;
 
-    PatientFile* traversal = patient->leftPatient;
+    PatientFile* traversal = patient;
 
     while(traversal != NULL) {
         if(traversal->leftPatient == NULL)
