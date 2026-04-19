@@ -32,6 +32,9 @@ extern void TestRemovePatientFileTwoChildren_ChildSuccessor(void);
 extern void TestRemovePatientFileTwoChildren_RootNodeChildSuccessor(void);
 extern void TestRemovePatientFileTwoChildren_RootNode(void);
 extern void TestRemovePatientFileTwoChildren_Failure(void);
+extern void TestGetMinimum(void);
+extern void TestGetMinimumNoChildNode(void);
+extern void TestGetMinimumNullInput(void);
 
 int main(void) {
     UNITY_BEGIN();
@@ -69,5 +72,8 @@ int main(void) {
     RUN_TEST(TestRemovePatientFileTwoChildren_RootNode);
     RUN_TEST(TestRemovePatientFileTwoChildren_Failure);
 
+    RUN_TEST(TestGetMinimum);
+    RUN_TEST(TestGetMinimumNoChildNode);
+    RUN_TEST(TestGetMinimumNullInput);
     return UNITY_END();
 }
