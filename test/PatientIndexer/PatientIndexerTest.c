@@ -379,3 +379,36 @@ void TestRemovePatientFileSingleChild_Failure(void) {
     error = RemovePatientFileSingleChild(&indexer, patientToRemove);
     TEST_ASSERT_EQUAL_INT(1, error);
 }
+
+void TestRemovePatientFileTwoChildren_RootNode(void) {
+    PatientIndexer indexer = CreatePatient("L", "test");
+    InsertPatient(&indexer, "R", "test");
+    InsertPatient(&indexer, "E", "test");
+    InsertPatient(&indexer, "O", "test");
+    InsertPatient(&indexer, "P", "test");
+    InsertPatient(&indexer, "V", "test");
+
+    PatientFile* patientToRemove = indexer;
+    PatientFile* leftSubtree = indexer->leftPatient;
+    PatientFile* rightSubtree = indexer->rightPatient;
+    PatientFile* successor = GetMinimum(indexer->rightPatient);
+    TEST_ASSERT_NOT_NULL(successor);
+    PatientFile* successorParent = successor->parentPatient;
+    PatientFile* successorRightSubtree = successor->rightPatient;
+
+    int error = RemovePatientFileTwoChildren(&indexer, indexer);
+
+    TEST_ASSERT_EQUAL_INT(0, error);
+
+    TEST_ASSERT_EQUAL_PTR(successor, indexer);
+    TEST_ASSERT_EQUAL_PTR(leftSubtree, indexer->leftPatient);
+    TEST_ASSERT_EQUAL_PTR(rightSubtree, indexer->rightPatient);
+    TEST_ASSERT_NULL(indexer->parentPatient);
+
+    TEST_ASSERT_EQUAL_PTR(successorRightSubtree, successorParent->leftPatient);
+    TEST_ASSERT_EQUAL_PTR(successorParent, successorRightSubtree->parentPatient);
+
+    DeletePatientIndexer(&indexer);
+    DeletePatientFile(&patientToRemove);
+}
+
