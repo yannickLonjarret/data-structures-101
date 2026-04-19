@@ -501,3 +501,13 @@ void TestRemovePatientFileTwoChildren_ChildSuccessor(void) {
     DeletePatientFile(&patientToRemove);
 }
 
+void TestRemovePatientFileTwoChildren_Failure(void) {
+    PatientIndexer indexer = NULL;
+    PatientFile* patientToRemove = CreatePatient("A", "Test");
+
+    int error = RemovePatientFileTwoChildren(&indexer, patientToRemove);
+
+    TEST_ASSERT_EQUAL_INT(1, error);
+
+    DeletePatientFile(&patientToRemove);
+}
