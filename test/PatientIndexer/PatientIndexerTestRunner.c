@@ -21,10 +21,17 @@ extern void TestSearchPatient_AnyNode(void);
 extern void TestRemovePatientFileLeaf_RootNode(void);
 extern void TestRemovePatientFileLeaf_LeftNode(void);
 extern void TestRemovePatientFileLeaf_RightNode(void);
+extern void TestRemovePatientFileLeaf_Failure(void);
 extern void TestRemovePatientSingleChild_RootNodeLeftChild(void);
 extern void TestRemovePatientSingleChild_RootNodeRightChild(void);
 extern void TestRemovePatientSingleChild_RightChild(void);
 extern void TestRemovePatientSingleChild_LeftChild(void);
+extern void TestRemovePatientFileSingleChild_Failure(void);
+extern void TestRemovePatientFileTwoChildren(void);
+extern void TestRemovePatientFileTwoChildren_ChildSuccessor(void);
+extern void TestRemovePatientFileTwoChildren_RootNodeChildSuccessor(void);
+extern void TestRemovePatientFileTwoChildren_RootNode(void);
+extern void TestRemovePatientFileTwoChildren_Failure(void);
 
 int main(void) {
     UNITY_BEGIN();
@@ -44,12 +51,23 @@ int main(void) {
     RUN_TEST(TestSearchPatient_NotExist);
     RUN_TEST(TestSearchPatient_RootNode);
     RUN_TEST(TestSearchPatient_AnyNode);
+
     RUN_TEST(TestRemovePatientFileLeaf_RootNode);
     RUN_TEST(TestRemovePatientFileLeaf_LeftNode);
     RUN_TEST(TestRemovePatientFileLeaf_RightNode);
+    RUN_TEST(TestRemovePatientFileLeaf_Failure);
+
     RUN_TEST(TestRemovePatientSingleChild_RootNodeLeftChild);
     RUN_TEST(TestRemovePatientSingleChild_RootNodeRightChild);
     RUN_TEST(TestRemovePatientSingleChild_RightChild);
     RUN_TEST(TestRemovePatientSingleChild_LeftChild);
+    RUN_TEST(TestRemovePatientFileSingleChild_Failure);
+
+    RUN_TEST(TestRemovePatientFileTwoChildren);
+    RUN_TEST(TestRemovePatientFileTwoChildren_ChildSuccessor);
+    RUN_TEST(TestRemovePatientFileTwoChildren_RootNodeChildSuccessor);
+    RUN_TEST(TestRemovePatientFileTwoChildren_RootNode);
+    RUN_TEST(TestRemovePatientFileTwoChildren_Failure);
+
     return UNITY_END();
 }
