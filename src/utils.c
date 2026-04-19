@@ -66,3 +66,14 @@ int getValidUserIntegerInput(int* userInput, int lowRange, int highRange) {
 
     return 0;
 }
+
+int isNameValid(char* name) {
+    if(name == NULL || name[0] == '\0')
+        return 0;
+
+    for(int i = 0; name[i] != '\0'; i++)
+        if(!isalpha((unsigned char)name[i]))
+            return 0;
+
+    return 1;
+}

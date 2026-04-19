@@ -5,4 +5,6 @@
 int readUserIntegerInput(int* userInput);
 
 int getValidUserIntegerInput(int* userInput, int lowRange, int highRange);
+
+int isNameValid(char* name);
 #endif
