@@ -433,10 +433,9 @@ void DisplayPatientFile(PatientIndexer* indexer, char* lastName) {
         return;
     }
 
-    // TODO: Create a better way to validate strings
-    if(lastName == NULL) {
-        fprintf(stderr, "First or last name null.\n");
-        return;
+    if(!isNameValid(lastName)) {
+        fprintf(stderr, "Name invalid in DisplayPatientFile.");
+        return NULL;
     }
 
     PatientFile* patientToDisplay = SearchPatientFile(indexer, lastName);
