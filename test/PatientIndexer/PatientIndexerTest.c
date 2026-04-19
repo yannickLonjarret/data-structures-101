@@ -290,6 +290,18 @@ void TestRemovePatientFileLeaf_RightNode(void) {
     DeletePatientFile(&patient);
 }
 
+void TestRemovePatientFileLeaf_Failure(void) {
+    PatientIndexer indexer = NULL;
+    PatientFile* patientToRemove = CreatePatient("A", "Test");
+
+    int error = RemovePatientFileLeaf(&indexer, patientToRemove);
+    TEST_ASSERT_EQUAL_INT(1, error);
+    DeletePatientFile(&patientToRemove);
+
+    error = RemovePatientFileLeaf(&indexer, patientToRemove);
+    TEST_ASSERT_EQUAL_INT(1, error);
+}
+
 void TestRemovePatientSingleChild_RootNodeLeftChild(void) {
     PatientIndexer indexer = CreatePatient("B", "test");
     InsertPatient(&indexer, "A", "test");
