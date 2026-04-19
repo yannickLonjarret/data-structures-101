@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "PatientIndexer.h"
+#include "utils.h"
 
 // Data structure creation and deletion
 IndexerManager CreateIndexerManager(int numberOfIndexers) {
@@ -19,6 +20,11 @@ IndexerManager CreateIndexerManager(int numberOfIndexers) {
 }
 
 PatientFile* CreatePatient(char* lastName, char* firstName) {
+    if(!isNameValid(lastName) || !isNameValid(firstName)) {
+        fprintf(stderr, "Name invalid in CreatePatient.");
+        return NULL;
+    }
+
     PatientFile* patient = (PatientFile*)malloc(sizeof(PatientFile));
 
     if(patient == NULL) {
