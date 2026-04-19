@@ -367,3 +367,15 @@ void TestRemovePatientSingleChild_LeftChild(void) {
     DeletePatientIndexer(&indexer);
     DeletePatientFile(&patientToRemove);
 }
+
+void TestRemovePatientFileSingleChild_Failure(void) {
+    PatientIndexer indexer = NULL;
+    PatientFile* patientToRemove = CreatePatient("A", "Test");
+
+    int error = RemovePatientFileSingleChild(&indexer, patientToRemove);
+    TEST_ASSERT_EQUAL_INT(1, error);
+    DeletePatientFile(&patientToRemove);
+
+    error = RemovePatientFileSingleChild(&indexer, patientToRemove);
+    TEST_ASSERT_EQUAL_INT(1, error);
+}
