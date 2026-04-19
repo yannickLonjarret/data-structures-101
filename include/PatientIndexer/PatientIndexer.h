@@ -5,7 +5,7 @@ typedef struct appointment {
     char* date;
     char* reason;
     int emergencyLevel;
-    appointment* nextAppointment;
+    struct appointment* nextAppointment;
 } Appointment;
 
 typedef Appointment* AppointmentList;
@@ -15,9 +15,9 @@ typedef struct patient {
     char* lastName;
     int appointmentCount;
     AppointmentList appointments;
-    patient* parentPatient;
-    patient* leftPatient;
-    patient* rightPatient;
+    struct patient* parentPatient;
+    struct patient* leftPatient;
+    struct patient* rightPatient;
 } PatientFile;
 
 typedef PatientFile* PatientIndexer;

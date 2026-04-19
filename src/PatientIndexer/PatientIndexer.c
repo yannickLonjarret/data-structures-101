@@ -29,8 +29,8 @@ PatientFile* CreatePatient(char* lastName, char* firstName) {
     patient->lastName = NULL;
     patient->firstName = NULL;
 
-    patient->lastName = (char*)malloc(sizeof(char) * strlen(lastName) + 1);
-    patient->firstName = (char*)malloc(sizeof(char) * strlen(firstName) + 1);
+    patient->lastName = (char*)malloc(sizeof(char) * (strlen(lastName) + 1));
+    patient->firstName = (char*)malloc(sizeof(char) * (strlen(firstName) + 1));
 
     if(patient->lastName == NULL || patient->firstName == NULL) {
         fprintf(stderr, "Malloc issue when creating the patient file.");
@@ -39,14 +39,14 @@ PatientFile* CreatePatient(char* lastName, char* firstName) {
 
     int errorCode = 0;
     errorCode = snprintf(patient->lastName, strlen(lastName) + 1, "%s", lastName);
-    if(errorCode != 0) {
+    if(errorCode < 0) {
         fprintf(stderr, "Error when copying the patient last name.");
         DeletePatientFile(&patient);
         return NULL;
     }
 
     errorCode = snprintf(patient->firstName, strlen(firstName) + 1, "%s", firstName);
-    if(errorCode != 0) {
+    if(errorCode < 0) {
         fprintf(stderr, "Error when copying the patient first name.");
         DeletePatientFile(&patient);
         return NULL;
@@ -83,14 +83,14 @@ Appointment* CreateAppointment(char* date, char* reason, int emergencyLevel) {
 
     int errorCode = 0;
     errorCode = snprintf(appointment->date, strlen(date) + 1, "%s", date);
-    if(errorCode != 0) {
+    if(errorCode < 0) {
         fprintf(stderr, "Error when copying the appointment date.");
         DeleteAppointment(&appointment);
         return NULL;
     }
 
     errorCode = snprintf(appointment->reason, strlen(reason) + 1, "%s", reason);
-    if(errorCode != 0) {
+    if(errorCode < 0) {
         fprintf(stderr, "Error when copying the appointment reason.");
         DeleteAppointment(&appointment);
         return NULL;
@@ -106,8 +106,8 @@ void DeletePatientIndexer(PatientIndexer* indexer) {
     if(indexer == NULL || *indexer == NULL)
         return;
 
-    DeletePatientFile(&(*indexer)->leftPatient);
-    DeletePatientFile(&(*indexer)->rightPatient);
+    DeletePatientIndexer(&(*indexer)->leftPatient);
+    DeletePatientIndexer(&(*indexer)->rightPatient);
     DeletePatientFile(indexer);
 
     return;
@@ -207,13 +207,13 @@ void InsertPatient(PatientIndexer* indexer, char* lastName, char* firstName) {
 PatientFile* SearchPatientFile(PatientIndexer* indexer, char* lastName) {
     if(indexer == NULL) {
         fprintf(stderr, "Patient indexer is NULL.\n");
-        return;
+        return NULL;
     }
 
     // TODO: Create a better way to validate strings
     if(lastName == NULL) {
         fprintf(stderr, "Last name null.\n");
-        return;
+        return NULL;
     }
 
     if(*indexer == NULL)
@@ -229,7 +229,8 @@ PatientFile* SearchPatientFile(PatientIndexer* indexer, char* lastName) {
         else
             traversal = traversal->rightPatient;
 
-        stringCompare = strcmp(lastName, traversal->lastName);
+        if(traversal != NULL)
+            stringCompare = strcmp(lastName, traversal->lastName);
     }
 
     return traversal;
@@ -266,6 +267,9 @@ void RemovePatientFile(PatientIndexer* indexer, char* lastName) {
 }
 
 int RemovePatientFileLeaf(PatientIndexer* root, PatientFile* nodeToRemove) {
+    if(root == NULL || *root == NULL)
+        return 1;
+
     if(nodeToRemove == NULL)
         return 1;
 
@@ -284,6 +288,9 @@ int RemovePatientFileLeaf(PatientIndexer* root, PatientFile* nodeToRemove) {
 }
 
 int RemovePatientFileSingleChild(PatientIndexer* root, PatientFile* nodeToRemove) {
+    if(root == NULL || *root == NULL)
+        return 1;
+
     if(nodeToRemove == NULL)
         return 1;
 
@@ -311,6 +318,9 @@ int RemovePatientFileSingleChild(PatientIndexer* root, PatientFile* nodeToRemove
 }
 
 int RemovePatientFileTwoChildren(PatientIndexer* root, PatientFile* nodeToRemove) {
+    if(root == NULL || *root == NULL)
+        return 1;
+
     if(nodeToRemove == NULL)
         return 1;
 
@@ -360,6 +370,7 @@ void DeleteIndexerManager(IndexerManager* manager) {
 
     return;
 }
+
 void UpdateIndexerBackup(PatientIndexer* indexer, PatientIndexer* backup);
 
 void InsertAppointment(PatientIndexer* indexer, char* lastName, char* date, char* reason, int emergencyLevel) {
@@ -396,7 +407,7 @@ PatientFile* GetMinimum(PatientFile* patient) {
     if(patient == NULL)
         return NULL;
 
-    PatientFile* traversal = *patient->leftPatient;
+    PatientFile* traversal = patient;
 
     while(traversal != NULL) {
         if(traversal->leftPatient == NULL)
