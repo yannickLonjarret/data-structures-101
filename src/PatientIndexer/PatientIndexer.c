@@ -267,6 +267,9 @@ void RemovePatientFile(PatientIndexer* indexer, char* lastName) {
 }
 
 int RemovePatientFileLeaf(PatientIndexer* root, PatientFile* nodeToRemove) {
+    if(root == NULL || *root == NULL)
+        return 1;
+
     if(nodeToRemove == NULL)
         return 1;
 
@@ -285,6 +288,9 @@ int RemovePatientFileLeaf(PatientIndexer* root, PatientFile* nodeToRemove) {
 }
 
 int RemovePatientFileSingleChild(PatientIndexer* root, PatientFile* nodeToRemove) {
+    if(root == NULL || *root == NULL)
+        return 1;
+
     if(nodeToRemove == NULL)
         return 1;
 
@@ -312,6 +318,9 @@ int RemovePatientFileSingleChild(PatientIndexer* root, PatientFile* nodeToRemove
 }
 
 int RemovePatientFileTwoChildren(PatientIndexer* root, PatientFile* nodeToRemove) {
+    if(root == NULL || *root == NULL)
+        return 1;
+
     if(nodeToRemove == NULL)
         return 1;
 
