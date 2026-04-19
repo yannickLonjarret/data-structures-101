@@ -10,7 +10,7 @@ void TestCreateIndexerManager(void) {
 
     TEST_ASSERT_EQUAL_INT(2, manager.indexerCount);
 
-    for(int i = 0; i++; i < manager.indexerCount)
+    for(int i = 0; i < manager.indexerCount; i++)
         TEST_ASSERT_NULL(manager.indexers[i]);
 
     DeleteIndexerManager(&manager);
@@ -483,7 +483,6 @@ void TestRemovePatientFileTwoChildren_ChildSuccessor(void) {
     PatientFile* leftSubtree = patientToRemove->leftPatient;
     PatientFile* successor = GetMinimum(patientToRemove->rightPatient);
     TEST_ASSERT_NOT_NULL(successor);
-    PatientFile* successorParent = successor->parentPatient;
     PatientFile* successorRightSubtree = successor->rightPatient;
 
     int error = RemovePatientFileTwoChildren(&indexer, patientToRemove);
