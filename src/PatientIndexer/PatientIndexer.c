@@ -384,6 +384,10 @@ void InsertAppointment(PatientIndexer* indexer, char* lastName, char* date, char
     }
 
     // TODO check names validity and date vaidity
+    if(!isNameValid(lastName)) {
+        fprintf(stderr, "Name invalid in InsertAppointment.");
+        return NULL;
+    }
 
     PatientFile* patientToUpdate = SearchPatientFile(indexer, lastName);
     if(patientToUpdate == NULL) {
