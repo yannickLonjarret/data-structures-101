@@ -165,9 +165,8 @@ void InsertPatient(PatientIndexer* indexer, char* lastName, char* firstName) {
         return;
     }
 
-    // TODO: Create a better way to validate strings
-    if(lastName == NULL || firstName == NULL) {
-        fprintf(stderr, "First or last name null.\n");
+    if(!isNameValid(lastName) || !isNameValid(firstName)) {
+        fprintf(stderr, "First or last name invalid in InsertPatient.\n");
         return;
     }
 
