@@ -511,3 +511,33 @@ void TestRemovePatientFileTwoChildren_Failure(void) {
 
     DeletePatientFile(&patientToRemove);
 }
+
+void TestGetMinimumNullInput(void) {
+    PatientFile* nullPointer = NULL;
+    PatientFile* minimum = GetMinimum(nullPointer);
+    TEST_ASSERT_NULL(minimum);
+}
+
+void TestGetMinimumNoChildNode(void) {
+    PatientFile* patient = CreatePatient("Test", "test");
+    PatientFile* expected = CreatePatient("Min", "test");
+    patient->rightPatient = expected;
+
+    PatientFile* minimum = GetMinimum(patient->rightPatient);
+    TEST_ASSERT_EQUAL_PTR(expected, minimum);
+}
+
+void TestGetMinimum(void) {
+    PatientIndexer indexer = NULL;
+    InsertPatient(&indexer, "L", "test");
+    InsertPatient(&indexer, "E", "test");
+    InsertPatient(&indexer, "O", "test");
+    InsertPatient(&indexer, "V", "test");
+    InsertPatient(&indexer, "M", "test");
+
+    PatientFile* expected = SearchPatientFile(&indexer, "M");
+    TEST_ASSERT_NOT_NULL(expected);
+
+    PatientFile* minimum = GetMinimum(indexer->rightPatient);
+    TEST_ASSERT_EQUAL_PTR(expected, minimum);
+}
