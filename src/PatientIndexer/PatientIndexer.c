@@ -69,6 +69,11 @@ PatientFile* CreatePatient(char* lastName, char* firstName) {
 }
 
 Appointment* CreateAppointment(char* date, char* reason, int emergencyLevel) {
+    if(!isDateValid(date)) {
+        fprintf(stderr, "Invalid date in CreateAppointment.");
+        return NULL;
+    }
+
     Appointment* appointment = (Appointment*)malloc(sizeof(Appointment));
 
     if(appointment == NULL) {
@@ -383,9 +388,13 @@ void InsertAppointment(PatientIndexer* indexer, char* lastName, char* date, char
         return;
     }
 
-    // TODO check names validity and date vaidity
+    if(!isDateValid(date)) {
+        fprintf(stderr, "Invalid date in InsertAppointment.");
+        return NULL;
+    }
+
     if(!isNameValid(lastName)) {
-        fprintf(stderr, "Name invalid in InsertAppointment.");
+        fprintf(stderr, "Invalid name in InsertAppointment.");
         return NULL;
     }
 
