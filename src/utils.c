@@ -182,15 +182,21 @@ int isDateValid(char* date) {
 }
 
 int canFormValidDate(const int day, const int month, const int year) {
-    if(month < 1 || month > 12)
+    const int firstMonth = 1;
+    const int lastMonth = 12;
+    const int yearLowBound = 1900;
+    const int yearHihgound = 2100;
+    const int february = 2;
+
+    if(month < firstMonth || month > lastMonth)
         return 0;
 
-    if(year < 1900)
+    if(year < yearLowBound || year > yearHihgound)
         return 0;
 
     const int leapYearFeb = 29;
     int maxDay = daysPerMonth[month];
-    if(month == 2) {
+    if(month == february) {
         int isLeapYear = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
         if(isLeapYear)
             maxDay = leapYearFeb;
