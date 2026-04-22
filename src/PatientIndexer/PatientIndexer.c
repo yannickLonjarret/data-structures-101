@@ -367,7 +367,7 @@ void DeleteIndexerManager(IndexerManager* manager) {
 
     free(manager->indexers);
     manager->indexers = NULL;
-
+    free(manager);
     return;
 }
 
