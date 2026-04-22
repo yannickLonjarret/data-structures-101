@@ -79,6 +79,11 @@ int isNameValid(char* name) {
 }
 
 int parseDateField(const char* field, int* parsedField) {
+    const int fieldLength = strlen(field);
+    for(int i = 0; i < fieldLength; i++)
+        if(!isdigit((unsigned char)field[i]))
+            return 1;
+
     char* str_end = NULL;
     errno = 0;
     *parsedField = (int)strtol(field, &str_end, base_10);
