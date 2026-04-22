@@ -20,4 +20,6 @@ int parseDateField(const char* field, int* parsedField);
 int isDateValid(char* date);
 
 int canFormValidDate(const int day, const int month, const int year);
+
+int getValidDateInput(char* dateInput);
 #endif
