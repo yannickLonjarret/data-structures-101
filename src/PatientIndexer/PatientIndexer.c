@@ -158,6 +158,19 @@ void DeleteAppointmentList(AppointmentList* list) {
     *list = NULL;
 }
 
+void DeleteIndexerManager(IndexerManager** manager) {
+    if(manager == NULL || *manager == NULL)
+        return;
+
+    for(int i = 0; i < (*manager)->indexerCount; i++)
+        DeletePatientIndexer((*manager)->indexers[i]);
+
+    free((*manager)->indexers);
+    (*manager)->indexers = NULL;
+    free(*manager);
+    return;
+}
+
 // Indexer management functions
 void InsertPatient(PatientIndexer* indexer, char* lastName, char* firstName) {
     if(indexer == NULL) {
@@ -362,19 +375,6 @@ int RemovePatientFileTwoChildren(PatientIndexer* root, PatientFile* nodeToRemove
         *root = successor;
 
     return 0;
-}
-
-void DeleteIndexerManager(IndexerManager* manager) {
-    if(manager == NULL)
-        return;
-
-    for(int i = 0; i < manager->indexerCount; i++)
-        DeletePatientIndexer(&manager->indexers[i]);
-
-    free(manager->indexers);
-    manager->indexers = NULL;
-    free(manager);
-    return;
 }
 
 void UpdateIndexerBackup(PatientIndexer* indexer, PatientIndexer* backup);
