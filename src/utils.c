@@ -91,7 +91,6 @@ int isDateValid(char* date) {
     // Date format: MM_DD_YYYY
     if(date == NULL || date[0] == '\0')
         return 0;
-    const int dateLength = 10;
 
     if(strlen(date) != dateLength)
         return 0;

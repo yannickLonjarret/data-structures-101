@@ -7,6 +7,8 @@ static const int base_10 = 10;
 
 static const int daysPerMonth[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
+static const int dateLength = 10;
+
 int readUserIntegerInput(int* userInput);
 
 int getValidUserIntegerInput(int* userInput, int lowRange, int highRange);
