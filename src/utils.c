@@ -4,18 +4,25 @@
 #include <stdlib.h>
 #include <string.h>
 
-int readUserIntegerInput(int* userInput) {
-    char line[MAX_CHAR_SIZE];
-    int errorCode = 0;
-
-    if(fgets(line, sizeof(line), stdin) == NULL) {
-        errorCode = fprintf(stderr, "Error when reading user input.\n");
-        *userInput = 0;
+int readInput(char* input) {
+    if(fgets(input, sizeof(input), stdin) == NULL) {
+        int errorCode = fprintf(stderr, "Error when reading user input.\n");
+        input[0] = '\0';
         if(errorCode != 0)
             return 2;
 
         return 1;
     }
+
+    return 0;
+}
+
+int readUserIntegerInput(int* userInput) {
+    char line[MAX_CHAR_SIZE];
+    int errorCode = readInput(line);
+
+    if(errorCode != 0)
+        return errorCode;
 
     char* str_end = NULL;
     errno = 0;
