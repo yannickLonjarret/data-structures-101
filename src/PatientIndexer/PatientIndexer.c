@@ -163,11 +163,12 @@ void DeleteIndexerManager(IndexerManager** manager) {
         return;
 
     for(int i = 0; i < (*manager)->indexerCount; i++)
-        DeletePatientIndexer((*manager)->indexers[i]);
+        DeletePatientIndexer(&(*manager)->indexers[i]);
 
     free((*manager)->indexers);
     (*manager)->indexers = NULL;
     free(*manager);
+    manager = NULL;
     return;
 }
 
