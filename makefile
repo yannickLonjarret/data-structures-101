@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Werror -pedantic
+CFLAGS = -Wall -pedantic -fsanitize=address
 
 BIN = bin
 
