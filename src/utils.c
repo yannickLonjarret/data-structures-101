@@ -203,24 +203,29 @@ int canFormValidDate(const int day, const int month, const int year) {
 
 int getValidDateInput(char* dateInput) {
     int day, month, year;
+    int dateValid = 0;
+    int error;
+    do {
 
-    printf("Please input the day:\n");
-    int error = getValidUserIntegerInput(&day, 1, 31);
-    if(error != 0)
-        return 1;
+        printf("Please input the day:\n");
+        error = getValidUserIntegerInput(&day, 1, 31);
+        if(error != 0)
+            return 1;
 
-    printf("Please input the month:\n");
-    error = getValidUserIntegerInput(&month, 1, 12);
-    if(error != 0)
-        return 1;
+        printf("Please input the month:\n");
+        error = getValidUserIntegerInput(&month, 1, 12);
+        if(error != 0)
+            return 1;
 
-    printf("Please input the year:\n");
-    error = getValidUserIntegerInput(&year, 1900, 2100);
-    if(error != 0)
-        return 1;
+        printf("Please input the year:\n");
+        error = getValidUserIntegerInput(&year, 1900, 2100);
+        if(error != 0)
+            return 1;
 
-    if(!canFormValidDate(day, month, year))
-        return 1;
+        dateValid = canFormValidDate(day, month, year);
+        if(!dateValid)
+            printf("Please type in a valid date. \n");
+    } while(!dateValid);
 
     error = snprintf(dateInput, dateLength + 1, "%02d_%02d_%04d", month, day, year);
 
