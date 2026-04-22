@@ -524,6 +524,9 @@ void TestGetMinimumNoChildNode(void) {
 
     PatientFile* minimum = GetMinimum(patient->rightPatient);
     TEST_ASSERT_EQUAL_PTR(expected, minimum);
+
+    DeletePatientFile(&patient);
+    DeletePatientFile(&expected);
 }
 
 void TestGetMinimum(void) {
@@ -539,4 +542,6 @@ void TestGetMinimum(void) {
 
     PatientFile* minimum = GetMinimum(indexer->rightPatient);
     TEST_ASSERT_EQUAL_PTR(expected, minimum);
+
+    DeletePatientIndexer(&indexer);
 }
