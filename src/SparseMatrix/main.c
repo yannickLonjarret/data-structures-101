@@ -202,5 +202,6 @@ int main(void) {
     for(int i = 0; i < matrixCount; i++)
         if(matrices[i] != NULL)
             DeleteMatrix(&matrices[i]);
+    free(matrices);
     return 0;
 }
