@@ -78,6 +78,35 @@ int isNameValid(char* name) {
     return 1;
 }
 
+int readNameInput(char* name) {
+    char line[MAX_CHAR_SIZE];
+    int errorCode = readInput(line);
+
+    if(errorCode != 0)
+        return errorCode;
+
+    strncpy(name, line, strlen(line));
+    return 0;
+}
+
+int getValidNameInput(char* name) {
+    int errorCode = readNameInput(name);
+    if(errorCode != 0) {
+        sprintf(stderr, "Failed to get name skip.\n");
+        return 1;
+    }
+    while(!isNameValid(name)) {
+        printf("Please input a name without figures or symbols. \n");
+        errorCode = readNameInput(name);
+        if(errorCode != 0) {
+            sprintf(stderr, "Failed to get name skip.\n");
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
 int parseDateField(const char* field, int* parsedField) {
     const int fieldLength = strlen(field);
     for(int i = 0; i < fieldLength; i++)

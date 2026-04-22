@@ -15,6 +15,10 @@ int getValidUserIntegerInput(int* userInput, int lowRange, int highRange);
 
 int isNameValid(char* name);
 
+int readNameInput(char* name);
+
+int getValidNameInput(char* name);
+
 int parseDateField(const char* field, int* parsedField);
 
 int isDateValid(char* date);
