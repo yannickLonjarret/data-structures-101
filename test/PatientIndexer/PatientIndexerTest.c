@@ -6,12 +6,12 @@ void setUp(void) {}
 void tearDown(void) {}
 
 void TestCreateIndexerManager(void) {
-    IndexerManager manager = CreateIndexerManager(2);
+    IndexerManager* manager = CreateIndexerManager(2);
 
-    TEST_ASSERT_EQUAL_INT(2, manager.indexerCount);
+    TEST_ASSERT_EQUAL_INT(2, manager->indexerCount);
 
-    for(int i = 0; i < manager.indexerCount; i++)
-        TEST_ASSERT_NULL(manager.indexers[i]);
+    for(int i = 0; i < manager->indexerCount; i++)
+        TEST_ASSERT_NULL(manager->indexers[i]);
 
     DeleteIndexerManager(&manager);
 }
