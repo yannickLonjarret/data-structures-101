@@ -141,6 +141,10 @@ int isDateValid(char* date) {
     if(error != 0)
         return 0;
 
+    return canFormValidDate(day, month, year);
+}
+
+int canFormValidDate(const int day, const int month, const int year) {
     if(month < 1 || month > 12)
         return 0;
 
