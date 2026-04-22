@@ -5,12 +5,18 @@
 #include "PatientIndexer.h"
 
 // Data structure creation and deletion
-IndexerManager CreateIndexerManager(int numberOfIndexers) {
-    IndexerManager manager;
-    manager.indexerCount = numberOfIndexers;
-    manager.indexers = (PatientIndexer*)malloc(sizeof(PatientIndexer) * numberOfIndexers);
+IndexerManager* CreateIndexerManager(int numberOfIndexers) {
+    IndexerManager* manager = (IndexerManager*)malloc(sizeof(IndexerManager));
 
-    if(manager.indexers == NULL) {
+    if(manager == NULL) {
+        fprintf(stderr, "Malloc issue when creating the manager indexer.");
+        abort();
+    }
+
+    manager->indexerCount = numberOfIndexers;
+    manager->indexers = (PatientIndexer*)malloc(sizeof(PatientIndexer) * numberOfIndexers);
+
+    if(manager->indexers == NULL) {
         fprintf(stderr, "Malloc issue when creating the manager indexer.");
         abort();
     }
