@@ -137,17 +137,19 @@ int isDateValid(char* date) {
     if(strlen(date) != dateLength)
         return 0;
 
-    if(date[2] != '_' || date[5] != '_')
+    const int firstSeparatorPosition = 2;
+    const int secondSeparatorPosition = 5;
+    if(date[firstSeparatorPosition] != '_' || date[secondSeparatorPosition] != '_')
         return 0;
 
     for(int i = 0; i < dateLength; i++) {
-        if(i == 2 || i == 5)
+        if(i == firstSeparatorPosition || i == secondSeparatorPosition)
             continue;
         if(!isdigit((unsigned char)date[i]))
             return 0;
     }
 
-    char buf[11];
+    char buf[dateLength + 1];
     strncpy(buf, date, dateLength);
     buf[dateLength] = '\0';
 
@@ -187,7 +189,8 @@ int canFormValidDate(const int day, const int month, const int year) {
     const int yearLowBound = 1900;
     const int yearHihgound = 2100;
     const int february = 2;
-
+    const int multipleOf100 = 100;
+    const int multipleOf400 = 400;
     if(month < firstMonth || month > lastMonth)
         return 0;
 
@@ -197,7 +200,7 @@ int canFormValidDate(const int day, const int month, const int year) {
     const int leapYearFeb = 29;
     int maxDay = daysPerMonth[month];
     if(month == february) {
-        int isLeapYear = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+        int isLeapYear = (year % 4 == 0 && year % multipleOf100 != 0) || (year % multipleOf400 == 0);
         if(isLeapYear)
             maxDay = leapYearFeb;
     }
