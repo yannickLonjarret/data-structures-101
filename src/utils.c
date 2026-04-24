@@ -79,7 +79,8 @@ int isNameValid(char* name) {
     if(name == NULL || name[0] == '\0')
         return 0;
 
-    for(int i = 0; name[i] != '\0'; i++)
+    const int nameLength = strlen(name);
+    for(int i = 0; i < nameLength; i++)
         if(!isalpha((unsigned char)name[i]))
             return 0;
 
