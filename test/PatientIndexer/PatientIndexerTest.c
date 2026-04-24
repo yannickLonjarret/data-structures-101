@@ -33,7 +33,7 @@ void TestCreatePatient(void) {
 }
 
 void TestCreateAppointment(void) {
-    Appointment* appointment = CreateAppointment("04_18_26", "Fever", 0);
+    Appointment* appointment = CreateAppointment("04_18_2026", "Fever", 0);
 
     TEST_ASSERT_EQUAL_INT(0, appointment->emergencyLevel);
     TEST_ASSERT_EQUAL_STRING("04_18_26", appointment->date);
