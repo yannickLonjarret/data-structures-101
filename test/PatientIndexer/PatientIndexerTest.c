@@ -8,6 +8,7 @@ void tearDown(void) {}
 void TestCreateIndexerManager(void) {
     IndexerManager* manager = CreateIndexerManager(2);
 
+    TEST_ASSERT_NOT_NULL(manager);
     TEST_ASSERT_EQUAL_INT(2, manager->indexerCount);
 
     for(int i = 0; i < manager->indexerCount; i++)
@@ -19,6 +20,7 @@ void TestCreateIndexerManager(void) {
 void TestCreatePatient(void) {
     PatientFile* patient = CreatePatient("Freeman", "Gordon");
 
+    TEST_ASSERT_NOT_NULL(patient);
     TEST_ASSERT_EQUAL_INT(0, patient->appointmentCount);
     TEST_ASSERT_NULL(patient->appointments);
 
@@ -35,6 +37,7 @@ void TestCreatePatient(void) {
 void TestCreateAppointment(void) {
     Appointment* appointment = CreateAppointment("04_18_2026", "Fever", 0);
 
+    TEST_ASSERT_NOT_NULL(appointment);
     TEST_ASSERT_EQUAL_INT(0, appointment->emergencyLevel);
     TEST_ASSERT_EQUAL_STRING("04_18_26", appointment->date);
     TEST_ASSERT_EQUAL_STRING("Fever", appointment->reason);
