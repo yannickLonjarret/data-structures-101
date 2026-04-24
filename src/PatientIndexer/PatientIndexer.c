@@ -14,7 +14,7 @@ IndexerManager* CreateIndexerManager(int numberOfIndexers) {
     }
 
     manager->indexerCount = numberOfIndexers;
-    manager->indexers = (PatientIndexer*)malloc(sizeof(PatientIndexer) * numberOfIndexers);
+    manager->indexers = (PatientIndexer*)calloc(numberOfIndexers, sizeof(PatientIndexer));
 
     if(manager->indexers == NULL) {
         fprintf(stderr, "Malloc issue when creating the manager indexer.");
