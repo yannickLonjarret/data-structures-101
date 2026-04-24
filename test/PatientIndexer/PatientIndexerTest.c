@@ -39,7 +39,7 @@ void TestCreateAppointment(void) {
 
     TEST_ASSERT_NOT_NULL(appointment);
     TEST_ASSERT_EQUAL_INT(0, appointment->emergencyLevel);
-    TEST_ASSERT_EQUAL_STRING("04_18_26", appointment->date);
+    TEST_ASSERT_EQUAL_STRING("04_18_2026", appointment->date);
     TEST_ASSERT_EQUAL_STRING("Fever", appointment->reason);
 
     TEST_ASSERT_NULL(appointment->nextAppointment);
@@ -69,14 +69,17 @@ void TestDeletePatientFile(void) {
 }
 
 void TestDeleteAppointment(void) {
-    Appointment* appointment = CreateAppointment("04_18_26", "Fever", 0);
+    Appointment* appointment = CreateAppointment("04_18_2026", "Fever", 0);
     DeleteAppointment(&appointment);
     TEST_ASSERT_NULL(appointment);
 }
 
 void TestDeleteAppointmentList(void) {
-    Appointment* appointment1 = CreateAppointment("04_18_26", "Fever", 0);
-    Appointment* appointment2 = CreateAppointment("04_18_26", "Fever", 0);
+    Appointment* appointment1 = CreateAppointment("04_18_2026", "Fever", 0);
+    Appointment* appointment2 = CreateAppointment("04_18_2026", "Fever", 0);
+
+    TEST_ASSERT_NOT_NULL(appointment1);
+    TEST_ASSERT_NOT_NULL(appointment2);
 
     appointment1->nextAppointment = appointment2;
 
