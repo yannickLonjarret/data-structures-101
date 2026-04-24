@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "PatientIndexer.h"
+#include "utils.h"
 
 // Data structure creation and deletion
 IndexerManager* CreateIndexerManager(int numberOfIndexers) {
@@ -25,6 +26,11 @@ IndexerManager* CreateIndexerManager(int numberOfIndexers) {
 }
 
 PatientFile* CreatePatient(char* lastName, char* firstName) {
+    if(!isNameValid(lastName) || !isNameValid(firstName)) {
+        fprintf(stderr, "Name invalid in CreatePatient.\n");
+        return NULL;
+    }
+
     PatientFile* patient = (PatientFile*)malloc(sizeof(PatientFile));
 
     if(patient == NULL) {
@@ -69,6 +75,11 @@ PatientFile* CreatePatient(char* lastName, char* firstName) {
 }
 
 Appointment* CreateAppointment(char* date, char* reason, int emergencyLevel) {
+    if(!isDateValid(date)) {
+        fprintf(stderr, "Invalid date in CreateAppointment. \n");
+        return NULL;
+    }
+
     Appointment* appointment = (Appointment*)malloc(sizeof(Appointment));
 
     if(appointment == NULL) {
@@ -179,9 +190,8 @@ void InsertPatient(PatientIndexer* indexer, char* lastName, char* firstName) {
         return;
     }
 
-    // TODO: Create a better way to validate strings
-    if(lastName == NULL || firstName == NULL) {
-        fprintf(stderr, "First or last name null.\n");
+    if(!isNameValid(lastName) || !isNameValid(firstName)) {
+        fprintf(stderr, "First or last name invalid in InsertPatient.\n");
         return;
     }
 
@@ -230,9 +240,8 @@ PatientFile* SearchPatientFile(PatientIndexer* indexer, char* lastName) {
         return NULL;
     }
 
-    // TODO: Create a better way to validate strings
-    if(lastName == NULL) {
-        fprintf(stderr, "Last name null.\n");
+    if(!isNameValid(lastName)) {
+        fprintf(stderr, "Name invalid in SearchPatientFile.\n");
         return NULL;
     }
 
@@ -262,8 +271,8 @@ void RemovePatientFile(PatientIndexer* indexer, char* lastName) {
         return;
     }
 
-    if(lastName == NULL) {
-        fprintf(stderr, "First or last name null.\n");
+    if(!isNameValid(lastName)) {
+        fprintf(stderr, "Name invalid in RemovePatientFile.\n");
         return;
     }
 
@@ -386,7 +395,15 @@ void InsertAppointment(PatientIndexer* indexer, char* lastName, char* date, char
         return;
     }
 
-    // TODO check names validity and date vaidity
+    if(!isDateValid(date)) {
+        fprintf(stderr, "Invalid date in InsertAppointment. \n");
+        return;
+    }
+
+    if(!isNameValid(lastName)) {
+        fprintf(stderr, "Invalid name in InsertAppointment.\n");
+        return;
+    }
 
     PatientFile* patientToUpdate = SearchPatientFile(indexer, lastName);
     if(patientToUpdate == NULL) {
@@ -432,9 +449,8 @@ void DisplayPatientFile(PatientIndexer* indexer, char* lastName) {
         return;
     }
 
-    // TODO: Create a better way to validate strings
-    if(lastName == NULL) {
-        fprintf(stderr, "First or last name null.\n");
+    if(!isNameValid(lastName)) {
+        fprintf(stderr, "Name invalid in DisplayPatientFile.\n");
         return;
     }
 
