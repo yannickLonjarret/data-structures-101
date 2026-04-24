@@ -253,7 +253,7 @@ void RemovePatientFile(PatientIndexer* indexer, char* lastName) {
 
     if(!isNameValid(lastName)) {
         fprintf(stderr, "Name invalid in RemovePatientFile.");
-        return NULL;
+        return;
     }
 
     PatientFile* patient = SearchPatientFile(indexer, lastName);
