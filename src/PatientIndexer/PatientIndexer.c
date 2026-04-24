@@ -444,7 +444,7 @@ void DisplayPatientFile(PatientIndexer* indexer, char* lastName) {
 
     if(!isNameValid(lastName)) {
         fprintf(stderr, "Name invalid in DisplayPatientFile.");
-        return NULL;
+        return;
     }
 
     PatientFile* patientToDisplay = SearchPatientFile(indexer, lastName);
