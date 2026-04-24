@@ -6,12 +6,18 @@
 #include "utils.h"
 
 // Data structure creation and deletion
-IndexerManager CreateIndexerManager(int numberOfIndexers) {
-    IndexerManager manager;
-    manager.indexerCount = numberOfIndexers;
-    manager.indexers = (PatientIndexer*)malloc(sizeof(PatientIndexer) * numberOfIndexers);
+IndexerManager* CreateIndexerManager(int numberOfIndexers) {
+    IndexerManager* manager = (IndexerManager*)malloc(sizeof(IndexerManager));
 
-    if(manager.indexers == NULL) {
+    if(manager == NULL) {
+        fprintf(stderr, "Malloc issue when creating the manager indexer.");
+        abort();
+    }
+
+    manager->indexerCount = numberOfIndexers;
+    manager->indexers = (PatientIndexer*)calloc(numberOfIndexers, sizeof(PatientIndexer));
+
+    if(manager->indexers == NULL) {
         fprintf(stderr, "Malloc issue when creating the manager indexer.");
         abort();
     }
@@ -161,6 +167,20 @@ void DeleteAppointmentList(AppointmentList* list) {
     }
 
     *list = NULL;
+}
+
+void DeleteIndexerManager(IndexerManager** manager) {
+    if(manager == NULL || *manager == NULL)
+        return;
+
+    for(int i = 0; i < (*manager)->indexerCount; i++)
+        DeletePatientIndexer(&(*manager)->indexers[i]);
+
+    free((*manager)->indexers);
+    (*manager)->indexers = NULL;
+    free(*manager);
+    manager = NULL;
+    return;
 }
 
 // Indexer management functions
@@ -365,19 +385,6 @@ int RemovePatientFileTwoChildren(PatientIndexer* root, PatientFile* nodeToRemove
         *root = successor;
 
     return 0;
-}
-
-void DeleteIndexerManager(IndexerManager* manager) {
-    if(manager == NULL)
-        return;
-
-    for(int i = 0; i < manager->indexerCount; i++)
-        DeletePatientIndexer(&manager->indexers[i]);
-
-    free(manager->indexers);
-    manager->indexers = NULL;
-
-    return;
 }
 
 void UpdateIndexerBackup(PatientIndexer* indexer, PatientIndexer* backup);
