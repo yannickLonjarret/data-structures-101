@@ -92,7 +92,7 @@ void TestInsertPatient_EmptyIndexer(void) {
     PatientIndexer indexer = NULL;
 
     InsertPatient(&indexer, "D", "Test");
-
+    TEST_ASSERT_NOT_NULL(indexer);
     TEST_ASSERT_EQUAL_STRING("D", indexer->lastName);
     TEST_ASSERT_EQUAL_STRING("Test", indexer->firstName);
     TEST_ASSERT_EQUAL_INT(0, indexer->appointmentCount);
@@ -110,6 +110,7 @@ void TestInsertPatient_LeftPosition(void) {
     InsertPatient(&indexer, "D", "Test");
     InsertPatient(&indexer, "A", "Left");
 
+    TEST_ASSERT_NOT_NULL(indexer);
     TEST_ASSERT_EQUAL_STRING("D", indexer->lastName);
     TEST_ASSERT_EQUAL_STRING("Test", indexer->firstName);
     TEST_ASSERT_EQUAL_INT(0, indexer->appointmentCount);
@@ -137,6 +138,8 @@ void TestInsertPatient_RightPosition(void) {
     InsertPatient(&indexer, "D", "Test");
     InsertPatient(&indexer, "Z", "Right");
 
+    TEST_ASSERT_NOT_NULL(indexer);
+
     TEST_ASSERT_EQUAL_STRING("D", indexer->lastName);
     TEST_ASSERT_EQUAL_STRING("Test", indexer->firstName);
     TEST_ASSERT_EQUAL_INT(0, indexer->appointmentCount);
@@ -144,17 +147,16 @@ void TestInsertPatient_RightPosition(void) {
     TEST_ASSERT_NULL(indexer->leftPatient);
 
     TEST_ASSERT_NOT_NULL(indexer->rightPatient);
-    if(indexer->rightPatient != NULL) {
-        PatientFile* rightNode = indexer->rightPatient;
-        TEST_ASSERT_EQUAL_STRING("Z", rightNode->lastName);
-        TEST_ASSERT_EQUAL_STRING("Right", rightNode->firstName);
-        TEST_ASSERT_EQUAL_INT(0, rightNode->appointmentCount);
-        TEST_ASSERT_NULL(rightNode->appointments);
-        TEST_ASSERT_NULL(rightNode->rightPatient);
-        TEST_ASSERT_NULL(rightNode->leftPatient);
+    PatientFile* rightNode = indexer->rightPatient;
+    TEST_ASSERT_EQUAL_STRING("Z", rightNode->lastName);
+    TEST_ASSERT_EQUAL_STRING("Right", rightNode->firstName);
+    TEST_ASSERT_EQUAL_INT(0, rightNode->appointmentCount);
+    TEST_ASSERT_NULL(rightNode->appointments);
+    TEST_ASSERT_NULL(rightNode->rightPatient);
+    TEST_ASSERT_NULL(rightNode->leftPatient);
 
-        TEST_ASSERT_EQUAL_PTR(indexer, rightNode->parentPatient);
-    }
+    TEST_ASSERT_EQUAL_PTR(indexer, rightNode->parentPatient);
+
     DeletePatientIndexer(&indexer);
 }
 
@@ -163,33 +165,33 @@ void TestInsertPatient_AlreadyExist(void) {
 
     InsertPatient(&indexer, "D", "Test");
     InsertPatient(&indexer, "Z", "Exist");
+
+    TEST_ASSERT_NOT_NULL(indexer);
     PatientFile* existing = indexer->rightPatient;
 
     TEST_ASSERT_NOT_NULL(existing);
-    if(existing != NULL) {
-        TEST_ASSERT_EQUAL_STRING("Z", existing->lastName);
-        TEST_ASSERT_EQUAL_STRING("Exist", existing->firstName);
-        TEST_ASSERT_EQUAL_INT(0, existing->appointmentCount);
-        TEST_ASSERT_NULL(existing->appointments);
-        TEST_ASSERT_NULL(existing->rightPatient);
-        TEST_ASSERT_NULL(existing->leftPatient);
 
-        TEST_ASSERT_EQUAL_PTR(indexer, existing->parentPatient);
-    }
+    TEST_ASSERT_EQUAL_STRING("Z", existing->lastName);
+    TEST_ASSERT_EQUAL_STRING("Exist", existing->firstName);
+    TEST_ASSERT_EQUAL_INT(0, existing->appointmentCount);
+    TEST_ASSERT_NULL(existing->appointments);
+    TEST_ASSERT_NULL(existing->rightPatient);
+    TEST_ASSERT_NULL(existing->leftPatient);
+
+    TEST_ASSERT_EQUAL_PTR(indexer, existing->parentPatient);
+
     InsertPatient(&indexer, "Z", "Test");
 
     TEST_ASSERT_EQUAL_PTR(existing, indexer->rightPatient);
     TEST_ASSERT_NOT_NULL(indexer->rightPatient);
-    if(indexer->rightPatient != NULL) {
-        TEST_ASSERT_EQUAL_STRING("Z", indexer->rightPatient->lastName);
-        TEST_ASSERT_EQUAL_STRING("Exist", indexer->rightPatient->firstName);
-        TEST_ASSERT_EQUAL_INT(0, indexer->rightPatient->appointmentCount);
-        TEST_ASSERT_NULL(indexer->rightPatient->appointments);
-        TEST_ASSERT_NULL(indexer->rightPatient->rightPatient);
-        TEST_ASSERT_NULL(indexer->rightPatient->leftPatient);
+    TEST_ASSERT_EQUAL_STRING("Z", indexer->rightPatient->lastName);
+    TEST_ASSERT_EQUAL_STRING("Exist", indexer->rightPatient->firstName);
+    TEST_ASSERT_EQUAL_INT(0, indexer->rightPatient->appointmentCount);
+    TEST_ASSERT_NULL(indexer->rightPatient->appointments);
+    TEST_ASSERT_NULL(indexer->rightPatient->rightPatient);
+    TEST_ASSERT_NULL(indexer->rightPatient->leftPatient);
 
-        TEST_ASSERT_EQUAL_PTR(indexer, indexer->rightPatient->parentPatient);
-    }
+    TEST_ASSERT_EQUAL_PTR(indexer, indexer->rightPatient->parentPatient);
 
     DeletePatientIndexer(&indexer);
 }
@@ -219,39 +221,41 @@ void TestSearchPatient_RootNode(void) {
 
     TEST_ASSERT_NOT_NULL(searchResult);
     TEST_ASSERT_EQUAL_PTR(indexer, searchResult);
-    if(searchResult != NULL) {
-        TEST_ASSERT_EQUAL_STRING(indexer->firstName, searchResult->firstName);
-        TEST_ASSERT_EQUAL_STRING(indexer->lastName, searchResult->lastName);
-        TEST_ASSERT_EQUAL_INT(0, indexer->appointmentCount);
-        TEST_ASSERT_NULL(indexer->appointments);
-        TEST_ASSERT_NULL(indexer->rightPatient);
-        TEST_ASSERT_NULL(indexer->leftPatient);
-        TEST_ASSERT_NULL(indexer->parentPatient);
-    }
+
+    TEST_ASSERT_EQUAL_STRING(indexer->firstName, searchResult->firstName);
+    TEST_ASSERT_EQUAL_STRING(indexer->lastName, searchResult->lastName);
+    TEST_ASSERT_EQUAL_INT(0, indexer->appointmentCount);
+    TEST_ASSERT_NULL(indexer->appointments);
+    TEST_ASSERT_NULL(indexer->rightPatient);
+    TEST_ASSERT_NULL(indexer->leftPatient);
+    TEST_ASSERT_NULL(indexer->parentPatient);
+
     DeletePatientIndexer(&indexer);
 }
 
 void TestSearchPatient_AnyNode(void) {
-    PatientIndexer indexer = CreatePatient("D", "Test");
+    PatientIndexer indexer = NULL;
 
+    InsertPatient(&indexer, "D", "Test");
     InsertPatient(&indexer, "B", "Search");
     InsertPatient(&indexer, "A", "Test");
     InsertPatient(&indexer, "C", "Test");
 
+    TEST_ASSERT_NOT_NULL(indexer);
     PatientFile* toSearch = indexer->leftPatient;
     PatientFile* searchResult = SearchPatientFile(&indexer, "B");
 
     TEST_ASSERT_EQUAL_PTR(toSearch, searchResult);
     TEST_ASSERT_NOT_NULL(searchResult);
-    if(searchResult != NULL) {
-        TEST_ASSERT_EQUAL_STRING("Search", searchResult->firstName);
-        TEST_ASSERT_EQUAL_STRING("B", searchResult->lastName);
-        TEST_ASSERT_EQUAL_INT(0, searchResult->appointmentCount);
-        TEST_ASSERT_NULL(searchResult->appointments);
-        TEST_ASSERT_EQUAL_PTR(toSearch->rightPatient, searchResult->rightPatient);
-        TEST_ASSERT_EQUAL_PTR(toSearch->leftPatient, searchResult->leftPatient);
-        TEST_ASSERT_EQUAL_PTR(toSearch->parentPatient, searchResult->parentPatient);
-    }
+
+    TEST_ASSERT_EQUAL_STRING("Search", searchResult->firstName);
+    TEST_ASSERT_EQUAL_STRING("B", searchResult->lastName);
+    TEST_ASSERT_EQUAL_INT(0, searchResult->appointmentCount);
+    TEST_ASSERT_NULL(searchResult->appointments);
+    TEST_ASSERT_EQUAL_PTR(toSearch->rightPatient, searchResult->rightPatient);
+    TEST_ASSERT_EQUAL_PTR(toSearch->leftPatient, searchResult->leftPatient);
+    TEST_ASSERT_EQUAL_PTR(toSearch->parentPatient, searchResult->parentPatient);
+
     DeletePatientIndexer(&indexer);
 }
 
@@ -268,8 +272,11 @@ void TestRemovePatientFileLeaf_RootNode(void) {
 }
 
 void TestRemovePatientFileLeaf_LeftNode(void) {
-    PatientIndexer indexer = CreatePatient("D", "test");
+    PatientIndexer indexer = NULL;
+    InsertPatient(&indexer, "D", "test");
     InsertPatient(&indexer, "A", "test");
+
+    TEST_ASSERT_NOT_NULL(indexer);
     PatientFile* patient = indexer->leftPatient;
 
     int error = RemovePatientFileLeaf(&indexer, patient);
@@ -283,8 +290,11 @@ void TestRemovePatientFileLeaf_LeftNode(void) {
 }
 
 void TestRemovePatientFileLeaf_RightNode(void) {
-    PatientIndexer indexer = CreatePatient("D", "test");
+    PatientIndexer indexer = NULL;
+    InsertPatient(&indexer, "D", "test");
     InsertPatient(&indexer, "Z", "test");
+
+    TEST_ASSERT_NOT_NULL(indexer);
     PatientFile* patient = indexer->rightPatient;
     int error = RemovePatientFileLeaf(&indexer, indexer->rightPatient);
 
@@ -300,6 +310,7 @@ void TestRemovePatientFileLeaf_Failure(void) {
     PatientIndexer indexer = NULL;
     PatientFile* patientToRemove = CreatePatient("A", "Test");
 
+    TEST_ASSERT_NOT_NULL(patientToRemove);
     int error = RemovePatientFileLeaf(&indexer, patientToRemove);
     TEST_ASSERT_EQUAL_INT(1, error);
     DeletePatientFile(&patientToRemove);
@@ -309,8 +320,11 @@ void TestRemovePatientFileLeaf_Failure(void) {
 }
 
 void TestRemovePatientSingleChild_RootNodeLeftChild(void) {
-    PatientIndexer indexer = CreatePatient("B", "test");
+    PatientIndexer indexer = NULL;
+    InsertPatient(&indexer, "B", "test");
     InsertPatient(&indexer, "A", "test");
+
+    TEST_ASSERT_NOT_NULL(indexer);
     PatientFile* patientToRemove = indexer;
     PatientFile* replacement = indexer->leftPatient;
 
@@ -325,8 +339,11 @@ void TestRemovePatientSingleChild_RootNodeLeftChild(void) {
 }
 
 void TestRemovePatientSingleChild_RootNodeRightChild(void) {
-    PatientIndexer indexer = CreatePatient("A", "test");
+    PatientIndexer indexer = NULL;
+    InsertPatient(&indexer, "A", "test");
     InsertPatient(&indexer, "B", "test");
+
+    TEST_ASSERT_NOT_NULL(indexer);
     PatientFile* patientToRemove = indexer;
     PatientFile* replacement = indexer->rightPatient;
 
@@ -341,9 +358,11 @@ void TestRemovePatientSingleChild_RootNodeRightChild(void) {
 }
 
 void TestRemovePatientSingleChild_RightChild(void) {
-    PatientIndexer indexer = CreatePatient("A", "test");
+    PatientIndexer indexer = NULL;
+    InsertPatient(&indexer, "A", "test");
     InsertPatient(&indexer, "B", "test");
     InsertPatient(&indexer, "C", "test");
+    TEST_ASSERT_NOT_NULL(indexer);
     PatientFile* patientToRemove = indexer->rightPatient;
     PatientFile* replacement = patientToRemove->rightPatient;
 
@@ -358,9 +377,11 @@ void TestRemovePatientSingleChild_RightChild(void) {
 }
 
 void TestRemovePatientSingleChild_LeftChild(void) {
-    PatientIndexer indexer = CreatePatient("C", "test");
+    PatientIndexer indexer = NULL;
+    InsertPatient(&indexer, "C", "test");
     InsertPatient(&indexer, "B", "test");
     InsertPatient(&indexer, "A", "test");
+    TEST_ASSERT_NOT_NULL(indexer);
     PatientFile* patientToRemove = indexer->leftPatient;
     PatientFile* replacement = patientToRemove->leftPatient;
 
@@ -377,7 +398,7 @@ void TestRemovePatientSingleChild_LeftChild(void) {
 void TestRemovePatientFileSingleChild_Failure(void) {
     PatientIndexer indexer = NULL;
     PatientFile* patientToRemove = CreatePatient("A", "Test");
-
+    TEST_ASSERT_NOT_NULL(patientToRemove);
     int error = RemovePatientFileSingleChild(&indexer, patientToRemove);
     TEST_ASSERT_EQUAL_INT(1, error);
     DeletePatientFile(&patientToRemove);
@@ -387,13 +408,15 @@ void TestRemovePatientFileSingleChild_Failure(void) {
 }
 
 void TestRemovePatientFileTwoChildren_RootNode(void) {
-    PatientIndexer indexer = CreatePatient("L", "test");
+    PatientIndexer indexer = NULL;
+    InsertPatient(&indexer, "L", "test");
     InsertPatient(&indexer, "R", "test");
     InsertPatient(&indexer, "E", "test");
     InsertPatient(&indexer, "O", "test");
     InsertPatient(&indexer, "P", "test");
     InsertPatient(&indexer, "V", "test");
 
+    TEST_ASSERT_NOT_NULL(indexer);
     PatientFile* patientToRemove = indexer;
     PatientFile* leftSubtree = indexer->leftPatient;
     PatientFile* rightSubtree = indexer->rightPatient;
@@ -419,11 +442,13 @@ void TestRemovePatientFileTwoChildren_RootNode(void) {
 }
 
 void TestRemovePatientFileTwoChildren_RootNodeChildSuccessor(void) {
-    PatientIndexer indexer = CreatePatient("L", "test");
+    PatientIndexer indexer = NULL;
+    InsertPatient(&indexer, "L", "test");
     InsertPatient(&indexer, "R", "test");
     InsertPatient(&indexer, "E", "test");
     InsertPatient(&indexer, "Z", "test");
 
+    TEST_ASSERT_NOT_NULL(indexer);
     PatientFile* patientToRemove = indexer;
     PatientFile* leftSubtree = indexer->leftPatient;
     PatientFile* successor = GetMinimum(indexer->rightPatient);
@@ -452,7 +477,10 @@ void TestRemovePatientFileTwoChildren(void) {
     InsertPatient(&indexer, "M", "test");
     InsertPatient(&indexer, "N", "test");
 
+    TEST_ASSERT_NOT_NULL(indexer);
     PatientFile* patientToRemove = indexer->rightPatient;
+
+    TEST_ASSERT_NOT_NULL(patientToRemove);
     PatientFile* leftSubtree = patientToRemove->leftPatient;
     PatientFile* rightSubtree = patientToRemove->rightPatient;
     PatientFile* successor = GetMinimum(patientToRemove->rightPatient);
@@ -485,7 +513,10 @@ void TestRemovePatientFileTwoChildren_ChildSuccessor(void) {
     InsertPatient(&indexer, "O", "test");
     InsertPatient(&indexer, "V", "test");
 
+    TEST_ASSERT_NOT_NULL(indexer);
     PatientFile* patientToRemove = indexer->rightPatient;
+
+    TEST_ASSERT_NOT_NULL(patientToRemove);
     PatientFile* leftSubtree = patientToRemove->leftPatient;
     PatientFile* successor = GetMinimum(patientToRemove->rightPatient);
     TEST_ASSERT_NOT_NULL(successor);
@@ -526,6 +557,7 @@ void TestGetMinimumNullInput(void) {
 void TestGetMinimumNoChildNode(void) {
     PatientFile* patient = CreatePatient("Test", "test");
     PatientFile* expected = CreatePatient("Min", "test");
+    TEST_ASSERT_NOT_NULL(patient);
     patient->rightPatient = expected;
 
     PatientFile* minimum = GetMinimum(patient->rightPatient);
@@ -546,6 +578,7 @@ void TestGetMinimum(void) {
     PatientFile* expected = SearchPatientFile(&indexer, "M");
     TEST_ASSERT_NOT_NULL(expected);
 
+    TEST_ASSERT_NOT_NULL(indexer);
     PatientFile* minimum = GetMinimum(indexer->rightPatient);
     TEST_ASSERT_EQUAL_PTR(expected, minimum);
 
