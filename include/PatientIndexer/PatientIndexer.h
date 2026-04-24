@@ -28,14 +28,14 @@ typedef struct indexerManager {
 } IndexerManager;
 
 // Data structure creation and deletion
-IndexerManager CreateIndexerManager(int numberOfIndexers);
+IndexerManager* CreateIndexerManager(int numberOfIndexers);
 PatientFile* CreatePatient(char* lastName, char* firstName);
 Appointment* CreateAppointment(char* date, char* reason, int emergencyLevel);
 void DeletePatientIndexer(PatientIndexer* indexer);
 void DeletePatientFile(PatientFile** patient);
 void DeleteAppointment(Appointment** appointment);
 void DeleteAppointmentList(AppointmentList* list);
-void DeleteIndexerManager(IndexerManager* manager);
+void DeleteIndexerManager(IndexerManager** manager);
 
 // Utils
 PatientFile* GetMinimum(PatientFile* patient);
