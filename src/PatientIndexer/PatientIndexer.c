@@ -76,7 +76,7 @@ PatientFile* CreatePatient(char* lastName, char* firstName) {
 
 Appointment* CreateAppointment(char* date, char* reason, int emergencyLevel) {
     if(!isDateValid(date)) {
-        fprintf(stderr, "Invalid date in CreateAppointment.");
+        fprintf(stderr, "Invalid date in CreateAppointment. \n");
         return NULL;
     }
 
