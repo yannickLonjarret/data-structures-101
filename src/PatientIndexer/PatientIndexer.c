@@ -396,12 +396,12 @@ void InsertAppointment(PatientIndexer* indexer, char* lastName, char* date, char
     }
 
     if(!isDateValid(date)) {
-        fprintf(stderr, "Invalid date in InsertAppointment.");
+        fprintf(stderr, "Invalid date in InsertAppointment. \n");
         return;
     }
 
     if(!isNameValid(lastName)) {
-        fprintf(stderr, "Invalid name in InsertAppointment.");
+        fprintf(stderr, "Invalid name in InsertAppointment.\n");
         return;
     }
 
