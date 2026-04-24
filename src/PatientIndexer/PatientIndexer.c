@@ -27,7 +27,7 @@ IndexerManager* CreateIndexerManager(int numberOfIndexers) {
 
 PatientFile* CreatePatient(char* lastName, char* firstName) {
     if(!isNameValid(lastName) || !isNameValid(firstName)) {
-        fprintf(stderr, "Name invalid in CreatePatient.");
+        fprintf(stderr, "Name invalid in CreatePatient.\n");
         return NULL;
     }
 
@@ -241,7 +241,7 @@ PatientFile* SearchPatientFile(PatientIndexer* indexer, char* lastName) {
     }
 
     if(!isNameValid(lastName)) {
-        fprintf(stderr, "Name invalid in SearchPatientFile.");
+        fprintf(stderr, "Name invalid in SearchPatientFile.\n");
         return NULL;
     }
 
@@ -272,7 +272,7 @@ void RemovePatientFile(PatientIndexer* indexer, char* lastName) {
     }
 
     if(!isNameValid(lastName)) {
-        fprintf(stderr, "Name invalid in RemovePatientFile.");
+        fprintf(stderr, "Name invalid in RemovePatientFile.\n");
         return;
     }
 
@@ -450,7 +450,7 @@ void DisplayPatientFile(PatientIndexer* indexer, char* lastName) {
     }
 
     if(!isNameValid(lastName)) {
-        fprintf(stderr, "Name invalid in DisplayPatientFile.");
+        fprintf(stderr, "Name invalid in DisplayPatientFile.\n");
         return;
     }
 
