@@ -42,13 +42,19 @@ PatientFile* GetMinimum(PatientFile* patient);
 
 // Indexer management functions
 void InsertPatient(PatientIndexer* indexer, char* lastName, char* firstName);
+int InsertNewPatientFile(PatientIndexer* indexer, PatientFile* patient);
 PatientFile* SearchPatientFile(PatientIndexer* indexer, char* lastName);
 void InsertAppointment(PatientIndexer* indexer, char* lastName, char* date, char* reason, int emergencyLevel);
 int RemovePatientFileLeaf(PatientIndexer* root, PatientFile* nodeToRemove);
 int RemovePatientFileSingleChild(PatientIndexer* root, PatientFile* nodeToRemove);
 int RemovePatientFileTwoChildren(PatientIndexer* root, PatientFile* nodeToRemove);
 void RemovePatientFile(PatientIndexer* indexer, char* lastName);
+
 void UpdateIndexerBackup(PatientIndexer* indexer, PatientIndexer* backup);
+
+PatientFile* DeepCopyPatient(PatientFile* patientToCopy);
+Appointment* DeepCopyAppointment(Appointment* appointmentToCopy);
+AppointmentList DeepCopyAppointmentList(AppointmentList listToCopy);
 
 // Display functions
 void DisplayPatientFile(PatientIndexer* indexer, char* lastName);
