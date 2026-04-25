@@ -436,7 +436,7 @@ int DeepCopyIndexer(PatientIndexer* indexerToCopy, PatientIndexer* copy) {
     int error = InsertNewPatientFile(copy, fileCopy);
     if(error != 0) {
         fprintf(stderr, "Error when inserting copied patient file to backup. \n");
-        DeletePatientFile(fileCopy);
+        DeletePatientFile(&fileCopy);
         return 1;
     }
 
@@ -471,7 +471,7 @@ PatientFile* DeepCopyPatient(PatientFile* patientToCopy) {
 
     if(error != 0) {
         fprintf(stderr, "Failed to copy appointment list. \n");
-        DeletePatientFile(copy);
+        DeletePatientFile(&copy);
         return NULL;
     }
 
