@@ -101,14 +101,14 @@ int readNameInput(char* name) {
 int getValidNameInput(char* name) {
     int errorCode = readNameInput(name);
     if(errorCode != 0) {
-        sprintf(stderr, "Failed to get name skip.\n");
+        fprintf(stderr, "Failed to get name skip.\n");
         return 1;
     }
     while(!isNameValid(name)) {
         printf("Please input a name without figures or symbols. \n");
         errorCode = readNameInput(name);
         if(errorCode != 0) {
-            sprintf(stderr, "Failed to get name skip.\n");
+            fprintf(stderr, "Failed to get name skip.\n");
             return 1;
         }
     }
