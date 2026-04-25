@@ -119,6 +119,9 @@ int main(void) {
             break;
         }
 
+        clearBuffer(firstName, MAX_CHAR_SIZE);
+        clearBuffer(lastName, MAX_CHAR_SIZE);
+        clearBuffer(appointmentReason, MAX_CHAR_SIZE);
     } while(menuChoice != QUIT);
 
     DeleteIndexerManager(&manager);
