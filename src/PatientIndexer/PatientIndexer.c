@@ -406,7 +406,19 @@ int RemovePatientFileTwoChildren(PatientIndexer* root, PatientFile* nodeToRemove
     return 0;
 }
 
-void UpdateIndexerBackup(PatientIndexer* indexer, PatientIndexer* backup);
+void UpdateIndexerBackup(PatientIndexer* indexer, PatientIndexer* backup) {
+    PatientIndexer temporaryBackup = NULL;
+
+    int error = DeepCopyIndexer(indexer, &temporaryBackup);
+    if(error != 0) {
+        fprintf(stderr, "Backup update failure.\n");
+        DeletePatientIndexer(&temporaryBackup);
+        return;
+    }
+    DeletePatientIndexer(backup);
+    *backup = temporaryBackup;
+    return;
+}
 
 int DeepCopyIndexer(PatientIndexer* indexerToCopy, PatientIndexer* copy) {
     if(indexerToCopy == NULL)
