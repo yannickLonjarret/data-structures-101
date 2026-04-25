@@ -443,7 +443,7 @@ int DeepCopyIndexer(PatientIndexer* indexerToCopy, PatientIndexer* copy) {
 }
 
 PatientFile* DeepCopyPatient(PatientFile* patientToCopy) {
-    if(patientToCopy = NULL)
+    if(patientToCopy == NULL)
         return NULL;
 
     PatientFile* copy = CreatePatient(patientToCopy->lastName, patientToCopy->firstName);
