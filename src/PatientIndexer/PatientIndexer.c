@@ -202,13 +202,32 @@ void InsertPatient(PatientIndexer* indexer, char* lastName, char* firstName) {
 
     PatientFile* patientToInsert = CreatePatient(lastName, firstName);
     if(patientToInsert == NULL) {
-        fprintf(stderr, "Failed to create patient for insertion.");
+        fprintf(stderr, "Failed to create patient for insertion.\n");
         return;
     }
 
-    if(*indexer == NULL) {
-        *indexer = patientToInsert;
+    if(InsertNewPatientFile(indexer, patientToInsert) != 0) {
+        fprintf(stderr, "Insertion failed.\n");
         return;
+    }
+
+    return;
+}
+
+int InsertNewPatientFile(PatientIndexer* indexer, PatientFile* patient) {
+    if(indexer == NULL) {
+        fprintf(stderr, "Patient indexer is NULL.\n");
+        return 1;
+    }
+
+    if(patient == NULL) {
+        fprintf(stderr, "Patient is NULL.\n");
+        return 1;
+    }
+
+    if(*indexer == NULL) {
+        *indexer = patient;
+        return 0;
     }
 
     PatientFile* parent = NULL;
@@ -217,21 +236,21 @@ void InsertPatient(PatientIndexer* indexer, char* lastName, char* firstName) {
 
     while(traversal != NULL) {
         parent = traversal;
-        stringCompare = strcmp(patientToInsert->lastName, traversal->lastName);
+        stringCompare = strcmp(patient->lastName, traversal->lastName);
         if(stringCompare < 0)
             traversal = traversal->leftPatient;
         else
             traversal = traversal->rightPatient;
     }
 
-    patientToInsert->parentPatient = parent;
-    stringCompare = strcmp(patientToInsert->lastName, parent->lastName);
+    patient->parentPatient = parent;
+    stringCompare = strcmp(patient->lastName, parent->lastName);
     if(stringCompare < 0)
-        parent->leftPatient = patientToInsert;
+        parent->leftPatient = patient;
     else
-        parent->rightPatient = patientToInsert;
+        parent->rightPatient = patient;
 
-    return;
+    return 0;
 }
 
 PatientFile* SearchPatientFile(PatientIndexer* indexer, char* lastName) {
