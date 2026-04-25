@@ -420,6 +420,23 @@ Appointment* DeepCopyAppointment(Appointment* appointmentToCopy) {
     return copy;
 }
 
+AppointmentList DeepCopyAppointmentList(AppointmentList listToCopy) {
+    if(listToCopy == NULL)
+        return NULL;
+    Appointment* originalTraversal = listToCopy;
+    Appointment* copy = DeepCopyAppointment(listToCopy);
+    Appointment* copyTravesal = copy;
+
+    while(originalTraversal != NULL && copyTravesal != NULL) {
+        copyTravesal->nextAppointment = DeepCopyAppointment(originalTraversal->nextAppointment);
+
+        copyTravesal = copyTravesal->nextAppointment;
+        originalTraversal = originalTraversal->nextAppointment;
+    }
+
+    return copy;
+}
+
 void InsertAppointment(PatientIndexer* indexer, char* lastName, char* date, char* reason, int emergencyLevel) {
     if(indexer == NULL) {
         fprintf(stderr, "Patient indexer is NULL.\n");
