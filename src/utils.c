@@ -6,7 +6,7 @@
 #include <string.h>
 
 int readInput(char* input) {
-    if(fgets(input, sizeof(input), stdin) == NULL) {
+    if(fgets(input, MAX_CHAR_SIZE, stdin) == NULL) {
         int errorCode = fprintf(stderr, "Error when reading user input.\n");
         input[0] = '\0';
         if(errorCode != 0)
@@ -94,6 +94,7 @@ int readNameInput(char* name) {
     if(errorCode != 0)
         return errorCode;
 
+    line[strcspn(line, "\n")] = '\0';
     strncpy(name, line, strlen(line));
     return 0;
 }
