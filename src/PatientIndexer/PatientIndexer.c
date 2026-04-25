@@ -407,6 +407,18 @@ int RemovePatientFileTwoChildren(PatientIndexer* root, PatientFile* nodeToRemove
 }
 
 void UpdateIndexerBackup(PatientIndexer* indexer, PatientIndexer* backup);
+Appointment* DeepCopyAppointment(Appointment* appointmentToCopy) {
+    if(appointmentToCopy == NULL)
+        return NULL;
+
+    Appointment* copy = CreateAppointment(appointmentToCopy->date, appointmentToCopy->reason, appointmentToCopy->emergencyLevel);
+
+    if(copy == NULL) {
+        fprintf(stderr, "Failed to copy appointment. \n");
+        return NULL;
+    }
+    return copy;
+}
 
 void InsertAppointment(PatientIndexer* indexer, char* lastName, char* date, char* reason, int emergencyLevel) {
     if(indexer == NULL) {
