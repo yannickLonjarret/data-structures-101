@@ -65,7 +65,7 @@ int main(void) {
                 continue;
             }
 
-            printf("Please type in appointment date: \n");
+            printf("Please type in appointment reason: \n");
             errorCode = readInput(appointmentReason);
             if(errorCode != 0) {
                 printf("Something wrong happened, skipping.\n");
