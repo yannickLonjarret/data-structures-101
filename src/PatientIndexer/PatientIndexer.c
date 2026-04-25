@@ -202,13 +202,32 @@ void InsertPatient(PatientIndexer* indexer, char* lastName, char* firstName) {
 
     PatientFile* patientToInsert = CreatePatient(lastName, firstName);
     if(patientToInsert == NULL) {
-        fprintf(stderr, "Failed to create patient for insertion.");
+        fprintf(stderr, "Failed to create patient for insertion.\n");
         return;
     }
 
-    if(*indexer == NULL) {
-        *indexer = patientToInsert;
+    if(InsertNewPatientFile(indexer, patientToInsert) != 0) {
+        fprintf(stderr, "Insertion failed.\n");
         return;
+    }
+
+    return;
+}
+
+int InsertNewPatientFile(PatientIndexer* indexer, PatientFile* patient) {
+    if(indexer == NULL) {
+        fprintf(stderr, "Patient indexer is NULL.\n");
+        return 1;
+    }
+
+    if(patient == NULL) {
+        fprintf(stderr, "Patient is NULL.\n");
+        return 1;
+    }
+
+    if(*indexer == NULL) {
+        *indexer = patient;
+        return 0;
     }
 
     PatientFile* parent = NULL;
@@ -217,21 +236,21 @@ void InsertPatient(PatientIndexer* indexer, char* lastName, char* firstName) {
 
     while(traversal != NULL) {
         parent = traversal;
-        stringCompare = strcmp(patientToInsert->lastName, traversal->lastName);
+        stringCompare = strcmp(patient->lastName, traversal->lastName);
         if(stringCompare < 0)
             traversal = traversal->leftPatient;
         else
             traversal = traversal->rightPatient;
     }
 
-    patientToInsert->parentPatient = parent;
-    stringCompare = strcmp(patientToInsert->lastName, parent->lastName);
+    patient->parentPatient = parent;
+    stringCompare = strcmp(patient->lastName, parent->lastName);
     if(stringCompare < 0)
-        parent->leftPatient = patientToInsert;
+        parent->leftPatient = patient;
     else
-        parent->rightPatient = patientToInsert;
+        parent->rightPatient = patient;
 
-    return;
+    return 0;
 }
 
 PatientFile* SearchPatientFile(PatientIndexer* indexer, char* lastName) {
@@ -387,7 +406,119 @@ int RemovePatientFileTwoChildren(PatientIndexer* root, PatientFile* nodeToRemove
     return 0;
 }
 
-void UpdateIndexerBackup(PatientIndexer* indexer, PatientIndexer* backup);
+void UpdateIndexerBackup(PatientIndexer* indexer, PatientIndexer* backup) {
+    PatientIndexer temporaryBackup = NULL;
+
+    int error = DeepCopyIndexer(indexer, &temporaryBackup);
+    if(error != 0) {
+        fprintf(stderr, "Backup update failure.\n");
+        DeletePatientIndexer(&temporaryBackup);
+        return;
+    }
+    DeletePatientIndexer(backup);
+    *backup = temporaryBackup;
+    return;
+}
+
+int DeepCopyIndexer(PatientIndexer* indexerToCopy, PatientIndexer* copy) {
+    if(indexerToCopy == NULL)
+        return 1;
+
+    if(*indexerToCopy == NULL)
+        return 0;
+
+    PatientFile* fileCopy = DeepCopyPatient(*indexerToCopy);
+    if(fileCopy == NULL) {
+        fprintf(stderr, "Error when inserting copying patient file. \n");
+        return 1;
+    }
+
+    int error = InsertNewPatientFile(copy, fileCopy);
+    if(error != 0) {
+        fprintf(stderr, "Error when inserting copied patient file to backup. \n");
+        DeletePatientFile(fileCopy);
+        return 1;
+    }
+
+    error = DeepCopyIndexer(&(*indexerToCopy)->leftPatient, copy);
+    if(error != 0) {
+        fprintf(stderr, "Error when inserting copied patient file to backup. \n");
+        return 1;
+    }
+
+    error = DeepCopyIndexer(&(*indexerToCopy)->rightPatient, copy);
+    if(error != 0) {
+        fprintf(stderr, "Error when inserting copied patient file to backup. \n");
+        return 1;
+    }
+
+    return 0;
+}
+
+PatientFile* DeepCopyPatient(PatientFile* patientToCopy) {
+    if(patientToCopy == NULL)
+        return NULL;
+
+    PatientFile* copy = CreatePatient(patientToCopy->lastName, patientToCopy->firstName);
+
+    if(copy == NULL) {
+        fprintf(stderr, "Failed to copy patient file. \n");
+        return NULL;
+    }
+
+    copy->appointmentCount = patientToCopy->appointmentCount;
+    int error = DeepCopyAppointmentList(patientToCopy->appointments, &copy->appointments);
+
+    if(error != 0) {
+        fprintf(stderr, "Failed to copy appointment list. \n");
+        DeletePatientFile(copy);
+        return NULL;
+    }
+
+    return copy;
+}
+
+int DeepCopyAppointment(Appointment* appointmentToCopy, Appointment** copy) {
+    if(appointmentToCopy == NULL)
+        return 0;
+
+    *copy = CreateAppointment(appointmentToCopy->date, appointmentToCopy->reason, appointmentToCopy->emergencyLevel);
+
+    if(*copy == NULL) {
+        fprintf(stderr, "Failed to copy appointment. \n");
+        return 1;
+    }
+    return 0;
+}
+
+int DeepCopyAppointmentList(AppointmentList listToCopy, AppointmentList* copy) {
+    if(listToCopy == NULL)
+        return 0;
+
+    int error = DeepCopyAppointment(listToCopy, copy);
+
+    if(error != 0) {
+        fprintf(stderr, "Failed to copy appointment list. \n");
+        return 1;
+    }
+
+    Appointment* originalTraversal = listToCopy;
+    Appointment* copyTravesal = *copy;
+
+    while(originalTraversal != NULL) {
+        error = DeepCopyAppointment(originalTraversal->nextAppointment, &copyTravesal->nextAppointment);
+
+        if(error != 0) {
+            fprintf(stderr, "Failed to copy appointment list. \n");
+            return 1;
+        }
+
+        copyTravesal = copyTravesal->nextAppointment;
+        originalTraversal = originalTraversal->nextAppointment;
+    }
+
+    return 0;
+}
 
 void InsertAppointment(PatientIndexer* indexer, char* lastName, char* date, char* reason, int emergencyLevel) {
     if(indexer == NULL) {
