@@ -467,38 +467,57 @@ PatientFile* DeepCopyPatient(PatientFile* patientToCopy) {
     }
 
     copy->appointmentCount = patientToCopy->appointmentCount;
-    copy->appointments = DeepCopyAppointmentList(patientToCopy->appointments);
+    int error = DeepCopyAppointmentList(patientToCopy->appointments, &copy->appointments);
 
-    return copy;
-}
-Appointment* DeepCopyAppointment(Appointment* appointmentToCopy) {
-    if(appointmentToCopy == NULL)
-        return NULL;
-
-    Appointment* copy = CreateAppointment(appointmentToCopy->date, appointmentToCopy->reason, appointmentToCopy->emergencyLevel);
-
-    if(copy == NULL) {
-        fprintf(stderr, "Failed to copy appointment. \n");
+    if(error != 0) {
+        fprintf(stderr, "Failed to copy appointment list. \n");
+        DeletePatientFile(copy);
         return NULL;
     }
+
     return copy;
 }
 
-AppointmentList DeepCopyAppointmentList(AppointmentList listToCopy) {
-    if(listToCopy == NULL)
-        return NULL;
-    Appointment* originalTraversal = listToCopy;
-    Appointment* copy = DeepCopyAppointment(listToCopy);
-    Appointment* copyTravesal = copy;
+int DeepCopyAppointment(Appointment* appointmentToCopy, Appointment** copy) {
+    if(appointmentToCopy == NULL)
+        return 0;
 
-    while(originalTraversal != NULL && copyTravesal != NULL) {
-        copyTravesal->nextAppointment = DeepCopyAppointment(originalTraversal->nextAppointment);
+    *copy = CreateAppointment(appointmentToCopy->date, appointmentToCopy->reason, appointmentToCopy->emergencyLevel);
+
+    if(*copy == NULL) {
+        fprintf(stderr, "Failed to copy appointment. \n");
+        return 1;
+    }
+    return 0;
+}
+
+int DeepCopyAppointmentList(AppointmentList listToCopy, AppointmentList* copy) {
+    if(listToCopy == NULL)
+        return 0;
+
+    int error = DeepCopyAppointment(listToCopy, copy);
+
+    if(error != 0) {
+        fprintf(stderr, "Failed to copy appointment list. \n");
+        return 1;
+    }
+
+    Appointment* originalTraversal = listToCopy;
+    Appointment* copyTravesal = *copy;
+
+    while(originalTraversal != NULL) {
+        error = DeepCopyAppointment(originalTraversal->nextAppointment, &copyTravesal->nextAppointment);
+
+        if(error != 0) {
+            fprintf(stderr, "Failed to copy appointment list. \n");
+            return 1;
+        }
 
         copyTravesal = copyTravesal->nextAppointment;
         originalTraversal = originalTraversal->nextAppointment;
     }
 
-    return copy;
+    return 0;
 }
 
 void InsertAppointment(PatientIndexer* indexer, char* lastName, char* date, char* reason, int emergencyLevel) {
