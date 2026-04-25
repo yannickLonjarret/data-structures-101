@@ -251,3 +251,12 @@ int getValidDateInput(char* dateInput) {
         return 1;
     return 0;
 }
+
+int clearBuffer(char* buffer, int size) {
+    if(size > MAX_CHAR_SIZE)
+        return 1;
+    if(buffer == NULL)
+        return 1;
+    memset(buffer, '\0', size);
+    return 0;
+}
