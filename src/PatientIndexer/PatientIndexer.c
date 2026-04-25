@@ -408,6 +408,40 @@ int RemovePatientFileTwoChildren(PatientIndexer* root, PatientFile* nodeToRemove
 
 void UpdateIndexerBackup(PatientIndexer* indexer, PatientIndexer* backup);
 
+int DeepCopyIndexer(PatientIndexer* indexerToCopy, PatientIndexer* copy) {
+    if(indexerToCopy == NULL)
+        return 1;
+
+    if(*indexerToCopy == NULL)
+        return 0;
+
+    PatientFile* fileCopy = DeepCopyPatient(*indexerToCopy);
+    if(fileCopy == NULL) {
+        fprintf(stderr, "Error when inserting copying patient file. \n");
+        return 1;
+    }
+
+    int error = InsertNewPatientFile(copy, fileCopy);
+    if(error != 0) {
+        fprintf(stderr, "Error when inserting copied patient file to backup. \n");
+        return 1;
+    }
+
+    error = DeepCopyIndexer(&(*indexerToCopy)->leftPatient, copy);
+    if(error != 0) {
+        fprintf(stderr, "Error when inserting copied patient file to backup. \n");
+        return 1;
+    }
+
+    error = DeepCopyIndexer(&(*indexerToCopy)->rightPatient, copy);
+    if(error != 0) {
+        fprintf(stderr, "Error when inserting copied patient file to backup. \n");
+        return 1;
+    }
+
+    return 0;
+}
+
 PatientFile* DeepCopyPatient(PatientFile* patientToCopy) {
     if(patientToCopy = NULL)
         return NULL;
