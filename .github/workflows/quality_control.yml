@@ -1,0 +1,62 @@
+name: Pull Request Quality Check
+run-name: ${{ github.head_ref }} quality control
+on:
+  pull_request: 
+    branches:
+      - bst_assignment
+      - linked_list_assignment
+
+env:
+    PROJECT: ${{ github.base_ref == 'bst_assignment'  && vars.BST || vars.LINKED_LIST }}
+    ALIAS:  ${{ github.base_ref == 'bst_assignment'  && vars.BST_ALIAS || vars.LINKED_LIST_ALIAS }}
+jobs:
+  static-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v5
+
+      - name: Setup requirements
+        run: sudo apt-get -y --no-install-recommends install clang-format clang-tidy
+      
+      - name: Code style check
+        run: |
+          find ./src -name "*.c" | xargs clang-format --dry-run --Werror
+          find ./include -name "*.h" | xargs clang-format --dry-run --Werror
+
+      - name: Code lint check
+        run: |
+          clang-tidy $(find ./src -name "*.c") -- -Iinclude/ -Iinclude/PatientIndexer -Iinclude/SparseMatrix
+          clang-tidy $(find ./include -name "*.h")
+  build:
+    needs: static-check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v5
+
+      - name: Build ${{env.PROJECT}} project
+        run: make ${{env.ALIAS}}
+    
+      - name: Build ${{env.PROJECT}} test runner
+        run: make ${{env.ALIAS}}-test
+
+      - name: Save test artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{env.PROJECT}}TestRunner
+          path: bin/${{env.PROJECT}}Test
+  test:
+      needs: build
+      runs-on: ubuntu-latest
+      steps:
+        - name: Get test artifact
+          uses: actions/download-artifact@v4
+          with:
+            name: ${{env.PROJECT}}TestRunner
+            path: bin/
+
+        - name: Run test artifact
+          run: |
+            chmod +x bin/${{env.PROJECT}}Test
+            bin/${{env.PROJECT}}Test
