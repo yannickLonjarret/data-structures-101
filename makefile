@@ -1,103 +1,98 @@
-CC = gcc
-CFLAGS = -Wall -pedantic -fsanitize=address
+CC      := gcc
+CFLAGS  := -Wall -pedantic -fsanitize=address
 
-BIN = bin
+BIN         := bin
+INCLUDE_DIR := include
+SRC_DIR     := src
+TEST_DIR    := test
 
-SPARSE_PROJECT = SparseMatrix
-SPARSE_TEST_RUNNER = SparseMatrixTest
+PROJECTS := SparseMatrix PatientIndexer
 
-INDEXER_PROJECT = PatientIndexer
-INDEXER_TEST_RUNNER = PatientIndexerTest
+SparseMatrix_ALIAS  := sparse
+PatientIndexer_ALIAS := indexer
 
-INCLUDE_DIR = include
-SRC_DIR = src
-SPARSE_DIR = $(SRC_DIR)/$(SPARSE_PROJECT)
-INDEXER_DIR = $(SRC_DIR)/$(INDEXER_PROJECT)
-TEST_DIR = test
-SPARSE_TEST_DIR = $(TEST_DIR)/$(SPARSE_PROJECT)
-INDEXER_TEST_DIR = $(TEST_DIR)/$(INDEXER_PROJECT)
+INCLUDES     := $(addprefix -I, $(shell find $(INCLUDE_DIR) -type d))
+TEST_INCLUDE := -I$(TEST_DIR)
 
-INCLUDES = $(addprefix -I, $(shell find $(INCLUDE_DIR) -type d))
-TEST_INCLUDE = -I$(TEST_DIR)
+COMMON_SRC  := $(shell find $(SRC_DIR) -maxdepth 1 -type f -name "*.c")
+COMMON_OBJS := $(patsubst $(SRC_DIR)/%.c, $(BIN)/src/%.o, $(COMMON_SRC))
 
-SRC = $(shell find $(SRC_DIR) -maxdepth 1 -type f -name "*.c")
-SPARSE_SRC = $(shell find $(SPARSE_DIR) -type f -name "*.c")
-INDEXER_SRC = $(shell find $(INDEXER_DIR) -type f -name "*.c")
-TEST_SRC = $(shell find $(TEST_DIR) -maxdepth 1 -type f -name "*.c")
-SPARSE_TEST_SRC = $(shell find $(SPARSE_TEST_DIR) -type f -name "*.c")
-INDEXER_TEST_SRC = $(shell find $(INDEXER_TEST_DIR) -type f -name "*.c")
+TEST_SRC  := $(shell find $(TEST_DIR) -maxdepth 1 -type f -name "*.c")
+TEST_OBJS := $(patsubst $(TEST_DIR)/%.c, $(BIN)/test/%.o, $(TEST_SRC))
 
-OBJS = $(patsubst $(SRC_DIR)/%.c, $(BIN)/src/%.o, $(SRC))
-SPARSE_OBJS = $(patsubst $(SPARSE_DIR)/%.c, $(BIN)/sparse/%.o, $(SPARSE_SRC))
-INDEXER_OBJS = $(patsubst $(INDEXER_DIR)/%.c, $(BIN)/indexer/%.o, $(INDEXER_SRC))
+define project_vars
+  # Source directories
+  $(1)_SRC_DIR       := $(SRC_DIR)/$(1)
+  $(1)_TEST_DIR      := $(TEST_DIR)/$(1)
 
-# Necessary to build test runners because of multiple "main" definition
-SPARSE_OBJ = $(BIN)/sparse/SparseMatrix.o
-INDEXER_OBJ = $(BIN)/indexer/PatientIndexer.o
+  # Output directories
+  $(1)_OBJ_DIR       := $(BIN)/$($(1)_ALIAS)
+  $(1)_TEST_OBJ_DIR  := $(BIN)/$($(1)_ALIAS)test
 
-TEST_OBJS = $(patsubst $(TEST_DIR)/%.c, $(BIN)/test/%.o, $(TEST_SRC))
-SPARSE_TEST_OBJS = $(patsubst $(SPARSE_TEST_DIR)/%.c, $(BIN)/sparsetest/%.o, $(SPARSE_TEST_SRC))
-INDEXER_TEST_OBJS = $(patsubst $(INDEXER_TEST_DIR)/%.c, $(BIN)/indexertest/%.o, $(INDEXER_TEST_SRC))
+  # Sources
+  $(1)_SRC           := $$(shell find $$($(1)_SRC_DIR)  -type f -name "*.c")
+  $(1)_TEST_SRC      := $$(shell find $$($(1)_TEST_DIR) -type f -name "*.c")
 
-.PHONY: all sparse sparse-test indexer indexer-test clean help
+  # Objects
+  $(1)_OBJS          := $$(patsubst $$($(1)_SRC_DIR)/%.c,  $$($(1)_OBJ_DIR)/%.o,      $$($(1)_SRC))
+  $(1)_TEST_OBJS     := $$(patsubst $$($(1)_TEST_DIR)/%.c, $$($(1)_TEST_OBJ_DIR)/%.o, $$($(1)_TEST_SRC))
+
+  # The single object needed when linking the test runner (avoids duplicate main)
+  $(1)_MAIN_OBJ      := $$($(1)_OBJ_DIR)/$(1).o
+endef
+
+$(foreach P, $(PROJECTS), $(eval $(call project_vars,$(P))))
+
+.PHONY: all clean help $(foreach P,$(PROJECTS), \
+          $($(P)_ALIAS) $($(P)_ALIAS)-test)
 
 help: ## Show this help.
 	@sed -ne '/@sed/!s/## //p' $(MAKEFILE_LIST)
 
-all: sparse sparse-test indexer indexer-test ## Build everything.
+all: $(foreach P,$(PROJECTS), $($(P)_ALIAS) $($(P)_ALIAS)-test) ## Build everything.
 
-sparse: $(BIN)/$(SPARSE_PROJECT) ## Build the SparseMatrix project.
+define phony_targets
+$($(1)_ALIAS): $(BIN)/$(1)             ## Build the $(1) project.
+$($(1)_ALIAS)-test: $(BIN)/$(1)Test    ## Build the $(1) test runner.
+endef
 
-sparse-test: $(BIN)/$(SPARSE_TEST_RUNNER) ## Build the SparseMatrix test runner.
+$(foreach P,$(PROJECTS), $(eval $(call phony_targets,$(P))))
 
-indexer: $(BIN)/$(INDEXER_PROJECT) ## Build the PatientIndexer project.
+define link_rules
 
-indexer-test: $(BIN)/$(INDEXER_TEST_RUNNER) ## Build the PatientIndexer test runner.
+$(BIN)/$(1): $(COMMON_OBJS) $$($(1)_OBJS)
+	$(CC) $(CFLAGS) $$^ -o $$@
 
 
+$(BIN)/$(1)Test: $(TEST_OBJS) $$($(1)_TEST_OBJS) $$($(1)_MAIN_OBJ) $(COMMON_OBJS)
+	$(CC) $(CFLAGS) $$^ -o $$@
+endef
 
-# Link SparseMatrix
-$(BIN)/$(SPARSE_PROJECT): $(OBJS) $(SPARSE_OBJS)
-	$(CC) $(CFLAGS) $^ -o $@
+$(foreach P,$(PROJECTS), $(eval $(call link_rules,$(P))))
 
-# Link PatientIndexer
-$(BIN)/$(INDEXER_PROJECT): $(OBJS) $(INDEXER_OBJS)
-	$(CC) $(CFLAGS) $^ -o $@
 
-# Build general use objects (gui, utils, etc.)
 $(BIN)/src/%.o: $(SRC_DIR)/%.c | $(BIN)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-# Build SparseMatrix objects
-$(BIN)/sparse/%.o: $(SPARSE_DIR)/%.c | $(BIN)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
-
-# Build PatientIndexer objects
-$(BIN)/indexer/%.o: $(INDEXER_DIR)/%.c | $(BIN)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
-
-# Link SparseMatrix test runner
-$(BIN)/$(SPARSE_TEST_RUNNER): $(TEST_OBJS) $(SPARSE_TEST_OBJS) $(SPARSE_OBJ) $(OBJS)
-	$(CC) $(CFLAGS) $^ -o $@
-
-# Link PatientIndexer test runner
-$(BIN)/$(INDEXER_TEST_RUNNER): $(TEST_OBJS) $(INDEXER_TEST_OBJS) $(INDEXER_OBJ) $(OBJS)
-	$(CC) $(CFLAGS) $^ -o $@
-
-# Build Unity C test framework
+# Unity objects
 $(BIN)/test/%.o: $(TEST_DIR)/%.c | $(BIN)
 	$(CC) $(CFLAGS) $(TEST_INCLUDE) -c $< -o $@
 
-# Build SparseMatrix test runner
-$(BIN)/sparsetest/%.o: $(SPARSE_TEST_DIR)/%.c | $(BIN)
-	$(CC) $(CFLAGS) $(INCLUDES) $(TEST_INCLUDE) -c $< -o $@
 
-# Build PatientIndexer test runner
-$(BIN)/indexertest/%.o: $(INDEXER_TEST_DIR)/%.c | $(BIN)
-	$(CC) $(CFLAGS) $(INCLUDES) $(TEST_INCLUDE) -c $< -o $@
+define compile_rules
+$(BIN)/$($(1)_ALIAS)/%.o: $(SRC_DIR)/$(1)/%.c | $(BIN)
+	$(CC) $(CFLAGS) $(INCLUDES) -c $$< -o $$@
+
+$(BIN)/$($(1)_ALIAS)test/%.o: $(TEST_DIR)/$(1)/%.c | $(BIN)
+	$(CC) $(CFLAGS) $(INCLUDES) $(TEST_INCLUDE) -c $$< -o $$@
+endef
+
+$(foreach P,$(PROJECTS), $(eval $(call compile_rules,$(P))))
+
 
 $(BIN):
-	mkdir -p $(BIN)/src $(BIN)/sparse $(BIN)/test $(BIN)/sparsetest $(BIN)/indexer $(BIN)/indexertest
+	mkdir -p $(BIN)/src $(BIN)/test \
+	  $(foreach P,$(PROJECTS), $(BIN)/$($(P)_ALIAS) $(BIN)/$($(P)_ALIAS)test)
 
-clean: ## Remove all built file, including binaries.
+clean: ## Remove all built files, including binaries.
 	rm -rf $(BIN)
