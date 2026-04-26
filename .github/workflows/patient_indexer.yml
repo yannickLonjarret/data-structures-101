@@ -1,9 +1,9 @@
-name: Sparse Matrix Quality Check
+name: Patient Indexer Quality Check
 run-name: ${{ github.head_ref }} quality control
 on:
   pull_request: 
     branches:
-      - linked_list_assignment
+      - bst_assignment
 jobs:
   static-check:
     runs-on: ubuntu-latest
@@ -21,7 +21,7 @@ jobs:
 
       - name: Code lint check
         run: |
-          clang-tidy $(find ./src -name "*.c") -- -Iinclude/ -Iinclude/SparseMatrix -Iinclude/PatientIndexer
+          clang-tidy $(find ./src -name "*.c") -- -Iinclude/ -Iinclude/PatientIndexer -Iinclude/SparseMatrix
           clang-tidy $(find ./include -name "*.h")
   build:
     needs: static-check
@@ -30,20 +30,17 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v5
 
-      - name: Build SparseMatrix project
-        run: make sparse
-
-      - name: Try Run SparseMatrix project
-        run: echo 8 | bin/SparseMatrix
+      - name: Build PatientIndexer project
+        run: make indexer
     
-      - name: Build SparseMatrix test runner
-        run: make sparse-test
+      - name: Build PatientIndexer test runner
+        run: make indexer-test
 
       - name: Save test artifact
         uses: actions/upload-artifact@v6
         with:
-          name: SparseMatrixTestRunner
-          path: bin/SparseMatrixTest
+          name: PatientIndexerTestRunner
+          path: bin/PatientIndexerTest
   test:
       needs: build
       runs-on: ubuntu-latest
@@ -51,10 +48,10 @@ jobs:
         - name: Get test artifact
           uses: actions/download-artifact@v4
           with:
-            name: SparseMatrixTestRunner
+            name: PatientIndexerTestRunner
             path: bin/
 
         - name: Run test artifact
           run: |
-            chmod +x bin/SparseMatrixTest
-            bin/SparseMatrixTest
+            chmod +x bin/PatientIndexerTest
+            bin/PatientIndexerTest
