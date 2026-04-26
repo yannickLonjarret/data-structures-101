@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #include "SparseMatrix.h"
 #include "unity.h"
 #include "unity_fixture.h"
