@@ -3,14 +3,21 @@
 #include <string.h>
 
 #include "PatientIndexer.h"
+#include "utils.h"
 
 // Data structure creation and deletion
-IndexerManager CreateIndexerManager(int numberOfIndexers) {
-    IndexerManager manager;
-    manager.indexerCount = numberOfIndexers;
-    manager.indexers = (PatientIndexer*)malloc(sizeof(PatientIndexer) * numberOfIndexers);
+IndexerManager* CreateIndexerManager(int numberOfIndexers) {
+    IndexerManager* manager = (IndexerManager*)malloc(sizeof(IndexerManager));
 
-    if(manager.indexers == NULL) {
+    if(manager == NULL) {
+        fprintf(stderr, "Malloc issue when creating the manager indexer.");
+        abort();
+    }
+
+    manager->indexerCount = numberOfIndexers;
+    manager->indexers = (PatientIndexer*)calloc(numberOfIndexers, sizeof(PatientIndexer));
+
+    if(manager->indexers == NULL) {
         fprintf(stderr, "Malloc issue when creating the manager indexer.");
         abort();
     }
@@ -19,6 +26,11 @@ IndexerManager CreateIndexerManager(int numberOfIndexers) {
 }
 
 PatientFile* CreatePatient(char* lastName, char* firstName) {
+    if(!isNameValid(lastName) || !isNameValid(firstName)) {
+        fprintf(stderr, "Name invalid in CreatePatient.\n");
+        return NULL;
+    }
+
     PatientFile* patient = (PatientFile*)malloc(sizeof(PatientFile));
 
     if(patient == NULL) {
@@ -63,6 +75,11 @@ PatientFile* CreatePatient(char* lastName, char* firstName) {
 }
 
 Appointment* CreateAppointment(char* date, char* reason, int emergencyLevel) {
+    if(!isDateValid(date)) {
+        fprintf(stderr, "Invalid date in CreateAppointment. \n");
+        return NULL;
+    }
+
     Appointment* appointment = (Appointment*)malloc(sizeof(Appointment));
 
     if(appointment == NULL) {
@@ -152,6 +169,20 @@ void DeleteAppointmentList(AppointmentList* list) {
     *list = NULL;
 }
 
+void DeleteIndexerManager(IndexerManager** manager) {
+    if(manager == NULL || *manager == NULL)
+        return;
+
+    for(int i = 0; i < (*manager)->indexerCount; i++)
+        DeletePatientIndexer(&(*manager)->indexers[i]);
+
+    free((*manager)->indexers);
+    (*manager)->indexers = NULL;
+    free(*manager);
+    manager = NULL;
+    return;
+}
+
 // Indexer management functions
 void InsertPatient(PatientIndexer* indexer, char* lastName, char* firstName) {
     if(indexer == NULL) {
@@ -159,9 +190,8 @@ void InsertPatient(PatientIndexer* indexer, char* lastName, char* firstName) {
         return;
     }
 
-    // TODO: Create a better way to validate strings
-    if(lastName == NULL || firstName == NULL) {
-        fprintf(stderr, "First or last name null.\n");
+    if(!isNameValid(lastName) || !isNameValid(firstName)) {
+        fprintf(stderr, "First or last name invalid in InsertPatient.\n");
         return;
     }
 
@@ -172,13 +202,32 @@ void InsertPatient(PatientIndexer* indexer, char* lastName, char* firstName) {
 
     PatientFile* patientToInsert = CreatePatient(lastName, firstName);
     if(patientToInsert == NULL) {
-        fprintf(stderr, "Failed to create patient for insertion.");
+        fprintf(stderr, "Failed to create patient for insertion.\n");
         return;
     }
 
-    if(*indexer == NULL) {
-        *indexer = patientToInsert;
+    if(InsertNewPatientFile(indexer, patientToInsert) != 0) {
+        fprintf(stderr, "Insertion failed.\n");
         return;
+    }
+
+    return;
+}
+
+int InsertNewPatientFile(PatientIndexer* indexer, PatientFile* patient) {
+    if(indexer == NULL) {
+        fprintf(stderr, "Patient indexer is NULL.\n");
+        return 1;
+    }
+
+    if(patient == NULL) {
+        fprintf(stderr, "Patient is NULL.\n");
+        return 1;
+    }
+
+    if(*indexer == NULL) {
+        *indexer = patient;
+        return 0;
     }
 
     PatientFile* parent = NULL;
@@ -187,21 +236,21 @@ void InsertPatient(PatientIndexer* indexer, char* lastName, char* firstName) {
 
     while(traversal != NULL) {
         parent = traversal;
-        stringCompare = strcmp(patientToInsert->lastName, traversal->lastName);
+        stringCompare = strcmp(patient->lastName, traversal->lastName);
         if(stringCompare < 0)
             traversal = traversal->leftPatient;
         else
             traversal = traversal->rightPatient;
     }
 
-    patientToInsert->parentPatient = parent;
-    stringCompare = strcmp(patientToInsert->lastName, parent->lastName);
+    patient->parentPatient = parent;
+    stringCompare = strcmp(patient->lastName, parent->lastName);
     if(stringCompare < 0)
-        parent->leftPatient = patientToInsert;
+        parent->leftPatient = patient;
     else
-        parent->rightPatient = patientToInsert;
+        parent->rightPatient = patient;
 
-    return;
+    return 0;
 }
 
 PatientFile* SearchPatientFile(PatientIndexer* indexer, char* lastName) {
@@ -210,9 +259,8 @@ PatientFile* SearchPatientFile(PatientIndexer* indexer, char* lastName) {
         return NULL;
     }
 
-    // TODO: Create a better way to validate strings
-    if(lastName == NULL) {
-        fprintf(stderr, "Last name null.\n");
+    if(!isNameValid(lastName)) {
+        fprintf(stderr, "Name invalid in SearchPatientFile.\n");
         return NULL;
     }
 
@@ -242,8 +290,8 @@ void RemovePatientFile(PatientIndexer* indexer, char* lastName) {
         return;
     }
 
-    if(lastName == NULL) {
-        fprintf(stderr, "First or last name null.\n");
+    if(!isNameValid(lastName)) {
+        fprintf(stderr, "Name invalid in RemovePatientFile.\n");
         return;
     }
 
@@ -358,20 +406,119 @@ int RemovePatientFileTwoChildren(PatientIndexer* root, PatientFile* nodeToRemove
     return 0;
 }
 
-void DeleteIndexerManager(IndexerManager* manager) {
-    if(manager == NULL)
+void UpdateIndexerBackup(PatientIndexer* indexer, PatientIndexer* backup) {
+    PatientIndexer temporaryBackup = NULL;
+
+    int error = DeepCopyIndexer(indexer, &temporaryBackup);
+    if(error != 0) {
+        fprintf(stderr, "Backup update failure.\n");
+        DeletePatientIndexer(&temporaryBackup);
         return;
-
-    for(int i = 0; i < manager->indexerCount; i++)
-        DeletePatientIndexer(&manager->indexers[i]);
-
-    free(manager->indexers);
-    manager->indexers = NULL;
-
+    }
+    DeletePatientIndexer(backup);
+    *backup = temporaryBackup;
     return;
 }
 
-void UpdateIndexerBackup(PatientIndexer* indexer, PatientIndexer* backup);
+int DeepCopyIndexer(PatientIndexer* indexerToCopy, PatientIndexer* copy) {
+    if(indexerToCopy == NULL)
+        return 1;
+
+    if(*indexerToCopy == NULL)
+        return 0;
+
+    PatientFile* fileCopy = DeepCopyPatient(*indexerToCopy);
+    if(fileCopy == NULL) {
+        fprintf(stderr, "Error when inserting copying patient file. \n");
+        return 1;
+    }
+
+    int error = InsertNewPatientFile(copy, fileCopy);
+    if(error != 0) {
+        fprintf(stderr, "Error when inserting copied patient file to backup. \n");
+        DeletePatientFile(&fileCopy);
+        return 1;
+    }
+
+    error = DeepCopyIndexer(&(*indexerToCopy)->leftPatient, copy);
+    if(error != 0) {
+        fprintf(stderr, "Error when inserting copied patient file to backup. \n");
+        return 1;
+    }
+
+    error = DeepCopyIndexer(&(*indexerToCopy)->rightPatient, copy);
+    if(error != 0) {
+        fprintf(stderr, "Error when inserting copied patient file to backup. \n");
+        return 1;
+    }
+
+    return 0;
+}
+
+PatientFile* DeepCopyPatient(PatientFile* patientToCopy) {
+    if(patientToCopy == NULL)
+        return NULL;
+
+    PatientFile* copy = CreatePatient(patientToCopy->lastName, patientToCopy->firstName);
+
+    if(copy == NULL) {
+        fprintf(stderr, "Failed to copy patient file. \n");
+        return NULL;
+    }
+
+    copy->appointmentCount = patientToCopy->appointmentCount;
+    int error = DeepCopyAppointmentList(patientToCopy->appointments, &copy->appointments);
+
+    if(error != 0) {
+        fprintf(stderr, "Failed to copy appointment list. \n");
+        DeletePatientFile(&copy);
+        return NULL;
+    }
+
+    return copy;
+}
+
+int DeepCopyAppointment(Appointment* appointmentToCopy, Appointment** copy) {
+    if(appointmentToCopy == NULL)
+        return 0;
+
+    *copy = CreateAppointment(appointmentToCopy->date, appointmentToCopy->reason, appointmentToCopy->emergencyLevel);
+
+    if(*copy == NULL) {
+        fprintf(stderr, "Failed to copy appointment. \n");
+        return 1;
+    }
+    return 0;
+}
+
+int DeepCopyAppointmentList(AppointmentList listToCopy, AppointmentList* copy) {
+    if(listToCopy == NULL)
+        return 0;
+
+    int error = DeepCopyAppointment(listToCopy, copy);
+
+    if(error != 0) {
+        fprintf(stderr, "Failed to copy appointment list. \n");
+        return 1;
+    }
+
+    Appointment* originalTraversal = listToCopy;
+    Appointment* copyTravesal = *copy;
+
+    while(originalTraversal != NULL) {
+        error = DeepCopyAppointment(originalTraversal->nextAppointment, &copyTravesal->nextAppointment);
+
+        if(error != 0) {
+            fprintf(stderr, "Failed to copy appointment list. \n");
+            return 1;
+        }
+
+        copyTravesal = copyTravesal->nextAppointment;
+        originalTraversal = originalTraversal->nextAppointment;
+    }
+
+    return 0;
+}
 
 void InsertAppointment(PatientIndexer* indexer, char* lastName, char* date, char* reason, int emergencyLevel) {
     if(indexer == NULL) {
@@ -379,7 +526,15 @@ void InsertAppointment(PatientIndexer* indexer, char* lastName, char* date, char
         return;
     }
 
-    // TODO check names validity and date vaidity
+    if(!isDateValid(date)) {
+        fprintf(stderr, "Invalid date in InsertAppointment. \n");
+        return;
+    }
+
+    if(!isNameValid(lastName)) {
+        fprintf(stderr, "Invalid name in InsertAppointment.\n");
+        return;
+    }
 
     PatientFile* patientToUpdate = SearchPatientFile(indexer, lastName);
     if(patientToUpdate == NULL) {
@@ -425,9 +580,8 @@ void DisplayPatientFile(PatientIndexer* indexer, char* lastName) {
         return;
     }
 
-    // TODO: Create a better way to validate strings
-    if(lastName == NULL) {
-        fprintf(stderr, "First or last name null.\n");
+    if(!isNameValid(lastName)) {
+        fprintf(stderr, "Name invalid in DisplayPatientFile.\n");
         return;
     }
 
