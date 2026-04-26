@@ -222,15 +222,12 @@ int ComputeMemoryGain(SparseMatrix* matrix) {
 }
 
 MatrixLine* CreateMatrixLines(int size) {
-    MatrixLine* lines = (MatrixLine*)malloc(sizeof(MatrixLine) * size);
+    MatrixLine* lines = (MatrixLine*)calloc(size, sizeof(MatrixLine));
 
     if(lines == NULL) {
         fprintf(stderr, "Malloc issue when creating the matrix lines.");
         abort();
     }
-
-    for(int i = 0; i < size; i++)
-        lines[i] = NULL;
 
     return lines;
 }
