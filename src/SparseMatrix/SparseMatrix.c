@@ -4,7 +4,7 @@
 #include "SparseMatrix.h"
 #include "utils.h"
 
-void FillMatrix(SparseMatrix* matrix, int lineCount, int columnCount) {
+void FillMatrix(SparseMatrix* matrix, const int lineCount, const int columnCount) {
     if(matrix == NULL) {
         printf("Cannot fill a non-existent matrix \n");
         return;
@@ -29,7 +29,7 @@ void FillMatrix(SparseMatrix* matrix, int lineCount, int columnCount) {
     return;
 }
 
-void DisplayMatrixAsTable(SparseMatrix* matrix) {
+void DisplayMatrixAsTable(const SparseMatrix* matrix) {
     if(matrix == NULL) {
         printf("Cannot display a non-existent matrix. \n");
         return;
@@ -39,7 +39,7 @@ void DisplayMatrixAsTable(SparseMatrix* matrix) {
         DisplayLineAsTable(&matrix->lines[i], matrix->columnCount);
 }
 
-void DisplayLineAsTable(MatrixLine* line, int columnCount) {
+void DisplayLineAsTable(const MatrixLine* line, const int columnCount) {
     if(line == NULL || *line == NULL) {
         for(int i = 0; i < columnCount; i++)
             printf("%9d", 0);
@@ -67,7 +67,7 @@ void DisplayLineAsTable(MatrixLine* line, int columnCount) {
     printf("\n");
 }
 
-void DisplayMatrixAsLists(SparseMatrix* matrix) {
+void DisplayMatrixAsLists(const SparseMatrix* matrix) {
     if(matrix == NULL) {
         printf("Cannot display a non-existent matrix. \n");
         return;
@@ -77,7 +77,7 @@ void DisplayMatrixAsLists(SparseMatrix* matrix) {
         DisplayLineAsList(matrix->lines[i]);
 }
 
-void DisplayLineAsList(MatrixLine line) {
+void DisplayLineAsList(const MatrixLine line) {
     if(line == NULL)
         printf("Empty line\n");
     MatrixElement* lineTraverse = line;
@@ -89,7 +89,7 @@ void DisplayLineAsList(MatrixLine line) {
     printf("\n");
 }
 
-int GetValue(SparseMatrix* matrix, int linePosition, int columnPosition) {
+int GetValue(const SparseMatrix* matrix, const int linePosition, const int columnPosition) {
     if(matrix == NULL) {
         printf("Cannot get value from a non-existent matrix \n");
         return 0;
@@ -104,7 +104,7 @@ int GetValue(SparseMatrix* matrix, int linePosition, int columnPosition) {
     return SearchValueInLine(line, columnPosition);
 }
 
-int SearchValueInLine(MatrixLine line, int columnPosition) {
+int SearchValueInLine(MatrixLine line, const int columnPosition) {
     if(line == NULL)
         return 0;
 
@@ -120,7 +120,7 @@ int SearchValueInLine(MatrixLine line, int columnPosition) {
     return 0;
 }
 
-void PutValue(SparseMatrix* matrix, int linePosition, int columnPosition, int value) {
+void PutValue(SparseMatrix* matrix, const int linePosition, const int columnPosition, const int value) {
     if(matrix == NULL) {
         printf("Cannot set value in a non-existent matrix \n");
         return;
@@ -139,7 +139,7 @@ void PutValue(SparseMatrix* matrix, int linePosition, int columnPosition, int va
     }
 }
 
-void AddMatrix(SparseMatrix* a, SparseMatrix* b) {
+void AddMatrix(SparseMatrix* a, const SparseMatrix* b) {
     if(a == NULL || b == NULL) {
         printf("One or more non existent matrix \n");
         return;
@@ -154,7 +154,7 @@ void AddMatrix(SparseMatrix* a, SparseMatrix* b) {
         AddMatrixLine(&a->lines[i], &b->lines[i]);
 }
 
-void AddMatrixLine(MatrixLine* a, MatrixLine* b) {
+void AddMatrixLine(MatrixLine* a, const MatrixLine* b) {
     if(a == NULL || *a == NULL) {
         MatrixElement* lineTraverse = *b;
         MatrixElement* copy = NULL;
@@ -197,7 +197,7 @@ void AddMatrixLine(MatrixLine* a, MatrixLine* b) {
     }
 }
 
-int ComputeMemoryGain(SparseMatrix* matrix) {
+int ComputeMemoryGain(const SparseMatrix* matrix) {
     if(matrix == NULL) {
         printf("Cannot compute gain on an empty matrix \n");
         return -1;
@@ -221,7 +221,7 @@ int ComputeMemoryGain(SparseMatrix* matrix) {
     return classicalMatrixSize - SparseMatrixSize;
 }
 
-MatrixLine* CreateMatrixLines(int size) {
+MatrixLine* CreateMatrixLines(const int size) {
     MatrixLine* lines = (MatrixLine*)calloc(size, sizeof(MatrixLine));
 
     if(lines == NULL) {
@@ -232,7 +232,7 @@ MatrixLine* CreateMatrixLines(int size) {
     return lines;
 }
 
-SparseMatrix* CreateSparseMatrix(int lineCount, int columnCount) {
+SparseMatrix* CreateSparseMatrix(const int lineCount, const int columnCount) {
     SparseMatrix* matrix = (SparseMatrix*)malloc(sizeof(SparseMatrix));
     MatrixLine* lines = CreateMatrixLines(lineCount);
 
@@ -248,7 +248,7 @@ SparseMatrix* CreateSparseMatrix(int lineCount, int columnCount) {
     return matrix;
 }
 
-MatrixElement* CreateMatrixElement(int value, int column) {
+MatrixElement* CreateMatrixElement(const int value, const int column) {
     MatrixElement* elem = (MatrixElement*)malloc(sizeof(MatrixElement));
 
     if(elem == NULL) {
@@ -263,7 +263,7 @@ MatrixElement* CreateMatrixElement(int value, int column) {
     return elem;
 }
 
-void RemoveSparseLineElement(MatrixLine* line, int positionToRemove) {
+void RemoveSparseLineElement(MatrixLine* line, const int positionToRemove) {
     if(line == NULL || *line == NULL)
         return;
     MatrixElement* temp = NULL;
