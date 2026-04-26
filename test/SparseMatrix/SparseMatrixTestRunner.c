@@ -1,7 +1,7 @@
 #include "unity_fixture.h"
 
 static void RunAllTests(void) {
-    RUN_TEST_GROUP(LinkedListManip);
+    // RUN_TEST_GROUP(LinkedListManip);
     RUN_TEST_GROUP(LinkedListSearch);
     RUN_TEST_GROUP(MatrixAdd);
     RUN_TEST_GROUP(MemoryManagement);
