@@ -6,7 +6,7 @@
 #include "utils.h"
 
 // Data structure creation and deletion
-IndexerManager* CreateIndexerManager(int numberOfIndexers) {
+IndexerManager* CreateIndexerManager(const int numberOfIndexers) {
     IndexerManager* manager = (IndexerManager*)malloc(sizeof(IndexerManager));
 
     if(manager == NULL) {
@@ -25,7 +25,7 @@ IndexerManager* CreateIndexerManager(int numberOfIndexers) {
     return manager;
 }
 
-PatientFile* CreatePatient(char* lastName, char* firstName) {
+PatientFile* CreatePatient(const char* lastName, const char* firstName) {
     if(!isNameValid(lastName) || !isNameValid(firstName)) {
         fprintf(stderr, "Name invalid in CreatePatient.\n");
         return NULL;
@@ -74,7 +74,7 @@ PatientFile* CreatePatient(char* lastName, char* firstName) {
     return patient;
 }
 
-Appointment* CreateAppointment(char* date, char* reason, int emergencyLevel) {
+Appointment* CreateAppointment(const char* date, const char* reason, const int emergencyLevel) {
     if(!isDateValid(date)) {
         fprintf(stderr, "Invalid date in CreateAppointment. \n");
         return NULL;
@@ -184,7 +184,7 @@ void DeleteIndexerManager(IndexerManager** manager) {
 }
 
 // Indexer management functions
-void InsertPatient(PatientIndexer* indexer, char* lastName, char* firstName) {
+void InsertPatient(PatientIndexer* indexer, const char* lastName, const char* firstName) {
     if(indexer == NULL) {
         fprintf(stderr, "Patient indexer is NULL.\n");
         return;
@@ -253,7 +253,7 @@ int InsertNewPatientFile(PatientIndexer* indexer, PatientFile* patient) {
     return 0;
 }
 
-PatientFile* SearchPatientFile(PatientIndexer* indexer, char* lastName) {
+PatientFile* SearchPatientFile(const PatientIndexer* indexer, const char* lastName) {
     if(indexer == NULL) {
         fprintf(stderr, "Patient indexer is NULL.\n");
         return NULL;
@@ -284,7 +284,7 @@ PatientFile* SearchPatientFile(PatientIndexer* indexer, char* lastName) {
     return traversal;
 }
 
-void RemovePatientFile(PatientIndexer* indexer, char* lastName) {
+void RemovePatientFile(PatientIndexer* indexer, const char* lastName) {
     if(indexer == NULL) {
         fprintf(stderr, "Patient indexer is NULL.\n");
         return;
@@ -406,7 +406,7 @@ int RemovePatientFileTwoChildren(PatientIndexer* root, PatientFile* nodeToRemove
     return 0;
 }
 
-void UpdateIndexerBackup(PatientIndexer* indexer, PatientIndexer* backup) {
+void UpdateIndexerBackup(const PatientIndexer* indexer, PatientIndexer* backup) {
     PatientIndexer temporaryBackup = NULL;
 
     int error = DeepCopyIndexer(indexer, &temporaryBackup);
@@ -420,7 +420,7 @@ void UpdateIndexerBackup(PatientIndexer* indexer, PatientIndexer* backup) {
     return;
 }
 
-int DeepCopyIndexer(PatientIndexer* indexerToCopy, PatientIndexer* copy) {
+int DeepCopyIndexer(const PatientIndexer* indexerToCopy, PatientIndexer* copy) {
     if(indexerToCopy == NULL)
         return 1;
 
@@ -455,7 +455,7 @@ int DeepCopyIndexer(PatientIndexer* indexerToCopy, PatientIndexer* copy) {
     return 0;
 }
 
-PatientFile* DeepCopyPatient(PatientFile* patientToCopy) {
+PatientFile* DeepCopyPatient(const PatientFile* patientToCopy) {
     if(patientToCopy == NULL)
         return NULL;
 
@@ -478,7 +478,7 @@ PatientFile* DeepCopyPatient(PatientFile* patientToCopy) {
     return copy;
 }
 
-int DeepCopyAppointment(Appointment* appointmentToCopy, Appointment** copy) {
+int DeepCopyAppointment(const Appointment* appointmentToCopy, Appointment** copy) {
     if(appointmentToCopy == NULL)
         return 0;
 
@@ -491,7 +491,7 @@ int DeepCopyAppointment(Appointment* appointmentToCopy, Appointment** copy) {
     return 0;
 }
 
-int DeepCopyAppointmentList(AppointmentList listToCopy, AppointmentList* copy) {
+int DeepCopyAppointmentList(const AppointmentList listToCopy, AppointmentList* copy) {
     if(listToCopy == NULL)
         return 0;
 
@@ -520,7 +520,7 @@ int DeepCopyAppointmentList(AppointmentList listToCopy, AppointmentList* copy) {
     return 0;
 }
 
-void InsertAppointment(PatientIndexer* indexer, char* lastName, char* date, char* reason, int emergencyLevel) {
+void InsertAppointment(PatientIndexer* indexer, const char* lastName, const char* date, const char* reason, const int emergencyLevel) {
     if(indexer == NULL) {
         fprintf(stderr, "Patient indexer is NULL.\n");
         return;
@@ -558,7 +558,7 @@ void InsertAppointment(PatientIndexer* indexer, char* lastName, char* date, char
 }
 
 // Utils
-PatientFile* GetMinimum(PatientFile* patient) {
+PatientFile* GetMinimum(const PatientFile* patient) {
     if(patient == NULL)
         return NULL;
 
@@ -574,7 +574,7 @@ PatientFile* GetMinimum(PatientFile* patient) {
 }
 
 // Display functions
-void DisplayPatientFile(PatientIndexer* indexer, char* lastName) {
+void DisplayPatientFile(const PatientIndexer* indexer, const char* lastName) {
     if(indexer == NULL) {
         fprintf(stderr, "Patient indexer is NULL.\n");
         return;
@@ -598,7 +598,7 @@ void DisplayPatientFile(PatientIndexer* indexer, char* lastName) {
     return;
 }
 
-void DisplayAppointment(Appointment* appointment) {
+void DisplayAppointment(const Appointment* appointment) {
     Appointment* traversal = appointment;
     printf("===== Appointment start =====\n");
 
@@ -613,7 +613,7 @@ void DisplayAppointment(Appointment* appointment) {
     printf("===== Appointment end =====\n");
 }
 
-void DisplayAllPatients(PatientIndexer* indexer) {
+void DisplayAllPatients(const PatientIndexer* indexer) {
     if(indexer == NULL) {
         fprintf(stderr, "Patient indexer is NULL.\n");
         return;
