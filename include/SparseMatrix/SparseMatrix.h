@@ -15,24 +15,24 @@ typedef struct matrix {
     int columnCount;
 } SparseMatrix;
 
-void FillMatrix(SparseMatrix* matrix, int lineCount, int columnCount);
-void DisplayMatrixAsTable(SparseMatrix* matrix);
-void DisplayLineAsTable(MatrixLine* line, int columnCount);
-void DisplayMatrixAsLists(SparseMatrix* matrix);
-void DisplayLineAsList(MatrixLine line);
-int GetValue(SparseMatrix* matrix, int linePosition, int columnPosition);
-void PutValue(SparseMatrix* matrix, int linePosition, int columnPosition, int value);
-void AddMatrix(SparseMatrix* a, SparseMatrix* b);
-void AddMatrixLine(MatrixLine* a, MatrixLine* b);
-int ComputeMemoryGain(SparseMatrix* matrix);
+void FillMatrix(SparseMatrix* matrix, const int lineCount, const int columnCount);
+void DisplayMatrixAsTable(const SparseMatrix* matrix);
+void DisplayLineAsTable(const MatrixLine* line, const int columnCount);
+void DisplayMatrixAsLists(const SparseMatrix* matrix);
+void DisplayLineAsList(const MatrixLine line);
+int GetValue(const SparseMatrix* matrix, const int linePosition, const int columnPosition);
+void PutValue(SparseMatrix* matrix, const int linePosition, const int columnPosition, const int value);
+void AddMatrix(SparseMatrix* a, const SparseMatrix* b);
+void AddMatrixLine(MatrixLine* a, const MatrixLine* b);
+int ComputeMemoryGain(const SparseMatrix* matrix);
 
-SparseMatrix* CreateSparseMatrix(int lineCount, int columnCount);
-MatrixElement* CreateMatrixElement(int value, int column);
-MatrixLine* CreateMatrixLines(int size);
+SparseMatrix* CreateSparseMatrix(const int lineCount, const int columnCount);
+MatrixElement* CreateMatrixElement(const int value, const int column);
+MatrixLine* CreateMatrixLines(const int size);
 
 void UpdateSparseLine(MatrixLine* line, MatrixElement* elementToInsert);
-void RemoveSparseLineElement(MatrixLine* line, int positionToRemove);
-int SearchValueInLine(MatrixLine line, int columnPosition);
+void RemoveSparseLineElement(MatrixLine* line, const int positionToRemove);
+int SearchValueInLine(MatrixLine line, const int columnPosition);
 
 void DeleteMatrix(SparseMatrix** matrix);
 void DeleteMatrixLine(MatrixLine* line);
