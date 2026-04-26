@@ -27,12 +27,12 @@ TEST_GROUP_RUNNER(MatrixAdd) {
 }
 
 TEST_GROUP_RUNNER(MemoryManagement) {
-    RUN_TEST_CASE(MemoryManagemet, test_Create_Matrix_Element);
-    RUN_TEST_CASE(MemoryManagemet, test_Free_Matrix_Element);
-    RUN_TEST_CASE(MemoryManagemet, test_Create_Sparse_Matrix);
-    RUN_TEST_CASE(MemoryManagemet, test_Create_Matrix_Lines);
-    RUN_TEST_CASE(MemoryManagemet, test_Free_Matrix_Lines);
-    RUN_TEST_CASE(MemoryManagemet, test_Free_Sparse_Matrix);
+    RUN_TEST_CASE(MemoryManagement, test_Create_Matrix_Element);
+    RUN_TEST_CASE(MemoryManagement, test_Free_Matrix_Element);
+    RUN_TEST_CASE(MemoryManagement, test_Create_Sparse_Matrix);
+    RUN_TEST_CASE(MemoryManagement, test_Create_Matrix_Lines);
+    RUN_TEST_CASE(MemoryManagement, test_Free_Matrix_Lines);
+    RUN_TEST_CASE(MemoryManagement, test_Free_Sparse_Matrix);
 }
 
 TEST_GROUP_RUNNER(Misc) { RUN_TEST_CASE(Misc, test_Memory_Gain_Computation); }
