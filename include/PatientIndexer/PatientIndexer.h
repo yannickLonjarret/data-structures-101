@@ -43,7 +43,7 @@ PatientFile* GetMinimum(const PatientFile* patient);
 // Indexer management functions
 void InsertPatient(PatientIndexer* indexer, const char* lastName, const char* firstName);
 int InsertNewPatientFile(PatientIndexer* indexer, PatientFile* patient);
-PatientFile* SearchPatientFile(PatientIndexer* indexer, const char* lastName);
+PatientFile* SearchPatientFile(const PatientIndexer* indexer, const char* lastName);
 void InsertAppointment(PatientIndexer* indexer, const char* lastName, const char* date, const char* reason, const int emergencyLevel);
 int RemovePatientFileLeaf(PatientIndexer* root, PatientFile* nodeToRemove);
 int RemovePatientFileSingleChild(PatientIndexer* root, PatientFile* nodeToRemove);
