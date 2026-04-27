@@ -55,7 +55,7 @@ void UpdateIndexerBackup(PatientIndexer* indexer, PatientIndexer* backup);
 int DeepCopyIndexer(PatientIndexer* indexerToCopy, PatientIndexer* copy);
 PatientFile* DeepCopyPatient(PatientFile* patientToCopy);
 int DeepCopyAppointment(Appointment* appointmentToCopy, Appointment** copy);
-int DeepCopyAppointmentList(AppointmentList listToCopy, AppointmentList* copy);
+int DeepCopyAppointmentList(const Appointment* listToCopy, AppointmentList* copy);
 
 // Display functions
 void DisplayPatientFile(PatientIndexer* indexer, char* lastName);

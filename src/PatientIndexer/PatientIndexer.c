@@ -491,7 +491,7 @@ int DeepCopyAppointment(Appointment* appointmentToCopy, Appointment** copy) {
     return 0;
 }
 
-int DeepCopyAppointmentList(AppointmentList listToCopy, AppointmentList* copy) {
+int DeepCopyAppointmentList(const Appointment* listToCopy, AppointmentList* copy) {
     if(listToCopy == NULL)
         return 0;
 
