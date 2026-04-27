@@ -41,7 +41,7 @@ int readUserIntegerInput(int* userInput) {
     return 0;
 }
 
-int getValidUserIntegerInput(int* userInput, int lowRange, int highRange) {
+int getValidUserIntegerInput(int* userInput, const int lowRange, const int highRange) {
     if(highRange <= lowRange)
         return 1;
     *userInput = 0;
@@ -67,7 +67,7 @@ int getValidUserIntegerInput(int* userInput, int lowRange, int highRange) {
     return 0;
 }
 
-int isNameValid(char* name) {
+int isNameValid(const char* name) {
     if(name == NULL || name[0] == '\0')
         return 0;
 
@@ -123,7 +123,7 @@ int parseDateField(const char* field, int* parsedField) {
     return 0;
 }
 
-int isDateValid(char* date) {
+int isDateValid(const char* date) {
     // Date format: MM_DD_YYYY
     if(date == NULL || date[0] == '\0')
         return 0;
@@ -244,7 +244,7 @@ int getValidDateInput(char* dateInput) {
     return 0;
 }
 
-int clearBuffer(char* buffer, int size) {
+int clearBuffer(char* buffer, const int size) {
     if(size > MAX_CHAR_SIZE)
         return 1;
     if(buffer == NULL)

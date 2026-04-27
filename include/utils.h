@@ -13,9 +13,9 @@ int readInput(char* input);
 
 int readUserIntegerInput(int* userInput);
 
-int getValidUserIntegerInput(int* userInput, int lowRange, int highRange);
+int getValidUserIntegerInput(int* userInput, const int lowRange, const int highRange);
 
-int isNameValid(char* name);
+int isNameValid(const char* name);
 
 int readNameInput(char* name);
 
@@ -23,13 +23,13 @@ int getValidNameInput(char* name);
 
 int parseDateField(const char* field, int* parsedField);
 
-int isDateValid(char* date);
+int isDateValid(const char* date);
 
 int canFormValidDate(const int day, const int month, const int year);
 
 int getValidDateInput(char* dateInput);
 
-int clearBuffer(char* buffer, int size);
+int clearBuffer(char* buffer, const int size);
 
 void logError(const char* errorMessage);
 #endif
