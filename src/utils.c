@@ -7,14 +7,10 @@
 
 int readInput(char* input) {
     if(fgets(input, MAX_CHAR_SIZE, stdin) == NULL) {
-        int errorCode = fprintf(stderr, "Error when reading user input.\n");
+        logError("Error when reading user input.\n");
         input[0] = '\0';
-        if(errorCode != 0)
-            return 2;
-
         return 1;
     }
-
     return 0;
 }
 
@@ -31,17 +27,13 @@ int readUserIntegerInput(int* userInput) {
     *userInput = (int)strtol(line, &str_end, base_10);
 
     if(errno == ERANGE) {
-        errorCode = fprintf(stderr, "Error when parsing user input, value out of range.\n");
+        logError("Error when parsing user input, value out of range.\n");
         *userInput = 0;
-        if(errorCode != 0)
-            return 2;
         return 1;
     }
 
     if(str_end == line) {
-        errorCode = fprintf(stderr, "Error when parsing user input, invalid input.\n");
-        if(errorCode != 0)
-            return 2;
+        logError("Error when parsing user input, invalid input.\n");
         *userInput = 0;
         return 1;
     }
@@ -102,14 +94,14 @@ int readNameInput(char* name) {
 int getValidNameInput(char* name) {
     int errorCode = readNameInput(name);
     if(errorCode != 0) {
-        fprintf(stderr, "Failed to get name skip.\n");
+        logError("Failed to get name skip.\n");
         return 1;
     }
     while(!isNameValid(name)) {
         printf("Please input a name without figures or symbols. \n");
         errorCode = readNameInput(name);
         if(errorCode != 0) {
-            fprintf(stderr, "Failed to get name skip.\n");
+            logError("Failed to get name skip.\n");
             return 1;
         }
     }
