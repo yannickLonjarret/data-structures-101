@@ -1,9 +1,7 @@
 #include <limits.h>
 #include <stdio.h>
-#include <stdlib.h>
 
 #include "PatientIndexer.h"
-#include "gui.h"
 #include "utils.h"
 
 enum menuOptions { ADD_PATIENT = 0, ADD_APPOINTMENT = 1, DISPLAY_FILE = 2, DISPLAY_PATIENTS = 3, DELETE = 4, UPDATE = 5, QUIT = 6 };
