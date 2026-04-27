@@ -260,3 +260,13 @@ int clearBuffer(char* buffer, int size) {
     memset(buffer, '\0', size);
     return 0;
 }
+
+void logError(const char* errorMessage) {
+    if(errorMessage == NULL)
+        return;
+    int error = 0;
+    error = fprintf(stderr, errorMessage);
+    if(error < 0)
+        perror("Log error fprintf failure.\n");
+    return;
+}

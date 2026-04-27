@@ -30,4 +30,6 @@ int canFormValidDate(const int day, const int month, const int year);
 int getValidDateInput(char* dateInput);
 
 int clearBuffer(char* buffer, int size);
+
+void logError(const char* errorMessage);
 #endif
