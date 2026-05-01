@@ -155,7 +155,12 @@ void AddMatrix(SparseMatrix* a, const SparseMatrix* b) {
 }
 
 void AddMatrixLine(MatrixLine* a, const MatrixLine* b) {
-    if(a == NULL || *a == NULL) {
+    if(a == NULL || b == NULL) {
+        logError("NULL line in AddMatrixLine. \n");
+        return;
+    }
+
+    if(*a == NULL) {
         MatrixElement* lineTraverse = *b;
         MatrixElement* copy = NULL;
         while(lineTraverse) {
