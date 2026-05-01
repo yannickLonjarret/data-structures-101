@@ -1,18 +1,16 @@
 #include <limits.h>
 #include <stdio.h>
-#include <stdlib.h>
 
 #include "PatientIndexer.h"
-#include "gui.h"
 #include "utils.h"
 
 enum menuOptions { ADD_PATIENT = 0, ADD_APPOINTMENT = 1, DISPLAY_FILE = 2, DISPLAY_PATIENTS = 3, DELETE = 4, UPDATE = 5, QUIT = 6 };
 
 int main(void) {
     IndexerManager* manager = CreateIndexerManager(2);
-
+    const int MaxEmergencyLevel = 5;
     int emergencyLevel, errorCode, menuChoice = 0;
-    char date[15];
+    char date[MAX_CHAR_SIZE];
     char firstName[MAX_CHAR_SIZE], lastName[MAX_CHAR_SIZE];
     char appointmentReason[MAX_CHAR_SIZE];
     do {
@@ -73,7 +71,7 @@ int main(void) {
             }
 
             printf("Please type in the emergency level (0-5):\n");
-            errorCode = getValidUserIntegerInput(&emergencyLevel, 0, 5);
+            errorCode = getValidUserIntegerInput(&emergencyLevel, 0, MaxEmergencyLevel);
             if(errorCode != 0) {
                 printf("Something wrong happened, skipping.\n");
                 continue;

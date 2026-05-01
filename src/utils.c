@@ -7,14 +7,10 @@
 
 int readInput(char* input) {
     if(fgets(input, MAX_CHAR_SIZE, stdin) == NULL) {
-        int errorCode = fprintf(stderr, "Error when reading user input.\n");
+        logError("Error when reading user input.\n");
         input[0] = '\0';
-        if(errorCode != 0)
-            return 2;
-
         return 1;
     }
-
     return 0;
 }
 
@@ -31,17 +27,13 @@ int readUserIntegerInput(int* userInput) {
     *userInput = (int)strtol(line, &str_end, base_10);
 
     if(errno == ERANGE) {
-        errorCode = fprintf(stderr, "Error when parsing user input, value out of range.\n");
+        logError("Error when parsing user input, value out of range.\n");
         *userInput = 0;
-        if(errorCode != 0)
-            return 2;
         return 1;
     }
 
     if(str_end == line) {
-        errorCode = fprintf(stderr, "Error when parsing user input, invalid input.\n");
-        if(errorCode != 0)
-            return 2;
+        logError("Error when parsing user input, invalid input.\n");
         *userInput = 0;
         return 1;
     }
@@ -49,7 +41,7 @@ int readUserIntegerInput(int* userInput) {
     return 0;
 }
 
-int getValidUserIntegerInput(int* userInput, int lowRange, int highRange) {
+int getValidUserIntegerInput(int* userInput, const int lowRange, const int highRange) {
     if(highRange <= lowRange)
         return 1;
     *userInput = 0;
@@ -75,7 +67,7 @@ int getValidUserIntegerInput(int* userInput, int lowRange, int highRange) {
     return 0;
 }
 
-int isNameValid(char* name) {
+int isNameValid(const char* name) {
     if(name == NULL || name[0] == '\0')
         return 0;
 
@@ -102,14 +94,14 @@ int readNameInput(char* name) {
 int getValidNameInput(char* name) {
     int errorCode = readNameInput(name);
     if(errorCode != 0) {
-        fprintf(stderr, "Failed to get name skip.\n");
+        logError("Failed to get name skip.\n");
         return 1;
     }
     while(!isNameValid(name)) {
         printf("Please input a name without figures or symbols. \n");
         errorCode = readNameInput(name);
         if(errorCode != 0) {
-            fprintf(stderr, "Failed to get name skip.\n");
+            logError("Failed to get name skip.\n");
             return 1;
         }
     }
@@ -131,7 +123,7 @@ int parseDateField(const char* field, int* parsedField) {
     return 0;
 }
 
-int isDateValid(char* date) {
+int isDateValid(const char* date) {
     // Date format: MM_DD_YYYY
     if(date == NULL || date[0] == '\0')
         return 0;
@@ -252,11 +244,21 @@ int getValidDateInput(char* dateInput) {
     return 0;
 }
 
-int clearBuffer(char* buffer, int size) {
+int clearBuffer(char* buffer, const int size) {
     if(size > MAX_CHAR_SIZE)
         return 1;
     if(buffer == NULL)
         return 1;
     memset(buffer, '\0', size);
     return 0;
+}
+
+void logError(const char* const errorMessage) {
+    if(errorMessage == NULL)
+        return;
+    int error = 0;
+    error = fprintf(stderr, "%s", errorMessage);
+    if(error < 0)
+        perror("Log error fprintf failure.\n");
+    return;
 }
