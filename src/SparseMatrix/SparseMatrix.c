@@ -163,7 +163,7 @@ void AddMatrixLine(MatrixLine* a, const MatrixLine* b) {
     if(*a == NULL) {
         MatrixElement* lineTraverse = *b;
         MatrixElement* copy = NULL;
-        while(lineTraverse) {
+        while(lineTraverse != NULL) {
             copy = CreateMatrixElement(lineTraverse->value, lineTraverse->column);
             UpdateSparseLine(a, copy);
             lineTraverse = lineTraverse->nextElement;
