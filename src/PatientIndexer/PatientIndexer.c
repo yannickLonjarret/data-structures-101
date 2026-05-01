@@ -502,7 +502,7 @@ int DeepCopyAppointmentList(const Appointment* listToCopy, AppointmentList* copy
         return 1;
     }
 
-    Appointment* originalTraversal = listToCopy;
+    const Appointment* originalTraversal = listToCopy;
     Appointment* copyTravesal = *copy;
 
     while(originalTraversal != NULL) {
