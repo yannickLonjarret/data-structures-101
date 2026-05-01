@@ -570,7 +570,7 @@ PatientFile* GetMinimum(const PatientFile* patient) {
         traversal = traversal->leftPatient;
     }
 
-    return traversal;
+    return (PatientFile*)traversal;
 }
 
 // Display functions
