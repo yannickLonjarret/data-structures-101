@@ -292,7 +292,13 @@ void UpdateSparseLine(MatrixLine* line, MatrixElement* elementToInsert) {
         printf("Element is NULL, exiting.");
         return;
     }
-    if(line == NULL || *line == NULL) {
+
+    if(line == NULL) {
+        logError("Line is NULL. \n");
+        return;
+    }
+
+    if(*line == NULL) {
         *line = elementToInsert;
         return;
     }
