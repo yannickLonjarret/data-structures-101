@@ -230,7 +230,7 @@ MatrixLine* CreateMatrixLines(const int size) {
     MatrixLine* lines = (MatrixLine*)calloc(size, sizeof(MatrixLine));
 
     if(lines == NULL) {
-        fprintf(stderr, "Malloc issue when creating the matrix lines.");
+        logError("Malloc issue when creating the matrix lines.");
         abort();
     }
 
@@ -242,7 +242,7 @@ SparseMatrix* CreateSparseMatrix(const int lineCount, const int columnCount) {
     MatrixLine* lines = CreateMatrixLines(lineCount);
 
     if(matrix == NULL || lines == NULL) {
-        fprintf(stderr, "Malloc issue when creating the matrix.");
+        logError("Malloc issue when creating the matrix.");
         abort();
     }
 
@@ -257,7 +257,7 @@ MatrixElement* CreateMatrixElement(const int value, const int column) {
     MatrixElement* elem = (MatrixElement*)malloc(sizeof(MatrixElement));
 
     if(elem == NULL) {
-        fprintf(stderr, "Malloc issue when creating an element.");
+        logError("Malloc issue when creating an element.");
         abort();
     }
 
