@@ -80,7 +80,7 @@ void DisplayMatrixAsLists(const SparseMatrix* matrix) {
 void DisplayLineAsList(const MatrixElement* line) {
     if(line == NULL)
         printf("Empty line\n");
-    MatrixElement* lineTraverse = line;
+    const MatrixElement* lineTraverse = line;
 
     while(lineTraverse) {
         printf("|col: %d, value:%d|>", lineTraverse->column, lineTraverse->value);
