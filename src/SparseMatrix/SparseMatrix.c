@@ -77,7 +77,7 @@ void DisplayMatrixAsLists(const SparseMatrix* matrix) {
         DisplayLineAsList(matrix->lines[i]);
 }
 
-void DisplayLineAsList(const MatrixLine line) {
+void DisplayLineAsList(const MatrixElement* line) {
     if(line == NULL)
         printf("Empty line\n");
     MatrixElement* lineTraverse = line;
