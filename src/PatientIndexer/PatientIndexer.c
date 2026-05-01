@@ -599,7 +599,7 @@ void DisplayPatientFile(const PatientIndexer* indexer, const char* lastName) {
 }
 
 void DisplayAppointment(const Appointment* appointment) {
-    Appointment* traversal = appointment;
+    const Appointment* traversal = appointment;
     printf("===== Appointment start =====\n");
 
     while(traversal != NULL) {
