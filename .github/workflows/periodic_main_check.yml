@@ -1,8 +1,9 @@
 name: Periodic Quality Check
 on:
   schedule:
-    - cron: "20 0 2 * *"
+    - cron: "0 0 1 * *"
       timezone: "Europe/Paris"
+  workflow_dispatch:
 jobs:
   static-check:
     runs-on: ubuntu-latest
