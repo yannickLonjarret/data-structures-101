@@ -110,8 +110,8 @@ int getValidNameInput(char* name) {
 }
 
 int parseDateField(const char* field, int* parsedField) {
-    const int fieldLength = strlen(field);
-    for(int i = 0; i < fieldLength; i++)
+    const size_t fieldLength = strlen(field);
+    for(size_t i = 0; i < fieldLength; i++)
         if(!isdigit((unsigned char)field[i]))
             return 1;
 
