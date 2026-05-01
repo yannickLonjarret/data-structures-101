@@ -77,10 +77,10 @@ void DisplayMatrixAsLists(const SparseMatrix* matrix) {
         DisplayLineAsList(matrix->lines[i]);
 }
 
-void DisplayLineAsList(const MatrixLine line) {
+void DisplayLineAsList(const MatrixElement* line) {
     if(line == NULL)
         printf("Empty line\n");
-    MatrixElement* lineTraverse = line;
+    const MatrixElement* lineTraverse = line;
 
     while(lineTraverse) {
         printf("|col: %d, value:%d|>", lineTraverse->column, lineTraverse->value);
@@ -155,10 +155,15 @@ void AddMatrix(SparseMatrix* a, const SparseMatrix* b) {
 }
 
 void AddMatrixLine(MatrixLine* a, const MatrixLine* b) {
-    if(a == NULL || *a == NULL) {
+    if(a == NULL || b == NULL) {
+        logError("NULL line in AddMatrixLine. \n");
+        return;
+    }
+
+    if(*a == NULL) {
         MatrixElement* lineTraverse = *b;
         MatrixElement* copy = NULL;
-        while(lineTraverse) {
+        while(lineTraverse != NULL) {
             copy = CreateMatrixElement(lineTraverse->value, lineTraverse->column);
             UpdateSparseLine(a, copy);
             lineTraverse = lineTraverse->nextElement;
@@ -225,7 +230,7 @@ MatrixLine* CreateMatrixLines(const int size) {
     MatrixLine* lines = (MatrixLine*)calloc(size, sizeof(MatrixLine));
 
     if(lines == NULL) {
-        fprintf(stderr, "Malloc issue when creating the matrix lines.");
+        logError("Malloc issue when creating the matrix lines.");
         abort();
     }
 
@@ -237,7 +242,7 @@ SparseMatrix* CreateSparseMatrix(const int lineCount, const int columnCount) {
     MatrixLine* lines = CreateMatrixLines(lineCount);
 
     if(matrix == NULL || lines == NULL) {
-        fprintf(stderr, "Malloc issue when creating the matrix.");
+        logError("Malloc issue when creating the matrix.");
         abort();
     }
 
@@ -252,7 +257,7 @@ MatrixElement* CreateMatrixElement(const int value, const int column) {
     MatrixElement* elem = (MatrixElement*)malloc(sizeof(MatrixElement));
 
     if(elem == NULL) {
-        fprintf(stderr, "Malloc issue when creating an element.");
+        logError("Malloc issue when creating an element.");
         abort();
     }
 
@@ -292,7 +297,13 @@ void UpdateSparseLine(MatrixLine* line, MatrixElement* elementToInsert) {
         printf("Element is NULL, exiting.");
         return;
     }
-    if(line == NULL || *line == NULL) {
+
+    if(line == NULL) {
+        logError("Line is NULL. \n");
+        return;
+    }
+
+    if(*line == NULL) {
         *line = elementToInsert;
         return;
     }
@@ -343,7 +354,7 @@ void DeleteElement(MatrixElement** element) {
 void DeleteMatrix(SparseMatrix** matrix) {
     for(int i = 0; i < (*matrix)->lineCount; i++)
         DeleteMatrixLine(&((*matrix)->lines[i]));
-    free((*matrix)->lines);
+    free((void*)(*matrix)->lines);
     (*matrix)->lines = NULL;
     free(*matrix);
     *matrix = NULL;

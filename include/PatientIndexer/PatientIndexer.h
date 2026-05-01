@@ -28,9 +28,9 @@ typedef struct indexerManager {
 } IndexerManager;
 
 // Data structure creation and deletion
-IndexerManager* CreateIndexerManager(int numberOfIndexers);
-PatientFile* CreatePatient(char* lastName, char* firstName);
-Appointment* CreateAppointment(char* date, char* reason, int emergencyLevel);
+IndexerManager* CreateIndexerManager(const int numberOfIndexers);
+PatientFile* CreatePatient(const char* lastName, const char* firstName);
+Appointment* CreateAppointment(const char* date, const char* reason, const int emergencyLevel);
 void DeletePatientIndexer(PatientIndexer* indexer);
 void DeletePatientFile(PatientFile** patient);
 void DeleteAppointment(Appointment** appointment);
@@ -38,28 +38,28 @@ void DeleteAppointmentList(AppointmentList* list);
 void DeleteIndexerManager(IndexerManager** manager);
 
 // Utils
-PatientFile* GetMinimum(PatientFile* patient);
+PatientFile* GetMinimum(const PatientFile* patient);
 
 // Indexer management functions
-void InsertPatient(PatientIndexer* indexer, char* lastName, char* firstName);
+void InsertPatient(PatientIndexer* indexer, const char* lastName, const char* firstName);
 int InsertNewPatientFile(PatientIndexer* indexer, PatientFile* patient);
-PatientFile* SearchPatientFile(PatientIndexer* indexer, char* lastName);
-void InsertAppointment(PatientIndexer* indexer, char* lastName, char* date, char* reason, int emergencyLevel);
+PatientFile* SearchPatientFile(const PatientIndexer* indexer, const char* lastName);
+void InsertAppointment(PatientIndexer* indexer, const char* lastName, const char* date, const char* reason, const int emergencyLevel);
 int RemovePatientFileLeaf(PatientIndexer* root, PatientFile* nodeToRemove);
 int RemovePatientFileSingleChild(PatientIndexer* root, PatientFile* nodeToRemove);
 int RemovePatientFileTwoChildren(PatientIndexer* root, PatientFile* nodeToRemove);
-void RemovePatientFile(PatientIndexer* indexer, char* lastName);
+void RemovePatientFile(PatientIndexer* indexer, const char* lastName);
 
-void UpdateIndexerBackup(PatientIndexer* indexer, PatientIndexer* backup);
+void UpdateIndexerBackup(const PatientIndexer* indexer, PatientIndexer* backup);
 
-int DeepCopyIndexer(PatientIndexer* indexerToCopy, PatientIndexer* copy);
-PatientFile* DeepCopyPatient(PatientFile* patientToCopy);
-int DeepCopyAppointment(Appointment* appointmentToCopy, Appointment** copy);
-int DeepCopyAppointmentList(AppointmentList listToCopy, AppointmentList* copy);
+int DeepCopyIndexer(const PatientIndexer* indexerToCopy, PatientIndexer* copy);
+PatientFile* DeepCopyPatient(const PatientFile* patientToCopy);
+int DeepCopyAppointment(const Appointment* appointmentToCopy, Appointment** copy);
+int DeepCopyAppointmentList(const Appointment* listToCopy, AppointmentList* copy);
 
 // Display functions
-void DisplayPatientFile(PatientIndexer* indexer, char* lastName);
-void DisplayAppointment(Appointment* appointment);
-void DisplayAllPatients(PatientIndexer* indexer);
+void DisplayPatientFile(const PatientIndexer* indexer, const char* lastName);
+void DisplayAppointment(const Appointment* appointment);
+void DisplayAllPatients(const PatientIndexer* indexer);
 
 #endif

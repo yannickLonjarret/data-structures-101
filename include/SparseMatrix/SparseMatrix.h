@@ -19,7 +19,7 @@ void FillMatrix(SparseMatrix* matrix, const int lineCount, const int columnCount
 void DisplayMatrixAsTable(const SparseMatrix* matrix);
 void DisplayLineAsTable(const MatrixLine* line, const int columnCount);
 void DisplayMatrixAsLists(const SparseMatrix* matrix);
-void DisplayLineAsList(const MatrixLine line);
+void DisplayLineAsList(const MatrixElement* line);
 int GetValue(const SparseMatrix* matrix, const int linePosition, const int columnPosition);
 void PutValue(SparseMatrix* matrix, const int linePosition, const int columnPosition, const int value);
 void AddMatrix(SparseMatrix* a, const SparseMatrix* b);
