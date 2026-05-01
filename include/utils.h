@@ -31,5 +31,5 @@ int getValidDateInput(char* dateInput);
 
 int clearBuffer(char* buffer, const int size);
 
-void logError(const char* errorMessage);
+void logError(const char* const errorMessage);
 #endif

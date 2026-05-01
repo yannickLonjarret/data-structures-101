@@ -253,7 +253,7 @@ int clearBuffer(char* buffer, const int size) {
     return 0;
 }
 
-void logError(const char* errorMessage) {
+void logError(const char* const errorMessage) {
     if(errorMessage == NULL)
         return;
     int error = 0;
