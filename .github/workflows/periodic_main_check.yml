@@ -1,7 +1,8 @@
 name: Periodic Quality Check
 on:
   schedule:
-    - cron: "0 0 2 * *"
+    - cron: "20 0 2 * *"
+      timezone: "Europe/Paris"
 jobs:
   static-check:
     runs-on: ubuntu-latest
