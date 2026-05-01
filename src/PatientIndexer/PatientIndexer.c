@@ -566,7 +566,7 @@ PatientFile* GetMinimum(const PatientFile* patient) {
 
     while(traversal != NULL) {
         if(traversal->leftPatient == NULL)
-            return traversal;
+            return (PatientFile*)traversal;
         traversal = traversal->leftPatient;
     }
 
