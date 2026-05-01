@@ -1,0 +1,68 @@
+name: Periodic Quality Check
+on:
+  schedule:
+    - cron: "0 0 2 * *"
+jobs:
+  static-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v5
+
+      - name: Setup requirements
+        run: sudo apt-get -y --no-install-recommends install clang-format clang-tidy
+      
+      - name: Code style check
+        run: |
+          find ./src -name "*.c" | xargs clang-format --dry-run --Werror
+          find ./include -name "*.h" | xargs clang-format --dry-run --Werror
+
+      - name: Code lint check
+        run: |
+          clang-tidy $(find ./src -name "*.c") -- -Iinclude/ -Iinclude/PatientIndexer -Iinclude/SparseMatrix
+          clang-tidy $(find ./include -name "*.h")
+  build:
+    needs: static-check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v5
+
+      - name: Build ${{vars.BST}} project
+        run: make ${{vars.BST_ALIAS}}
+    
+      - name: Build ${{vars.LINKED_LIST}} project
+        run: make ${{vars.LINKED_LIST_ALIAS}}
+      
+      - name: Build ${{vars.BST}} test runner
+        run: make ${{vars.BST_ALIAS}}-test
+
+      - name: Build ${{vars.LINKED_LIST}} test runner
+        run: make ${{vars.LINKED_LIST_ALIAS}}-test
+
+      - name: Save test artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: TestRunner
+          path: |
+            bin/${{vars.BST}}Test
+            bin/${{vars.LINKED_LIST}}Test
+  test:
+      needs: build
+      runs-on: ubuntu-latest
+      steps:
+        - name: Get test artifact
+          uses: actions/download-artifact@v4
+          with:
+            name: TestRunner
+            path: bin/
+
+        - name: Run ${{vars.BST}} test artifact
+          run: |
+            chmod +x bin/${{vars.BST}}Test
+            bin/${{vars.BST}}Test
+        
+        - name: Run ${{vars.LINKED_LIST}} test artifact
+          run: |
+            chmod +x bin/${{vars.LINKED_LIST}}Test
+            bin/${{vars.LINKED_LIST}}Test
