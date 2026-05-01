@@ -257,7 +257,7 @@ void logError(const char* const errorMessage) {
     if(errorMessage == NULL)
         return;
     int error = 0;
-    error = fprintf(stderr, errorMessage);
+    error = fprintf(stderr, "%s", errorMessage);
     if(error < 0)
         perror("Log error fprintf failure.\n");
     return;
