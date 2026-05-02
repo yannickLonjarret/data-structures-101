@@ -59,8 +59,8 @@ This repository follows a **Gitflow** branching strategy with the following stru
 #### Main Branches
 - ``main``: The production branch. Code in this branch should be stable and tested.
 
-#### Assigment Branches
-Assigment branches ehave as it would be expected of a ``develop`` branch. To keep both assignment development isolated, each assigment has a dedicated branch:
+#### Assignment Branches
+Assignment branches ehave as it would be expected of a ``develop`` branch. To keep both assignment development isolated, each assignment has a dedicated branch:
 
 - ``linked_list_assignment``: Development branch for the Sparse Matrix assignment implementation. Feature development and bug fixes for this assignment are integrated here before final merging to ``main``.
 
