@@ -1,3 +1,5 @@
+name: Automatic release creation 
+run-name: Create release ${{ github.ref_name }}
 on:
   push:
     tags:
