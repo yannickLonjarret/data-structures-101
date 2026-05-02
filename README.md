@@ -44,7 +44,7 @@ The following functionalities were to be implemented:
 - Create and insert a patient into the tree
 - Search for a patient
 - Display a patient's file
-- Display all patients using an inorder traversal
+- Display all patients using a preorder traversal
 - Create an appointment for a patient
 - Delete a patient
 - Manage a backup tree
