@@ -1,5 +1,5 @@
 # Algorithms and Data Structures 101
-
+[![Periodic Quality Check](https://github.com/yannickLonjarret/data-structures-101/actions/workflows/periodic_main_check.yml/badge.svg)](https://github.com/yannickLonjarret/data-structures-101/actions/workflows/periodic_main_check.yml)
 
 This repository contains the source code of two graded assignment completed as part of an introductory course in
 **Algorithms and Data Structures** at **UTC** during the **Fall 2022** semester. 
