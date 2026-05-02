@@ -19,7 +19,7 @@ This assignment is based on an exam exercise proposed in 2016. Its goal is to fa
 
 A matrix is called sparse when the number of elements equal to zero is greater than the number of non-zero elements. As such, to save memory, it is possible to represent such a matrix by only keeping in memory the non-zero elements. 
 
-A matrix of size **N*M** is represented by an array of **N** linked lists each holding the non-zero elements of a row, ordered by their column index. Each node of a linked list contains the column index and the value of the element.
+A matrix of size **N×M** is represented by an array of **N** linked lists each holding the non-zero elements of a row, ordered by their column index. Each node of a linked list contains the column index and the value of the element.
 
 The following functionalities were to be implemented:
 
@@ -45,13 +45,13 @@ The following functionalities were to be implemented:
 - Search for a patient
 - Display a patient's file
 - Display all patients using an inorder traversal
-- Create an appointment for a patien
+- Create an appointment for a patient
 - Delete a patient
 - Manage a backup tree
 
 Finally, allocated memory must be deallocated properly.
 
-## Quality and Continuous Integration process
+## Quality and Continuous Integration Process
 This project aims to ensure
 ### Branching Strategy 
 This repository follows a **Gitflow** branching strategy with the following structure:
@@ -60,7 +60,7 @@ This repository follows a **Gitflow** branching strategy with the following stru
 - ``main``: The production branch. Code in this branch should be stable and tested.
 
 #### Assignment Branches
-Assignment branches ehave as it would be expected of a ``develop`` branch. To keep both assignment development isolated, each assignment has a dedicated branch:
+Assignment branches behave as it would be expected of a ``develop`` branch. To keep both assignment development isolated, each assignment has a dedicated branch:
 
 - ``linked_list_assignment``: Development branch for the Sparse Matrix assignment implementation. Feature development and bug fixes for this assignment are integrated here before final merging to ``main``.
 
@@ -81,7 +81,7 @@ Assignment branches ehave as it would be expected of a ``develop`` branch. To ke
 ### Automated Testing
 
 - **Unit tests**: Core functionalities of both assignment are covered by associated test programs written using the **Unity C** test framework.
-- **Pipeline Integration**: Each merge request on an assignment branch will run test artifact to ensure non-regression.
+- **Pipeline Integration**: Each merge request on an assignment branch will run test artifacts to ensure non-regression.
 
 ## Getting started
 ### Get the code 
@@ -105,6 +105,6 @@ Once built, binaries should be found in the ``bin`` folder. Please navigate to t
 cd ./bin
 ```
 
-## Licence
+## License
 
 The source code present in this repository is distributed under the MIT [license](https://github.com/yannickLonjarret/data-structures-101/blob/main/LICENSE).
