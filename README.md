@@ -1,10 +1,10 @@
 # Algorithms and Data Structures 101
 [![Periodic Quality Check](https://github.com/yannickLonjarret/data-structures-101/actions/workflows/periodic_main_check.yml/badge.svg)](https://github.com/yannickLonjarret/data-structures-101/actions/workflows/periodic_main_check.yml)
 
-This repository contains the source code of two graded assignment completed as part of an introductory course in
+This repository contains the revisited source code of two graded assignments originally completed as part of an introductory course in
 **Algorithms and Data Structures** at **UTC** during the **Fall 2022** semester. 
 
-While the assignments are introductory in scope, the project is an opportunity to demonstrate how software engineering practices such as testing, version control, and automation, can be applied.
+While the assignments are introductory in scope, the work here was an opportunity to go beyond the academic requirements and learn how to apply real-world software engineering practices to that material.
 
 ## Graded Assignments
 
@@ -12,7 +12,7 @@ The following sections contain the instructions for both assignments. Each set o
 
 Each assignment was to be completed within a two-weeks period by groups of two. In addition to the source code, students were required to write a short report demonstrating the time complexity of each implemented function.
 
-To preserve the confidentiality of the original academic material, the following assignment instructions are descriptions based on the original, rather than exact reproductions.
+To preserve the confidentiality of the original academic material, the following assignments instructions are descriptions based on the original, rather than exact reproductions.
 
 ### Sparse Matrix
 This assignment is based on an exam exercise proposed in 2016. Its goal is to familiarize students with **linked lists** and their operations.
@@ -51,8 +51,8 @@ The following functionalities were to be implemented:
 
 Finally, allocated memory must be deallocated properly.
 
-## Quality and Continuous Integration Process
-This project aims to ensure
+## Quality and CI/CD Processes
+This project code quality and non-regression is ensured through a multitude of means. Each tool and process was chosen to address a specific risk: static analysis catches issues before review, automated builds verify that changes compile cleanly, and unit tests guard against regressions.
 ### Branching Strategy 
 This repository follows a **Gitflow** branching strategy with the following structure:
 
@@ -60,7 +60,7 @@ This repository follows a **Gitflow** branching strategy with the following stru
 - ``main``: The production branch. Code in this branch should be stable and tested.
 
 #### Assignment Branches
-Assignment branches behave as it would be expected of a ``develop`` branch. To keep both assignment development isolated, each assignment has a dedicated branch:
+Assignment branches behave as it would be expected of a ``develop`` branch. To keep both assignments development isolated, each assignment has a dedicated branch:
 
 - ``linked_list_assignment``: Development branch for the Sparse Matrix assignment implementation. Feature development and bug fixes for this assignment are integrated here before final merging to ``main``.
 
@@ -80,8 +80,11 @@ Assignment branches behave as it would be expected of a ``develop`` branch. To k
 
 ### Automated Testing
 
-- **Unit tests**: Core functionalities of both assignment are covered by associated test programs written using the **Unity C** test framework.
-- **Pipeline Integration**: Each merge request on an assignment branch will run test artifacts to ensure non-regression.
+- **Unit tests**: Core functionalities of both assignments are covered by associated test programs written using the **Unity C** test framework.
+- **Pipeline Integration**: Each merge request on an assignment branch will run test artifacts to ensure non-regression. Moreover, a global verification is run monthly.
+
+### Automated Delivery
+- **Release creation**: Upon pushing a tag on the ``main`` branch, a new release containing the source code and built binaries is automatically created.
 
 ## Getting started
 ### Get the code 
