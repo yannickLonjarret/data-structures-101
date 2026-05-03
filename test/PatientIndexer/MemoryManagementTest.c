@@ -64,6 +64,11 @@ TEST(MemoryManagement, TestCreateAppointment) {
     DeleteAppointment(&appointment);
 }
 
+TEST(MemoryManagement, TestCreateAppointment_InvalidDate) {
+    Appointment* appointment = CreateAppointment("02_31_2026", "Fever", 0);
+    TEST_ASSERT_NULL(appointment);
+}
+
 TEST(MemoryManagement, TestDeletePatientIndexer) {
     PatientFile* indexer = CreatePatient("D", "test");
     PatientFile* leftNode = CreatePatient("A", "test");
