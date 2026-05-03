@@ -155,3 +155,16 @@ TEST(MemoryManagement, TestDeleteAppointmentList_PointToNULL) {
     Appointment* appointment = NULL;
     DeleteAppointmentList(&appointment);
 }
+
+TEST(MemoryManagement, TestDeleteIndexerManager) {
+    IndexerManager* manager = CreateIndexerManager(2);
+    DeleteIndexerManager(&manager);
+    TEST_ASSERT_NULL(manager);
+}
+
+TEST(MemoryManagement, TestDeleteIndexerManager_NULLManager) { DeleteIndexerManager(NULL); }
+
+TEST(MemoryManagement, TestDeleteIndexerManager_PointToNULL) {
+    IndexerManager* manager = NULL;
+    DeleteIndexerManager(&manager);
+}
