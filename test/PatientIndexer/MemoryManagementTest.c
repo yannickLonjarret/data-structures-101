@@ -69,6 +69,11 @@ TEST(MemoryManagement, TestCreateAppointment_InvalidDate) {
     TEST_ASSERT_NULL(appointment);
 }
 
+TEST(MemoryManagement, TestCreateAppointment_NULLDate) {
+    Appointment* appointment = CreateAppointment(NULL, "Fever", 0);
+    TEST_ASSERT_NULL(appointment);
+}
+
 TEST(MemoryManagement, TestCreateAppointment_NULLReason) {
     Appointment* appointment = CreateAppointment("04_18_2026", NULL, 0);
 
