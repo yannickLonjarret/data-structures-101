@@ -41,6 +41,11 @@ TEST(MemoryManagement, TestCreatePatient) {
     DeletePatientFile(&patient);
 }
 
+TEST(MemoryManagement, TestCreatePatient_InvalidName) {
+    PatientFile* patient = CreatePatient("1Invalid@@", "H3ll0");
+    TEST_ASSERT_NULL(patient);
+}
+
 TEST(MemoryManagement, TestCreateAppointment) {
     Appointment* appointment = CreateAppointment("04_18_2026", "Fever", 0);
 
