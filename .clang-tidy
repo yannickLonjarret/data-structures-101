@@ -8,8 +8,9 @@ Checks: >
   portability-*,
 
   -bugprone-easily-swappable-parameters,
-  -cppcoreguidelines-init-variables
+  -cppcoreguidelines-init-variables,
+  -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,
+  -misc-no-recursion
 
 WarningsAsErrors: >
-  '*',
-  -clang-analyzer-security
+  '*'
