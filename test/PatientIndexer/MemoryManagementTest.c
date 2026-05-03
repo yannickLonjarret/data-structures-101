@@ -100,6 +100,13 @@ TEST(MemoryManagement, TestDeletePatientIndexer) {
     TEST_ASSERT_NULL(indexer);
 }
 
+TEST(MemoryManagement, TestDeletePatientIndexer_NULLIndexer) { DeletePatientIndexer(NULL); }
+
+TEST(MemoryManagement, TestDeletePatientIndexer_PointToNULL) {
+    PatientFile* indexer = NULL;
+    DeletePatientIndexer(&indexer);
+}
+
 TEST(MemoryManagement, TestDeletePatientFile) {
     PatientFile* patient = CreatePatient("Test", "test");
 
