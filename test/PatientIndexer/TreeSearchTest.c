@@ -90,3 +90,8 @@ TEST(TreeSearch, TestSearchPatient_NULLName) {
 
     DeletePatientIndexer(&indexer);
 }
+
+TEST(TreeSearch, TestSearchPatient_NULLIndexer) {
+    PatientFile* searchResult = SearchPatientFile(NULL, "Test");
+    TEST_ASSERT_NULL(searchResult);
+}
