@@ -3,12 +3,29 @@
 
 TEST_GROUP_RUNNER(MemoryManagement) {
     RUN_TEST_CASE(MemoryManagement, TestCreateIndexerManager);
+    RUN_TEST_CASE(MemoryManagement, TestCreateIndexerManager_NegativeIndexerCount);
     RUN_TEST_CASE(MemoryManagement, TestCreatePatient);
+    RUN_TEST_CASE(MemoryManagement, TestCreatePatient_InvalidName);
+    RUN_TEST_CASE(MemoryManagement, TestCreatePatient_NULLName);
     RUN_TEST_CASE(MemoryManagement, TestCreateAppointment);
+    RUN_TEST_CASE(MemoryManagement, TestCreateAppointment_InvalidDate);
+    RUN_TEST_CASE(MemoryManagement, TestCreateAppointment_NULLDate);
+    RUN_TEST_CASE(MemoryManagement, TestCreateAppointment_NULLReason);
     RUN_TEST_CASE(MemoryManagement, TestDeletePatientIndexer);
+    RUN_TEST_CASE(MemoryManagement, TestDeletePatientIndexer_NULLIndexer);
+    RUN_TEST_CASE(MemoryManagement, TestDeletePatientIndexer_PointToNULL);
     RUN_TEST_CASE(MemoryManagement, TestDeletePatientFile);
+    RUN_TEST_CASE(MemoryManagement, TestDeletePatientFile_NULLPatientFile);
+    RUN_TEST_CASE(MemoryManagement, TestDeletePatientFile_PointToNULL);
     RUN_TEST_CASE(MemoryManagement, TestDeleteAppointment);
+    RUN_TEST_CASE(MemoryManagement, TestDeleteAppointment_NULLAppointment);
+    RUN_TEST_CASE(MemoryManagement, TestDeleteAppointment_PointToNULL);
     RUN_TEST_CASE(MemoryManagement, TestDeleteAppointmentList);
+    RUN_TEST_CASE(MemoryManagement, TestDeleteAppointmentList_NULLAppointmentList);
+    RUN_TEST_CASE(MemoryManagement, TestDeleteAppointmentList_PointToNULL);
+    RUN_TEST_CASE(MemoryManagement, TestDeleteIndexerManager);
+    RUN_TEST_CASE(MemoryManagement, TestDeleteIndexerManager_NULLManager);
+    RUN_TEST_CASE(MemoryManagement, TestDeleteIndexerManager_PointToNULL);
 }
 
 TEST_GROUP_RUNNER(NodeRemoval) {
