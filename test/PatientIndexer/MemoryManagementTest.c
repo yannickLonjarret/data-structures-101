@@ -14,8 +14,7 @@ TEST(MemoryManagement, TestCreateIndexerManager) {
     TEST_ASSERT_NOT_NULL(manager);
     TEST_ASSERT_EQUAL_INT(2, manager->indexerCount);
 
-    for(int i = 0; i < manager->indexerCount; i++)
-        TEST_ASSERT_NULL(manager->indexers[i]);
+    TEST_ASSERT_EACH_EQUAL_PTR(NULL, manager->indexers, manager->indexerCount);
 
     DeleteIndexerManager(&manager);
 }
