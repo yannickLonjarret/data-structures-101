@@ -115,6 +115,13 @@ TEST(MemoryManagement, TestDeletePatientFile) {
     TEST_ASSERT_NULL(patient);
 }
 
+TEST(MemoryManagement, TestDeletePatientFile_NULLPatientFile) { DeletePatientFile(NULL); }
+
+TEST(MemoryManagement, TestDeletePatientFile_PointToNULL) {
+    PatientFile* patient = NULL;
+    DeletePatientFile(&patient);
+}
+
 TEST(MemoryManagement, TestDeleteAppointment) {
     Appointment* appointment = CreateAppointment("04_18_2026", "Fever", 0);
     DeleteAppointment(&appointment);
