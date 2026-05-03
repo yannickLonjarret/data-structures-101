@@ -46,6 +46,11 @@ TEST(MemoryManagement, TestCreatePatient_InvalidName) {
     TEST_ASSERT_NULL(patient);
 }
 
+TEST(MemoryManagement, TestCreatePatient_NULLName) {
+    PatientFile* patient = CreatePatient(NULL, NULL);
+    TEST_ASSERT_NULL(patient);
+}
+
 TEST(MemoryManagement, TestCreateAppointment) {
     Appointment* appointment = CreateAppointment("04_18_2026", "Fever", 0);
 
