@@ -20,6 +20,11 @@ TEST(MemoryManagement, TestCreateIndexerManager) {
     DeleteIndexerManager(&manager);
 }
 
+TEST(MemoryManagement, TestCreateIndexerManager_NegativeIndexerCount) {
+    IndexerManager* manager = CreateIndexerManager(-1);
+    TEST_ASSERT_NULL(manager);
+}
+
 TEST(MemoryManagement, TestCreatePatient) {
     PatientFile* patient = CreatePatient("Freeman", "Gordon");
 
