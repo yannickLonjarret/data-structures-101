@@ -46,4 +46,7 @@ TEST_GROUP_RUNNER(TreeSearch) {
     RUN_TEST_CASE(TreeSearch, TestSearchPatient_NotExist);
     RUN_TEST_CASE(TreeSearch, TestSearchPatient_RootNode);
     RUN_TEST_CASE(TreeSearch, TestSearchPatient_AnyNode);
+    RUN_TEST_CASE(TreeSearch, TestSearchPatient_NULLIndexer);
+    RUN_TEST_CASE(TreeSearch, TestSearchPatient_NULLName);
+    RUN_TEST_CASE(TreeSearch, TestSearchPatient_InvalidName);
 }
