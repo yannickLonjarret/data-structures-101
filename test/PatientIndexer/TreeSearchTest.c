@@ -80,3 +80,13 @@ TEST(TreeSearch, TestSearchPatient_InvalidName) {
 
     DeletePatientIndexer(&indexer);
 }
+
+TEST(TreeSearch, TestSearchPatient_NULLName) {
+    PatientIndexer indexer = CreatePatient("D", "Test");
+
+    PatientFile* searchResult = SearchPatientFile(&indexer, NULL);
+
+    TEST_ASSERT_NULL(searchResult);
+
+    DeletePatientIndexer(&indexer);
+}
