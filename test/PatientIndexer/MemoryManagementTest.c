@@ -128,6 +128,13 @@ TEST(MemoryManagement, TestDeleteAppointment) {
     TEST_ASSERT_NULL(appointment);
 }
 
+TEST(MemoryManagement, TestDeleteAppointment_NULLAppointment) { DeleteAppointment(NULL); }
+
+TEST(MemoryManagement, TestDeleteAppointment_PointToNULL) {
+    Appointment* appointment = NULL;
+    DeleteAppointment(&appointment);
+}
+
 TEST(MemoryManagement, TestDeleteAppointmentList) {
     Appointment* appointment1 = CreateAppointment("04_18_2026", "Fever", 0);
     Appointment* appointment2 = CreateAppointment("04_18_2026", "Fever", 0);
