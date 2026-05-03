@@ -148,3 +148,10 @@ TEST(MemoryManagement, TestDeleteAppointmentList) {
 
     TEST_ASSERT_NULL(appointment1);
 }
+
+TEST(MemoryManagement, TestDeleteAppointmentList_NULLAppointmentList) { DeleteAppointmentList(NULL); }
+
+TEST(MemoryManagement, TestDeleteAppointmentList_PointToNULL) {
+    Appointment* appointment = NULL;
+    DeleteAppointmentList(&appointment);
+}
