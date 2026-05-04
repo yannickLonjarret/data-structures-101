@@ -509,6 +509,11 @@ int DeepCopyAppointmentList(const Appointment* listToCopy, AppointmentList* copy
     if(listToCopy == NULL)
         return 0;
 
+    if(copy == NULL) {
+        logError("Pointer to buffer NULL, stop.\n");
+        return 1;
+    }
+
     int error = DeepCopyAppointment(listToCopy, copy);
 
     if(error != 0) {
