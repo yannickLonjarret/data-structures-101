@@ -123,3 +123,11 @@ TEST(TreeInsertion, TestInsertPatient_InvalidName) {
 
     TEST_ASSERT_NULL(indexer);
 }
+
+TEST(TreeInsertion, TestInsertPatient_NULLName) {
+    PatientIndexer indexer = NULL;
+
+    InsertPatient(&indexer, NULL, NULL);
+
+    TEST_ASSERT_NULL(indexer);
+}
