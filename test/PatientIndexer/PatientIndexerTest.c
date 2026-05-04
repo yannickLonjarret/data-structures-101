@@ -69,3 +69,19 @@ TEST_GROUP_RUNNER(TreeSearch) {
     RUN_TEST_CASE(TreeSearch, TestSearchPatient_NULLName);
     RUN_TEST_CASE(TreeSearch, TestSearchPatient_InvalidName);
 }
+
+TEST_GROUP_RUNNER(DeepCopy) {
+    RUN_TEST_CASE(DeepCopy, DeepCopyPatient_NULLOriginal);
+    RUN_TEST_CASE(DeepCopy, DeepCopyPatient_NoAppointment);
+    RUN_TEST_CASE(DeepCopy, DeepCopyPatient_Appointment);
+    RUN_TEST_CASE(DeepCopy, DeepCopyAppointment_NULLOriginal);
+    RUN_TEST_CASE(DeepCopy, DeepCopyAppointment_NULLCopy);
+    RUN_TEST_CASE(DeepCopy, DeepCopyAppointment_ExpectedBehavior);
+    RUN_TEST_CASE(DeepCopy, DeepCopyList_NULLOriginal);
+    RUN_TEST_CASE(DeepCopy, DeepCopyList_NULLCopy);
+    RUN_TEST_CASE(DeepCopy, DeepCopyList_ExpectedBehavior);
+    RUN_TEST_CASE(DeepCopy, DeepCopyIndexer_NULLOriginal);
+    RUN_TEST_CASE(DeepCopy, DeepCopyIndexer_NULLCopy);
+    RUN_TEST_CASE(DeepCopy, DeepCopyIndexer_EmptyOriginal);
+    RUN_TEST_CASE(DeepCopy, DeepCopyIndexer_NormalOriginal);
+}
