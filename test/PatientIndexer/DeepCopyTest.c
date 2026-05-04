@@ -27,9 +27,35 @@ TEST(DeepCopy, DeepCopyPatient_NoAppointment) {
     DeletePatientFile(copy);
 }
 
-TEST(DeepCopy, DeepCopyAppointment_NULLOriginal) {}
-TEST(DeepCopy, DeepCopyAppointment_NULLCopy) {}
-TEST(DeepCopy, DeepCopyAppointment_ExpectedBehavior) {}
+TEST(DeepCopy, DeepCopyAppointment_NULLOriginal) {
+    Appointment* copy = NULL;
+    int error = DeepCopyAppointment(NULL, copy);
+    TEST_ASSERT_EQUAL(0, error);
+}
+
+TEST(DeepCopy, DeepCopyAppointment_NULLCopy) {
+    Appointment* original = CreateAppointment("05_04_2026", "Fever", 1);
+    int error = DeepCopyAppointment(original, NULL);
+    TEST_ASSERT_EQUAL(1, error);
+
+    DeleteAppointment(original);
+}
+
+TEST(DeepCopy, DeepCopyAppointment_ExpectedBehavior) {
+    Appointment* copy = NULL;
+    Appointment* original = CreateAppointment("05_04_2026", "Fever", 1);
+    int error = DeepCopyAppointment(NULL, copy);
+    TEST_ASSERT_EQUAL(0, error);
+
+    TEST_ASSERT_NOT_EQUAL(original, copy);
+    TEST_ASSERT_EQUAL_STRING(original->date, copy->date);
+    TEST_ASSERT_EQUAL_STRING(original->reason, copy->reason);
+    TEST_ASSERT_EQUAL(original->emergencyLevel, copy->emergencyLevel);
+    TEST_ASSERT_NULL(copy->nextAppointment);
+
+    DeleteAppointment(copy);
+    DeleteAppointment(original);
+}
 
 TEST(DeepCopy, DeepCopyAppointmentList_NULLOriginal) {}
 TEST(DeepCopy, DeepCopyAppointmentList_NULLCopy) {}
