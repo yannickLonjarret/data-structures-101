@@ -84,6 +84,11 @@ Appointment* CreateAppointment(const char* date, const char* reason, const int e
         return NULL;
     }
 
+    if(reason == NULL) {
+        logError("Reason is NULL.\n");
+        return NULL;
+    }
+
     Appointment* appointment = (Appointment*)malloc(sizeof(Appointment));
 
     if(appointment == NULL) {
