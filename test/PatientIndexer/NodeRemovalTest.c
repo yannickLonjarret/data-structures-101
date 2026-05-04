@@ -62,10 +62,10 @@ TEST(NodeRemoval, TestRemovePatientFileLeaf_Failure) {
     TEST_ASSERT_NOT_NULL(patientToRemove);
     int error = RemovePatientFileLeaf(&indexer, patientToRemove);
     TEST_ASSERT_EQUAL_INT(1, error);
-    DeletePatientFile(&patientToRemove);
 
-    error = RemovePatientFileLeaf(&indexer, patientToRemove);
+    error = RemovePatientFileLeaf(&patientToRemove, NULL);
     TEST_ASSERT_EQUAL_INT(1, error);
+    DeletePatientFile(&patientToRemove);
 }
 
 TEST(NodeRemoval, TestRemovePatientSingleChild_RootNodeLeftChild) {
@@ -150,10 +150,10 @@ TEST(NodeRemoval, TestRemovePatientFileSingleChild_Failure) {
     TEST_ASSERT_NOT_NULL(patientToRemove);
     int error = RemovePatientFileSingleChild(&indexer, patientToRemove);
     TEST_ASSERT_EQUAL_INT(1, error);
-    DeletePatientFile(&patientToRemove);
 
-    error = RemovePatientFileSingleChild(&indexer, patientToRemove);
+    error = RemovePatientFileSingleChild(&patientToRemove, NULL);
     TEST_ASSERT_EQUAL_INT(1, error);
+    DeletePatientFile(&patientToRemove);
 }
 
 TEST(NodeRemoval, TestRemovePatientFileTwoChildren_RootNode) {
@@ -290,8 +290,11 @@ TEST(NodeRemoval, TestRemovePatientFileTwoChildren_Failure) {
     PatientIndexer indexer = NULL;
     PatientFile* patientToRemove = CreatePatient("A", "Test");
 
+    TEST_ASSERT_NOT_NULL(patientToRemove);
     int error = RemovePatientFileTwoChildren(&indexer, patientToRemove);
+    TEST_ASSERT_EQUAL_INT(1, error);
 
+    error = RemovePatientFileTwoChildren(&patientToRemove, NULL);
     TEST_ASSERT_EQUAL_INT(1, error);
 
     DeletePatientFile(&patientToRemove);

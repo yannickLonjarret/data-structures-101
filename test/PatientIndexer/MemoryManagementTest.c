@@ -14,10 +14,14 @@ TEST(MemoryManagement, TestCreateIndexerManager) {
     TEST_ASSERT_NOT_NULL(manager);
     TEST_ASSERT_EQUAL_INT(2, manager->indexerCount);
 
-    for(int i = 0; i < manager->indexerCount; i++)
-        TEST_ASSERT_NULL(manager->indexers[i]);
+    TEST_ASSERT_EACH_EQUAL_PTR(NULL, manager->indexers, manager->indexerCount);
 
     DeleteIndexerManager(&manager);
+}
+
+TEST(MemoryManagement, TestCreateIndexerManager_NegativeIndexerCount) {
+    IndexerManager* manager = CreateIndexerManager(-1);
+    TEST_ASSERT_NULL(manager);
 }
 
 TEST(MemoryManagement, TestCreatePatient) {
@@ -37,6 +41,16 @@ TEST(MemoryManagement, TestCreatePatient) {
     DeletePatientFile(&patient);
 }
 
+TEST(MemoryManagement, TestCreatePatient_InvalidName) {
+    PatientFile* patient = CreatePatient("1Invalid@@", "H3ll0");
+    TEST_ASSERT_NULL(patient);
+}
+
+TEST(MemoryManagement, TestCreatePatient_NULLName) {
+    PatientFile* patient = CreatePatient(NULL, NULL);
+    TEST_ASSERT_NULL(patient);
+}
+
 TEST(MemoryManagement, TestCreateAppointment) {
     Appointment* appointment = CreateAppointment("04_18_2026", "Fever", 0);
 
@@ -44,6 +58,29 @@ TEST(MemoryManagement, TestCreateAppointment) {
     TEST_ASSERT_EQUAL_INT(0, appointment->emergencyLevel);
     TEST_ASSERT_EQUAL_STRING("04_18_2026", appointment->date);
     TEST_ASSERT_EQUAL_STRING("Fever", appointment->reason);
+
+    TEST_ASSERT_NULL(appointment->nextAppointment);
+
+    DeleteAppointment(&appointment);
+}
+
+TEST(MemoryManagement, TestCreateAppointment_InvalidDate) {
+    Appointment* appointment = CreateAppointment("02_31_2026", "Fever", 0);
+    TEST_ASSERT_NULL(appointment);
+}
+
+TEST(MemoryManagement, TestCreateAppointment_NULLDate) {
+    Appointment* appointment = CreateAppointment(NULL, "Fever", 0);
+    TEST_ASSERT_NULL(appointment);
+}
+
+TEST(MemoryManagement, TestCreateAppointment_NULLReason) {
+    Appointment* appointment = CreateAppointment("04_18_2026", NULL, 0);
+
+    TEST_ASSERT_NOT_NULL(appointment);
+    TEST_ASSERT_EQUAL_INT(0, appointment->emergencyLevel);
+    TEST_ASSERT_EQUAL_STRING("04_18_2026", appointment->date);
+    TEST_ASSERT_EQUAL_STRING(NULL, appointment->reason);
 
     TEST_ASSERT_NULL(appointment->nextAppointment);
 
@@ -63,6 +100,13 @@ TEST(MemoryManagement, TestDeletePatientIndexer) {
     TEST_ASSERT_NULL(indexer);
 }
 
+TEST(MemoryManagement, TestDeletePatientIndexer_NULLIndexer) { DeletePatientIndexer(NULL); }
+
+TEST(MemoryManagement, TestDeletePatientIndexer_PointToNULL) {
+    PatientFile* indexer = NULL;
+    DeletePatientIndexer(&indexer);
+}
+
 TEST(MemoryManagement, TestDeletePatientFile) {
     PatientFile* patient = CreatePatient("Test", "test");
 
@@ -71,10 +115,24 @@ TEST(MemoryManagement, TestDeletePatientFile) {
     TEST_ASSERT_NULL(patient);
 }
 
+TEST(MemoryManagement, TestDeletePatientFile_NULLPatientFile) { DeletePatientFile(NULL); }
+
+TEST(MemoryManagement, TestDeletePatientFile_PointToNULL) {
+    PatientFile* patient = NULL;
+    DeletePatientFile(&patient);
+}
+
 TEST(MemoryManagement, TestDeleteAppointment) {
     Appointment* appointment = CreateAppointment("04_18_2026", "Fever", 0);
     DeleteAppointment(&appointment);
     TEST_ASSERT_NULL(appointment);
+}
+
+TEST(MemoryManagement, TestDeleteAppointment_NULLAppointment) { DeleteAppointment(NULL); }
+
+TEST(MemoryManagement, TestDeleteAppointment_PointToNULL) {
+    Appointment* appointment = NULL;
+    DeleteAppointment(&appointment);
 }
 
 TEST(MemoryManagement, TestDeleteAppointmentList) {
@@ -89,4 +147,24 @@ TEST(MemoryManagement, TestDeleteAppointmentList) {
     DeleteAppointmentList(&appointment1);
 
     TEST_ASSERT_NULL(appointment1);
+}
+
+TEST(MemoryManagement, TestDeleteAppointmentList_NULLAppointmentList) { DeleteAppointmentList(NULL); }
+
+TEST(MemoryManagement, TestDeleteAppointmentList_PointToNULL) {
+    Appointment* appointment = NULL;
+    DeleteAppointmentList(&appointment);
+}
+
+TEST(MemoryManagement, TestDeleteIndexerManager) {
+    IndexerManager* manager = CreateIndexerManager(2);
+    DeleteIndexerManager(&manager);
+    TEST_ASSERT_NULL(manager);
+}
+
+TEST(MemoryManagement, TestDeleteIndexerManager_NULLManager) { DeleteIndexerManager(NULL); }
+
+TEST(MemoryManagement, TestDeleteIndexerManager_PointToNULL) {
+    IndexerManager* manager = NULL;
+    DeleteIndexerManager(&manager);
 }
