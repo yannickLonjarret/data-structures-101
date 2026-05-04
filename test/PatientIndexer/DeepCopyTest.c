@@ -26,3 +26,16 @@ TEST(DeepCopy, DeepCopyPatient_NoAppointment) {
     DeletePatientFile(original);
     DeletePatientFile(copy);
 }
+
+TEST(DeepCopy, DeepCopyAppointment_NULLOriginal) {}
+TEST(DeepCopy, DeepCopyAppointment_NULLCopy) {}
+TEST(DeepCopy, DeepCopyAppointment_ExpectedBehavior) {}
+
+TEST(DeepCopy, DeepCopyAppointmentList_NULLOriginal) {}
+TEST(DeepCopy, DeepCopyAppointmentList_NULLCopy) {}
+TEST(DeepCopy, DeepCopyAppointmentList_ExpectedBehavior) {}
+
+TEST(DeepCopy, DeepCopyIndexer_NULLOriginal) {}
+TEST(DeepCopy, DeepCopyIndexer_NULLCopy) {}
+TEST(DeepCopy, DeepCopyIndexer_EmptyOriginal) {}
+TEST(DeepCopy, DeepCopyIndexer_NormalOriginal) {}
