@@ -150,10 +150,10 @@ TEST(NodeRemoval, TestRemovePatientFileSingleChild_Failure) {
     TEST_ASSERT_NOT_NULL(patientToRemove);
     int error = RemovePatientFileSingleChild(&indexer, patientToRemove);
     TEST_ASSERT_EQUAL_INT(1, error);
-    DeletePatientFile(&patientToRemove);
 
-    error = RemovePatientFileSingleChild(&indexer, patientToRemove);
+    error = RemovePatientFileSingleChild(&patientToRemove, NULL);
     TEST_ASSERT_EQUAL_INT(1, error);
+    DeletePatientFile(&patientToRemove);
 }
 
 TEST(NodeRemoval, TestRemovePatientFileTwoChildren_RootNode) {
