@@ -57,9 +57,44 @@ TEST(DeepCopy, DeepCopyAppointment_ExpectedBehavior) {
     DeleteAppointment(original);
 }
 
-TEST(DeepCopy, DeepCopyAppointmentList_NULLOriginal) {}
-TEST(DeepCopy, DeepCopyAppointmentList_NULLCopy) {}
-TEST(DeepCopy, DeepCopyAppointmentList_ExpectedBehavior) {}
+TEST(DeepCopy, DeepCopyAppointmentList_NULLOriginal) {
+    AppointmentList copy = NULL;
+    int error = DeepCopyAppointmentList(NULL, &copy);
+    TEST_ASSERT_EQUAL(0, error);
+}
+
+TEST(DeepCopy, DeepCopyAppointmentList_NULLCopy) {
+    AppointmentList original = CreateAppointment("05_04_2026", "Fever", 1);
+    int error = DeepCopyAppointmentList(original, NULL);
+    TEST_ASSERT_EQUAL(1, error);
+    DeleteAppointmentList(&original);
+}
+
+TEST(DeepCopy, DeepCopyAppointmentList_ExpectedBehavior) {
+    AppointmentList copy = NULL;
+    AppointmentList original = CreateAppointment("05_04_2026", "Fever", 1);
+    original->nextAppointment = CreateAppointment("05_04_2026", "Blood", 2);
+
+    int error = DeepCopyAppointment(original, &copy);
+    TEST_ASSERT_EQUAL(0, error);
+    TEST_ASSERT_EQUAL_STRING(original->date, copy->date);
+    TEST_ASSERT_EQUAL_STRING(original->reason, copy->reason);
+    TEST_ASSERT_EQUAL(original->emergencyLevel, copy->emergencyLevel);
+    TEST_ASSERT_NOT_NULL(copy->nextAppointment);
+
+    AppointmentList nextOriginal, nextCopy;
+
+    nextOriginal = original->nextAppointment;
+    nextCopy = copy->nextAppointment;
+
+    TEST_ASSERT_EQUAL_STRING(nextOriginal->date, nextCopy->date);
+    TEST_ASSERT_EQUAL_STRING(nextOriginal->reason, nextCopy->reason);
+    TEST_ASSERT_EQUAL(nextOriginal->emergencyLevel, nextCopy->emergencyLevel);
+    TEST_ASSERT_NULL(copy->nextAppointment);
+
+    DeleteAppointmentList(&original);
+    DeleteAppointmentList(&copy);
+}
 
 TEST(DeepCopy, DeepCopyIndexer_NULLOriginal) {}
 TEST(DeepCopy, DeepCopyIndexer_NULLCopy) {}
