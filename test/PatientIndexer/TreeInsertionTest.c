@@ -115,3 +115,11 @@ TEST(TreeInsertion, TestInsertPatient_AlreadyExist) {
 
     DeletePatientIndexer(&indexer);
 }
+
+TEST(TreeInsertion, TestInsertPatient_InvalidName) {
+    PatientIndexer indexer = NULL;
+
+    InsertPatient(&indexer, "7777", "@H3770");
+
+    TEST_ASSERT_NULL(indexer);
+}
