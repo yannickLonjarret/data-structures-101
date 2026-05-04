@@ -290,8 +290,11 @@ TEST(NodeRemoval, TestRemovePatientFileTwoChildren_Failure) {
     PatientIndexer indexer = NULL;
     PatientFile* patientToRemove = CreatePatient("A", "Test");
 
+    TEST_ASSERT_NOT_NULL(patientToRemove);
     int error = RemovePatientFileTwoChildren(&indexer, patientToRemove);
+    TEST_ASSERT_EQUAL_INT(1, error);
 
+    error = RemovePatientFileTwoChildren(&patientToRemove, NULL);
     TEST_ASSERT_EQUAL_INT(1, error);
 
     DeletePatientFile(&patientToRemove);
