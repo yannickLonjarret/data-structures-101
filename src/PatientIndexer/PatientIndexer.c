@@ -140,7 +140,7 @@ void DeletePatientIndexer(PatientIndexer* indexer) {
 }
 
 void DeletePatientFile(PatientFile** patient) {
-    if(patient == NULL)
+    if(patient == NULL || *patient == NULL)
         return;
     free((*patient)->lastName);
     free((*patient)->firstName);
