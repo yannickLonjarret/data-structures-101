@@ -113,7 +113,7 @@ TEST(DeepCopy, DeepCopyAppointmentList_ExpectedBehavior) {
     TEST_ASSERT_EQUAL_STRING(nextOriginal->date, nextCopy->date);
     TEST_ASSERT_EQUAL_STRING(nextOriginal->reason, nextCopy->reason);
     TEST_ASSERT_EQUAL(nextOriginal->emergencyLevel, nextCopy->emergencyLevel);
-    TEST_ASSERT_NULL(copy->nextAppointment);
+    TEST_ASSERT_NULL(nextCopy->nextAppointment);
 
     DeleteAppointmentList(&original);
     DeleteAppointmentList(&copy);
