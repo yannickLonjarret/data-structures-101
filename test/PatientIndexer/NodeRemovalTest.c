@@ -62,10 +62,10 @@ TEST(NodeRemoval, TestRemovePatientFileLeaf_Failure) {
     TEST_ASSERT_NOT_NULL(patientToRemove);
     int error = RemovePatientFileLeaf(&indexer, patientToRemove);
     TEST_ASSERT_EQUAL_INT(1, error);
-    DeletePatientFile(&patientToRemove);
 
-    error = RemovePatientFileLeaf(&indexer, patientToRemove);
+    error = RemovePatientFileLeaf(&patientToRemove, NULL);
     TEST_ASSERT_EQUAL_INT(1, error);
+    DeletePatientFile(&patientToRemove);
 }
 
 TEST(NodeRemoval, TestRemovePatientSingleChild_RootNodeLeftChild) {
