@@ -98,7 +98,7 @@ TEST(DeepCopy, DeepCopyAppointmentList_ExpectedBehavior) {
     AppointmentList original = CreateAppointment("05_04_2026", "Fever", 1);
     original->nextAppointment = CreateAppointment("05_04_2026", "Blood", 2);
 
-    int error = DeepCopyAppointment(original, &copy);
+    int error = DeepCopyAppointmentList(original, &copy);
     TEST_ASSERT_EQUAL(0, error);
     TEST_ASSERT_EQUAL_STRING(original->date, copy->date);
     TEST_ASSERT_EQUAL_STRING(original->reason, copy->reason);
