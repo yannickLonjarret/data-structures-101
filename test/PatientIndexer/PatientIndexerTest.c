@@ -77,9 +77,9 @@ TEST_GROUP_RUNNER(DeepCopy) {
     RUN_TEST_CASE(DeepCopy, DeepCopyAppointment_NULLOriginal);
     RUN_TEST_CASE(DeepCopy, DeepCopyAppointment_NULLCopy);
     RUN_TEST_CASE(DeepCopy, DeepCopyAppointment_ExpectedBehavior);
-    RUN_TEST_CASE(DeepCopy, DeepCopyList_NULLOriginal);
-    RUN_TEST_CASE(DeepCopy, DeepCopyList_NULLCopy);
-    RUN_TEST_CASE(DeepCopy, DeepCopyList_ExpectedBehavior);
+    RUN_TEST_CASE(DeepCopy, DeepCopyAppointmentList_NULLOriginal);
+    RUN_TEST_CASE(DeepCopy, DeepCopyAppointmentList_NULLCopy);
+    RUN_TEST_CASE(DeepCopy, DeepCopyAppointmentList_ExpectedBehavior);
     RUN_TEST_CASE(DeepCopy, DeepCopyIndexer_NULLOriginal);
     RUN_TEST_CASE(DeepCopy, DeepCopyIndexer_NULLCopy);
     RUN_TEST_CASE(DeepCopy, DeepCopyIndexer_EmptyOriginal);

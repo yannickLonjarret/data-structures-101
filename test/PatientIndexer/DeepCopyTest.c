@@ -23,8 +23,8 @@ TEST(DeepCopy, DeepCopyPatient_NoAppointment) {
     TEST_ASSERT_EQUAL_STRING(original->lastName, copy->lastName);
     TEST_ASSERT_EQUAL(original->appointmentCount, copy->appointmentCount);
 
-    DeletePatientFile(original);
-    DeletePatientFile(copy);
+    DeletePatientFile(&original);
+    DeletePatientFile(&copy);
 }
 
 TEST(DeepCopy, DeepCopyPatient_Appointment) {
@@ -46,13 +46,13 @@ TEST(DeepCopy, DeepCopyPatient_Appointment) {
     TEST_ASSERT_EQUAL(original->appointments->emergencyLevel, copy->appointments->emergencyLevel);
     TEST_ASSERT_NULL(copy->appointments->nextAppointment);
 
-    DeletePatientFile(original);
-    DeletePatientFile(copy);
+    DeletePatientFile(&original);
+    DeletePatientFile(&copy);
 }
 
 TEST(DeepCopy, DeepCopyAppointment_NULLOriginal) {
     Appointment* copy = NULL;
-    int error = DeepCopyAppointment(NULL, copy);
+    int error = DeepCopyAppointment(NULL, &copy);
     TEST_ASSERT_EQUAL(0, error);
 }
 
@@ -61,13 +61,13 @@ TEST(DeepCopy, DeepCopyAppointment_NULLCopy) {
     int error = DeepCopyAppointment(original, NULL);
     TEST_ASSERT_EQUAL(1, error);
 
-    DeleteAppointment(original);
+    DeleteAppointment(&original);
 }
 
 TEST(DeepCopy, DeepCopyAppointment_ExpectedBehavior) {
     Appointment* copy = NULL;
     Appointment* original = CreateAppointment("05_04_2026", "Fever", 1);
-    int error = DeepCopyAppointment(NULL, copy);
+    int error = DeepCopyAppointment(NULL, &copy);
     TEST_ASSERT_EQUAL(0, error);
 
     TEST_ASSERT_NOT_EQUAL(original, copy);
@@ -76,8 +76,8 @@ TEST(DeepCopy, DeepCopyAppointment_ExpectedBehavior) {
     TEST_ASSERT_EQUAL(original->emergencyLevel, copy->emergencyLevel);
     TEST_ASSERT_NULL(copy->nextAppointment);
 
-    DeleteAppointment(copy);
-    DeleteAppointment(original);
+    DeleteAppointment(&copy);
+    DeleteAppointment(&original);
 }
 
 TEST(DeepCopy, DeepCopyAppointmentList_NULLOriginal) {
@@ -129,7 +129,7 @@ TEST(DeepCopy, DeepCopyIndexer_NULLCopy) {
     PatientIndexer original = CreatePatient("D", "Test");
     int error = DeepCopyIndexer(&original, NULL);
     TEST_ASSERT_EQUAL(1, error);
-    DeletePatientIndexer(original);
+    DeletePatientIndexer(&original);
 }
 
 TEST(DeepCopy, DeepCopyIndexer_EmptyOriginal) {

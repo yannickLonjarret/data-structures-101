@@ -71,8 +71,8 @@ int isNameValid(const char* name) {
     if(name == NULL || name[0] == '\0')
         return 0;
 
-    const int nameLength = strlen(name);
-    for(int i = 0; i < nameLength; i++)
+    const size_t nameLength = strlen(name);
+    for(size_t i = 0; i < nameLength; i++)
         if(!isalpha((unsigned char)name[i]))
             return 0;
 
@@ -110,8 +110,8 @@ int getValidNameInput(char* name) {
 }
 
 int parseDateField(const char* field, int* parsedField) {
-    const int fieldLength = strlen(field);
-    for(int i = 0; i < fieldLength; i++)
+    const size_t fieldLength = strlen(field);
+    for(size_t i = 0; i < fieldLength; i++)
         if(!isdigit((unsigned char)field[i]))
             return 1;
 

@@ -1,0 +1,31 @@
+name: Automatic release creation 
+run-name: Create release ${{ github.ref_name }}
+on:
+  push:
+    tags:
+        - "v*"
+jobs:
+    release:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v5
+            
+            - name: Build binaries
+              run: |
+                make ${{vars.BST_ALIAS}}
+                make ${{vars.LINKED_LIST_ALIAS}}
+            
+            - name: Create archive
+              run: 
+                tar -czvf release-${{github.ref_name}}.gz bin/${{vars.LINKED_LIST}} bin/${{vars.BST}}
+
+            - name: Create release
+              env:
+                GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}              
+              shell: bash
+              run:
+                gh release create "${{github.ref_name }}" release-${{github.ref_name}}.gz --title "${{github.ref_name}}"
+
