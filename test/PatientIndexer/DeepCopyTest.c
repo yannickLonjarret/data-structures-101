@@ -119,7 +119,44 @@ TEST(DeepCopy, DeepCopyAppointmentList_ExpectedBehavior) {
     DeleteAppointmentList(&copy);
 }
 
-TEST(DeepCopy, DeepCopyIndexer_NULLOriginal) {}
-TEST(DeepCopy, DeepCopyIndexer_NULLCopy) {}
-TEST(DeepCopy, DeepCopyIndexer_EmptyOriginal) {}
-TEST(DeepCopy, DeepCopyIndexer_NormalOriginal) {}
+TEST(DeepCopy, DeepCopyIndexer_NULLOriginal) {
+    PatientIndexer copy;
+    int error = DeepCopyIndexer(NULL, &copy);
+    TEST_ASSERT_EQUAL(1, error);
+}
+
+TEST(DeepCopy, DeepCopyIndexer_NULLCopy) {
+    PatientIndexer original = CreatePatient("D", "Test");
+    int error = DeepCopyIndexer(&original, NULL);
+    TEST_ASSERT_EQUAL(1, error);
+    DeletePatientIndexer(original);
+}
+
+TEST(DeepCopy, DeepCopyIndexer_EmptyOriginal) {
+    PatientIndexer copy = NULL;
+    PatientIndexer original = NULL;
+    int error = DeepCopyIndexer(&original, &copy);
+    TEST_ASSERT_EQUAL(0, error);
+    TEST_ASSERT_NULL(copy);
+}
+
+TEST(DeepCopy, DeepCopyIndexer_NormalOriginal) {
+    PatientIndexer copy = NULL;
+    PatientIndexer original = CreatePatient("D", "test");
+    InsertPatient(&original, "A", "test");
+    InsertPatient(&original, "Z", "test");
+
+    int error = DeepCopyIndexer(&original, &copy);
+
+    TEST_ASSERT_EQUAL(0, error);
+    TEST_ASSERT_NOT_NULL(copy);
+    TEST_ASSERT_NOT_NULL(copy->leftPatient);
+    TEST_ASSERT_NOT_NULL(copy->rightPatient);
+
+    TEST_ASSERT_EQUAL_STRING(original->lastName, copy->lastName);
+    TEST_ASSERT_EQUAL_STRING(original->leftPatient->lastName, copy->leftPatient->lastName);
+    TEST_ASSERT_EQUAL_STRING(original->rightPatient->lastName, copy->rightPatient->lastName);
+
+    DeletePatientIndexer(&original);
+    DeletePatientIndexer(&copy);
+}
