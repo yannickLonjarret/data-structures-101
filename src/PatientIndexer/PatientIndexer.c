@@ -491,6 +491,11 @@ int DeepCopyAppointment(const Appointment* appointmentToCopy, Appointment** copy
     if(appointmentToCopy == NULL)
         return 0;
 
+    if(copy == NULL) {
+        logError("Pointer to buffer NULL, stop.\n");
+        return 1;
+    }
+
     *copy = CreateAppointment(appointmentToCopy->date, appointmentToCopy->reason, appointmentToCopy->emergencyLevel);
 
     if(*copy == NULL) {
