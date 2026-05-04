@@ -67,7 +67,7 @@ TEST(DeepCopy, DeepCopyAppointment_NULLCopy) {
 TEST(DeepCopy, DeepCopyAppointment_ExpectedBehavior) {
     Appointment* copy = NULL;
     Appointment* original = CreateAppointment("05_04_2026", "Fever", 1);
-    int error = DeepCopyAppointment(NULL, &copy);
+    int error = DeepCopyAppointment(original, &copy);
     TEST_ASSERT_EQUAL(0, error);
 
     TEST_ASSERT_NOT_EQUAL(original, copy);
