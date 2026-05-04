@@ -50,6 +50,8 @@ TEST_GROUP_RUNNER(TreeInsertion) {
     RUN_TEST_CASE(TreeInsertion, TestInsertPatient_LeftPosition);
     RUN_TEST_CASE(TreeInsertion, TestInsertPatient_RightPosition);
     RUN_TEST_CASE(TreeInsertion, TestInsertPatient_AlreadyExist);
+    RUN_TEST_CASE(TreeInsertion, TestInsertPatient_InvalidName);
+    RUN_TEST_CASE(TreeInsertion, TestInsertPatient_NULLName);
 }
 
 TEST_GROUP_RUNNER(TreeMinimum) {
