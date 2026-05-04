@@ -21,7 +21,30 @@ TEST(DeepCopy, DeepCopyPatient_NoAppointment) {
     TEST_ASSERT_NOT_EQUAL(original, copy);
     TEST_ASSERT_EQUAL_STRING(original->firstName, copy->firstName);
     TEST_ASSERT_EQUAL_STRING(original->lastName, copy->lastName);
-    TEST_ASSERT_EQUAL_STRING(original->appointmentCount, copy->appointmentCount);
+    TEST_ASSERT_EQUAL(original->appointmentCount, copy->appointmentCount);
+
+    DeletePatientFile(original);
+    DeletePatientFile(copy);
+}
+
+TEST(DeepCopy, DeepCopyPatient_Appointment) {
+    PatientFile* original = CreatePatient("D", "Test");
+    original->appointments = CreateAppointment("05_04_2026", "fever", 1);
+    original->appointmentCount++;
+
+    PatientFile* copy = DeepCopyPatient(original);
+    TEST_ASSERT_NOT_NULL(copy);
+
+    TEST_ASSERT_NOT_EQUAL(original, copy);
+    TEST_ASSERT_EQUAL_STRING(original->firstName, copy->firstName);
+    TEST_ASSERT_EQUAL_STRING(original->lastName, copy->lastName);
+    TEST_ASSERT_EQUAL(original->appointmentCount, copy->appointmentCount);
+
+    TEST_ASSERT_NOT_EQUAL(original->appointments, copy->appointments);
+    TEST_ASSERT_EQUAL_STRING(original->appointments->date, copy->appointments->date);
+    TEST_ASSERT_EQUAL_STRING(original->appointments->reason, copy->appointments->reason);
+    TEST_ASSERT_EQUAL(original->appointments->emergencyLevel, copy->appointments->emergencyLevel);
+    TEST_ASSERT_NULL(copy->appointments->nextAppointment);
 
     DeletePatientFile(original);
     DeletePatientFile(copy);
