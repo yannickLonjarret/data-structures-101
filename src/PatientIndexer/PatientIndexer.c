@@ -7,6 +7,10 @@
 
 // Data structure creation and deletion
 IndexerManager* CreateIndexerManager(const int numberOfIndexers) {
+    if(numberOfIndexers < 1) {
+        logError("Negative or 0 Indexer in array, return.\n");
+        return NULL;
+    }
     IndexerManager* manager = (IndexerManager*)malloc(sizeof(IndexerManager));
 
     if(manager == NULL) {
