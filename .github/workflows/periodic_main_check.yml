@@ -41,6 +41,9 @@ jobs:
 
       - name: Build ${{vars.LINKED_LIST}} test runner
         run: make ${{vars.LINKED_LIST_ALIAS}}-test
+      
+      - name: Build Utils test runner
+        run: make utils-test
 
       - name: Save test artifact
         uses: actions/upload-artifact@v6
@@ -49,6 +52,7 @@ jobs:
           path: |
             bin/${{vars.BST}}Test
             bin/${{vars.LINKED_LIST}}Test
+            bin/UtilsTest
   test:
       needs: build
       runs-on: ubuntu-latest
@@ -58,7 +62,11 @@ jobs:
           with:
             name: TestRunner
             path: bin/
-
+        - name: Run Utils test artifact
+          run: |
+            chmod +x bin/UtilsTest
+            bin/UtilsTest
+            
         - name: Run ${{vars.BST}} test artifact
           run: |
             chmod +x bin/${{vars.BST}}Test
