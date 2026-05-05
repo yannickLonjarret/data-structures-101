@@ -49,6 +49,6 @@ TEST(DateFormat, TestisDateValid_InvalidNonLeapYearDay) {
 }
 
 TEST(DateFormat, TestisDateValid_ValidDate) {
-    int error = isDateValid("02_29_2026");
+    int error = isDateValid("05_05_2026");
     TEST_ASSERT_EQUAL(1, error);
 }
