@@ -99,8 +99,8 @@ Appointment* CreateAppointment(const char* date, const char* reason, const int e
     appointment->date = NULL;
     appointment->reason = NULL;
 
-    appointment->date = (char*)malloc(sizeof(char) * strlen(date) + 1);
-    appointment->reason = (char*)malloc(sizeof(char) * strlen(reason) + 1);
+    appointment->date = (char*)malloc(sizeof(char) * (strlen(date) + 1));
+    appointment->reason = (char*)malloc(sizeof(char) * (strlen(reason) + 1));
 
     if(appointment->date == NULL || appointment->reason == NULL) {
         logError("Malloc issue when creating the appointment.\n");
