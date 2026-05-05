@@ -18,7 +18,10 @@ TEST(DateFormat, TestisDateValid_EmptyDate) {
     TEST_ASSERT_NOT_EQUAL(0, error);
 }
 
-TEST(DateFormat, TestisDateValid_AlphaCharInput) {}
+TEST(DateFormat, TestisDateValid_AlphaCharInput) {
+    int error = isDateValid("2r_dfc_fgrg");
+    TEST_ASSERT_NOT_EQUAL(0, error);
+}
 
 TEST(DateFormat, TestisDateValid_BadSeparatorInput) {}
 
