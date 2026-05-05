@@ -71,3 +71,23 @@ TEST(MatrixAdd, test_Add_Matrix_Line_Sum) {
     free(linesA);
     free(linesB);
 }
+
+TEST(MatrixAdd, test_Add_Matrix_Line_Sum_To_Zero) {
+    MatrixLine* linesA = CreateMatrixLines(1);
+    MatrixLine* linesB = CreateMatrixLines(1);
+
+    MatrixElement* element = CreateMatrixElement(1, 2);
+    UpdateSparseLine(&linesA[0], element);
+
+    element = CreateMatrixElement(-1, 2);
+    UpdateSparseLine(&linesB[0], element);
+
+    AddMatrixLine(&linesA[0], &linesB[0]);
+
+    TEST_ASSERT_NULL(linesA[0]);
+
+    DeleteMatrixLine(&linesA[0]);
+    DeleteMatrixLine(&linesB[0]);
+    free(linesA);
+    free(linesB);
+}

@@ -24,6 +24,7 @@ int GetValue(const SparseMatrix* matrix, const int linePosition, const int colum
 void PutValue(SparseMatrix* matrix, const int linePosition, const int columnPosition, const int value);
 void AddMatrix(SparseMatrix* a, const SparseMatrix* b);
 void AddMatrixLine(MatrixLine* a, const MatrixLine* b);
+void RemoveZeroesFromLine(MatrixLine* line);
 int ComputeMemoryGain(const SparseMatrix* matrix);
 
 SparseMatrix* CreateSparseMatrix(const int lineCount, const int columnCount);
