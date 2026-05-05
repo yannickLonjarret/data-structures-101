@@ -13,7 +13,10 @@ TEST(DateFormat, TestisDateValid_NULLDate) {
     TEST_ASSERT_NOT_EQUAL(0, error);
 }
 
-TEST(DateFormat, TestisDateValid_EmptyDate) {}
+TEST(DateFormat, TestisDateValid_EmptyDate) {
+    int error = isDateValid("\0");
+    TEST_ASSERT_NOT_EQUAL(0, error);
+}
 
 TEST(DateFormat, TestisDateValid_AlphaCharInput) {}
 
