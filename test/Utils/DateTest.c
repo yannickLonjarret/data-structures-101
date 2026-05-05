@@ -8,7 +8,10 @@ TEST_SETUP(DateFormat) {}
 
 TEST_TEAR_DOWN(DateFormat) {}
 
-TEST(DateFormat, TestisDateValid_NULLDate) {}
+TEST(DateFormat, TestisDateValid_NULLDate) {
+    int error = isDateValid(NULL);
+    TEST_ASSERT_NOT_EQUAL(0, error);
+}
 
 TEST(DateFormat, TestisDateValid_EmptyDate) {}
 
