@@ -126,7 +126,7 @@ int main(void) {
                 continue;
 
             printf("Please enter column position: \n");
-            if(getValidUserIntegerInput(&linePosition, 0, matrices[matrixToPutValue]->columnCount) != 0)
+            if(getValidUserIntegerInput(&columnPosition, 0, matrices[matrixToPutValue]->columnCount) != 0)
                 continue;
 
             printf("Please enter value to put: \n");
@@ -152,7 +152,7 @@ int main(void) {
                 continue;
 
             printf("Please enter column position: \n");
-            if(getValidUserIntegerInput(&linePosition, 0, matrices[matrixToPutValue]->columnCount) != 0)
+            if(getValidUserIntegerInput(&columnPosition, 0, matrices[matrixToPutValue]->columnCount) != 0)
                 continue;
 
             int value = GetValue(matrices[matrixToGetValue], linePosition, columnPosition);
