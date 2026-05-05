@@ -28,7 +28,10 @@ TEST(DateFormat, TestisDateValid_BadSeparatorInput) {
     TEST_ASSERT_NOT_EQUAL(0, error);
 }
 
-TEST(DateFormat, TestisDateValid_InvalidMonth) {}
+TEST(DateFormat, TestisDateValid_InvalidMonth) {
+    int error = isDateValid("05_13_2026");
+    TEST_ASSERT_NOT_EQUAL(0, error);
+}
 
 TEST(DateFormat, TestisDateValid_InvalidDay) {}
 
