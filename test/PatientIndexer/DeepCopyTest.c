@@ -88,6 +88,7 @@ TEST(DeepCopy, DeepCopyAppointmentList_NULLOriginal) {
 
 TEST(DeepCopy, DeepCopyAppointmentList_NULLCopy) {
     AppointmentList original = CreateAppointment("05_04_2026", "Fever", 1);
+    original->nextAppointment = CreateAppointment("05_05_2026", "Blood", 5);
     int error = DeepCopyAppointmentList(original, NULL);
     TEST_ASSERT_EQUAL(1, error);
     DeleteAppointmentList(&original);
