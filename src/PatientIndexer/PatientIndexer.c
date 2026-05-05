@@ -188,7 +188,7 @@ void DeleteIndexerManager(IndexerManager** manager) {
     free((void*)(*manager)->indexers);
     (*manager)->indexers = NULL;
     free(*manager);
-    manager = NULL;
+    *manager = NULL;
     return;
 }
 
