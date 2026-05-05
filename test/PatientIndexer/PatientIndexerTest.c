@@ -11,6 +11,7 @@ TEST_GROUP_RUNNER(MemoryManagement) {
     RUN_TEST_CASE(MemoryManagement, TestCreateAppointment_InvalidDate);
     RUN_TEST_CASE(MemoryManagement, TestCreateAppointment_NULLDate);
     RUN_TEST_CASE(MemoryManagement, TestCreateAppointment_NULLReason);
+    RUN_TEST_CASE(MemoryManagement, TestCreateAppointment_EmptyReason);
     RUN_TEST_CASE(MemoryManagement, TestDeletePatientIndexer);
     RUN_TEST_CASE(MemoryManagement, TestDeletePatientIndexer_NULLIndexer);
     RUN_TEST_CASE(MemoryManagement, TestDeletePatientIndexer_PointToNULL);

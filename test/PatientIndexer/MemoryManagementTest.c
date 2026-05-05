@@ -74,6 +74,19 @@ TEST(MemoryManagement, TestCreateAppointment_NULLDate) {
     TEST_ASSERT_NULL(appointment);
 }
 
+TEST(MemoryManagement, TestCreateAppointment_EmptyReason) {
+    Appointment* appointment = CreateAppointment("05_05_2026", "\0", 0);
+
+    TEST_ASSERT_NOT_NULL(appointment);
+    TEST_ASSERT_EQUAL_INT(0, appointment->emergencyLevel);
+    TEST_ASSERT_EQUAL_STRING("05_05_2026", appointment->date);
+    TEST_ASSERT_EQUAL_STRING("\0", appointment->reason);
+
+    TEST_ASSERT_NULL(appointment->nextAppointment);
+
+    DeleteAppointment(&appointment);
+}
+
 TEST(MemoryManagement, TestCreateAppointment_NULLReason) {
     Appointment* appointment = CreateAppointment("04_18_2026", NULL, 0);
 
