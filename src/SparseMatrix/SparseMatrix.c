@@ -200,6 +200,35 @@ void AddMatrixLine(MatrixLine* a, const MatrixLine* b) {
         UpdateSparseLine(a, copy);
         traverseB = traverseB->nextElement;
     }
+
+    RemoveZeroesFromLine(a);
+}
+void RemoveZeroesFromLine(MatrixLine* line) {
+    if(line == NULL || *line == NULL)
+        return;
+
+    while(*line != NULL && (*line)->value == 0) {
+        MatrixElement* temp = *line;
+        *line = (*line)->nextElement;
+        DeleteElement(&temp);
+    }
+
+    if(*line == NULL)
+        return;
+
+    MatrixElement* prev = *line;
+    MatrixElement* traversal = (*line)->nextElement;
+
+    while(traversal != NULL) {
+        if(traversal->value == 0) {
+            prev->nextElement = traversal->nextElement;
+            DeleteElement(&traversal);
+            traversal = prev->nextElement;
+        } else {
+            prev = traversal;
+            traversal = traversal->nextElement;
+        }
+    }
 }
 
 int ComputeMemoryGain(const SparseMatrix* matrix) {
