@@ -11,6 +11,7 @@ TEST_GROUP_RUNNER(MemoryManagement) {
     RUN_TEST_CASE(MemoryManagement, TestCreateAppointment_InvalidDate);
     RUN_TEST_CASE(MemoryManagement, TestCreateAppointment_NULLDate);
     RUN_TEST_CASE(MemoryManagement, TestCreateAppointment_NULLReason);
+    RUN_TEST_CASE(MemoryManagement, TestCreateAppointment_EmptyReason);
     RUN_TEST_CASE(MemoryManagement, TestDeletePatientIndexer);
     RUN_TEST_CASE(MemoryManagement, TestDeletePatientIndexer_NULLIndexer);
     RUN_TEST_CASE(MemoryManagement, TestDeletePatientIndexer_PointToNULL);
@@ -77,9 +78,9 @@ TEST_GROUP_RUNNER(DeepCopy) {
     RUN_TEST_CASE(DeepCopy, DeepCopyAppointment_NULLOriginal);
     RUN_TEST_CASE(DeepCopy, DeepCopyAppointment_NULLCopy);
     RUN_TEST_CASE(DeepCopy, DeepCopyAppointment_ExpectedBehavior);
-    RUN_TEST_CASE(DeepCopy, DeepCopyList_NULLOriginal);
-    RUN_TEST_CASE(DeepCopy, DeepCopyList_NULLCopy);
-    RUN_TEST_CASE(DeepCopy, DeepCopyList_ExpectedBehavior);
+    RUN_TEST_CASE(DeepCopy, DeepCopyAppointmentList_NULLOriginal);
+    RUN_TEST_CASE(DeepCopy, DeepCopyAppointmentList_NULLCopy);
+    RUN_TEST_CASE(DeepCopy, DeepCopyAppointmentList_ExpectedBehavior);
     RUN_TEST_CASE(DeepCopy, DeepCopyIndexer_NULLOriginal);
     RUN_TEST_CASE(DeepCopy, DeepCopyIndexer_NULLCopy);
     RUN_TEST_CASE(DeepCopy, DeepCopyIndexer_EmptyOriginal);
