@@ -112,7 +112,7 @@ TEST(PutValueTest, test_Put_Update_Value_In_Line) {
 
 TEST(PutValueTest, test_Put_Value_Line_Out_Of_Bounds) {
     SparseMatrix* matrix = CreateSparseMatrix(1, 3);
-    PutValue(matrix, 10, 0, 1);
+    PutValue(matrix, 1, 0, 1);
 
     TEST_ASSERT_NULL(matrix->lines[0]);
     TEST_ASSERT_EQUAL_INT(1, matrix->lineCount);
@@ -123,7 +123,7 @@ TEST(PutValueTest, test_Put_Value_Line_Out_Of_Bounds) {
 
 TEST(PutValueTest, test_Put_Value_Column_Out_Of_Bounds) {
     SparseMatrix* matrix = CreateSparseMatrix(1, 3);
-    PutValue(matrix, 0, 10, 1);
+    PutValue(matrix, 0, 3, 1);
 
     TEST_ASSERT_NULL(matrix->lines[0]);
     TEST_ASSERT_EQUAL_INT(1, matrix->lineCount);

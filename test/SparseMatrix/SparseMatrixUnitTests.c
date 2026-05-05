@@ -24,6 +24,7 @@ TEST_GROUP_RUNNER(MatrixAdd) {
     RUN_TEST_CASE(MatrixAdd, test_Add_Matrix_Empty_Second_Line);
     RUN_TEST_CASE(MatrixAdd, test_Add_Matrix_Line_Merge);
     RUN_TEST_CASE(MatrixAdd, test_Add_Matrix_Line_Sum);
+    RUN_TEST_CASE(MatrixAdd, test_Add_Matrix_Line_Sum_To_Zero);
 }
 
 TEST_GROUP_RUNNER(MemoryManagement) {
