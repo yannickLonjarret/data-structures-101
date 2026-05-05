@@ -12,7 +12,9 @@ TEST(DateFormat, TestisDateValid_NULLDate) {}
 
 TEST(DateFormat, TestisDateValid_EmptyDate) {}
 
-TEST(DateFormat, TestisDateValid_GarbageInput) {}
+TEST(DateFormat, TestisDateValid_AlphaCharInput) {}
+
+TEST(DateFormat, TestisDateValid_BadSeparatorInput) {}
 
 TEST(DateFormat, TestisDateValid_InvalidMonth) {}
 
