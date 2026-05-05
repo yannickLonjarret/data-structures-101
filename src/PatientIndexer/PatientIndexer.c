@@ -7,6 +7,10 @@
 
 // Data structure creation and deletion
 IndexerManager* CreateIndexerManager(const int numberOfIndexers) {
+    if(numberOfIndexers < 1) {
+        logError("Negative or 0 Indexer in array, return.\n");
+        return NULL;
+    }
     IndexerManager* manager = (IndexerManager*)malloc(sizeof(IndexerManager));
 
     if(manager == NULL) {
@@ -80,6 +84,11 @@ Appointment* CreateAppointment(const char* date, const char* reason, const int e
         return NULL;
     }
 
+    if(reason == NULL) {
+        logError("Reason is NULL.\n");
+        return NULL;
+    }
+
     Appointment* appointment = (Appointment*)malloc(sizeof(Appointment));
 
     if(appointment == NULL) {
@@ -131,7 +140,7 @@ void DeletePatientIndexer(PatientIndexer* indexer) {
 }
 
 void DeletePatientFile(PatientFile** patient) {
-    if(patient == NULL)
+    if(patient == NULL || *patient == NULL)
         return;
     free((*patient)->lastName);
     free((*patient)->firstName);
@@ -179,7 +188,7 @@ void DeleteIndexerManager(IndexerManager** manager) {
     free((void*)(*manager)->indexers);
     (*manager)->indexers = NULL;
     free(*manager);
-    manager = NULL;
+    *manager = NULL;
     return;
 }
 
@@ -482,6 +491,11 @@ int DeepCopyAppointment(const Appointment* appointmentToCopy, Appointment** copy
     if(appointmentToCopy == NULL)
         return 0;
 
+    if(copy == NULL) {
+        logError("Pointer to buffer NULL, stop.\n");
+        return 1;
+    }
+
     *copy = CreateAppointment(appointmentToCopy->date, appointmentToCopy->reason, appointmentToCopy->emergencyLevel);
 
     if(*copy == NULL) {
@@ -494,6 +508,11 @@ int DeepCopyAppointment(const Appointment* appointmentToCopy, Appointment** copy
 int DeepCopyAppointmentList(const Appointment* listToCopy, AppointmentList* copy) {
     if(listToCopy == NULL)
         return 0;
+
+    if(copy == NULL) {
+        logError("Pointer to buffer NULL, stop.\n");
+        return 1;
+    }
 
     int error = DeepCopyAppointment(listToCopy, copy);
 
