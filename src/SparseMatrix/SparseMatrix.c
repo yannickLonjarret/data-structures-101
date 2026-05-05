@@ -95,7 +95,7 @@ int GetValue(const SparseMatrix* matrix, const int linePosition, const int colum
         return 0;
     }
 
-    if(matrix->lineCount < linePosition || matrix->columnCount < columnPosition) {
+    if(matrix->lineCount <= linePosition || matrix->columnCount <= columnPosition) {
         printf("Value coordinates are not correct. \n");
         return 0;
     }
@@ -126,7 +126,7 @@ void PutValue(SparseMatrix* matrix, const int linePosition, const int columnPosi
         return;
     }
 
-    if(matrix->lineCount < linePosition || matrix->columnCount < columnPosition) {
+    if(matrix->lineCount <= linePosition || matrix->columnCount <= columnPosition) {
         printf("Value coordinates are not correct. \n");
         return;
     }
